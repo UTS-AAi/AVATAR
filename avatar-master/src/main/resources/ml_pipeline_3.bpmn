@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <process processType="Private" isExecutable="true" id="ml.process" name="Hello World" >
+
+    <!-- nodes -->
+    <startEvent id="event1" name="StartProcess" />
+    <scriptTask id="event2" name="Greeting" scriptFormat="http://www.java.com/java" >
+      <script>
+                kcontext.setVariable("input-data-set-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/iris-missingvalues.arff");
+                kcontext.setVariable("output-data-set-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/temp-data-out-1.arff");
+                
+                String filterName = "weka.filters.unsupervised.attribute.ReplaceMissingValues";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-1")),String.valueOf(kcontext.getVariable("output-data-set-1")),filterName); 
+            
+      </script>
+    </scriptTask>
+    <endEvent id="event3" name="EndProcess" >
+        <terminateEventDefinition />
+    </endEvent>
+
+    <!-- connections -->
+    <sequenceFlow id="event1-event2" sourceRef="event1" targetRef="event2" />
+    <sequenceFlow id="event2-event3" sourceRef="event2" targetRef="event3" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="ml.process" >
+      <bpmndi:BPMNShape bpmnElement="event1" >
+        <dc:Bounds x="18" y="119" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="event2" >
+        <dc:Bounds x="162" y="121" width="80" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="event3" >
+        <dc:Bounds x="356" y="122" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="event1-event2" >
+        <di:waypoint x="42" y="143" />
+        <di:waypoint x="202" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="event2-event3" >
+        <di:waypoint x="202" y="145" />
+        <di:waypoint x="380" y="146" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>

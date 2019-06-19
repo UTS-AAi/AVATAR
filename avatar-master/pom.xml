@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>uts</groupId>
+    <artifactId>avatar-master</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <properties>
+		<drools.version>5.4.0.Final</drools.version>
+		<jbpm5.version>5.4.0.Final</jbpm5.version>
+	</properties>
+	<dependencies>
+                <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.6.3</version>
+                </dependency>
+ 
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-flow</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-bpmn2</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-flow-builder</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+                <!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
+<dependency>
+    <groupId>nz.ac.waikato.cms.weka</groupId>
+    <artifactId>weka-stable</artifactId>
+    <version>3.8.0</version>
+</dependency>
+	 <dependency>
+	  <groupId>commons-io</groupId>
+	  <artifactId>commons-io</artifactId>
+	  <version>2.4</version>
+	  <type>jar</type>
+	 </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+                        <!--
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>uts.pbmn.App</mainClass>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+                        
+            -->
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>jboss</id>
+            <name>jboss</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+    <name>avatar-master</name>
+</project>

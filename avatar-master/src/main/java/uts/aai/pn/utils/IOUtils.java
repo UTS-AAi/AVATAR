@@ -1,0 +1,100 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package uts.aai.pn.utils;
+
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/**
+ *
+ * @author Jun
+ */
+public class IOUtils {
+  
+    private String tomcatTempFolder="";
+
+    public IOUtils() {
+    
+      
+        
+    }
+
+    public IOUtils(String tomcatTempFolder) {
+        this.tomcatTempFolder = tomcatTempFolder;
+    }
+
+    
+  
+    
+
+    public void writeData(String data, String fileName) {
+
+        if (!tomcatTempFolder.equals("")) {
+            fileName = tomcatTempFolder + "/" + fileName;
+        }
+
+        FileWriter fstream;
+        try {
+            fstream = new FileWriter(fileName, true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(data);
+
+            out.close();
+        } catch (IOException ex) {
+        }
+    }
+    
+    public void overWriteData(String data, String fileName) {
+
+        if (!tomcatTempFolder.equals("")) {
+            fileName = tomcatTempFolder + "/" + fileName;
+        }
+        FileWriter fstream;
+        try {
+            fstream = new FileWriter(fileName, false);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(data);
+
+            out.close();
+        } catch (IOException ex) {
+        }
+    }
+
+    public  String readData(String fileName) {
+
+        if (!tomcatTempFolder.equals("")) {
+            fileName = tomcatTempFolder + "/" + fileName;
+        }
+        String data = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+          //  BufferedReader br = new BufferedReader(new InputStreamReader(
+           //           new FileInputStream(fileName), "UTF8"));
+            
+            
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            data = sb.toString();
+            br.close();
+        } catch (Exception e) {
+
+        }
+        return data;
+    }
+
+}
