@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:g="http://www.jboss.org/drools/flow/gpd" xmlns:tns="http://www.jboss.org/drools" id="Definition" targetNamespace="http://www.jboss.org/drools" expressionLanguage="http://www.mvel.org/2.0" typeLanguage="http://www.java.com/javaTypes" exporter="Camunda Modeler" exporterVersion="2.2.4" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <process id="ml.process" name="ML Process" processType="Private" isExecutable="true">
+    <startEvent id="StartEvent" name="StartEvent">
+      <outgoing>SequenceFlow_0r7vfa0</outgoing>
+    </startEvent>
+    
+    
+    <scriptTask id="weka.filters.unsupervised.instance.PeriodicSampling" name="weka.filters.unsupervised.instance.PeriodicSampling" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_0r7vfa0</incoming>
+      <outgoing>SequenceFlow_1hlekw7</outgoing>
+      <script>kcontext.setVariable("input-data-set-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/synthetic/dataset_1.arff");
+                kcontext.setVariable("output-data-set-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-1.arff");
+                
+                String filterName = "weka.filters.unsupervised.instance.PeriodicSampling";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-1")),String.valueOf(kcontext.getVariable("output-data-set-1")),filterName);</script>
+    </scriptTask>
+    
+    
+    <scriptTask id="weka.filters.unsupervised.attribute.Standardize" name="weka.filters.unsupervised.attribute.Standardize" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_1hlekw7</incoming>
+      <outgoing>SequenceFlow_1hrkucc</outgoing>
+      <script>kcontext.setVariable("input-data-set-2","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-1.arff");
+                kcontext.setVariable("output-data-set-2","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-2.arff");
+                
+                String filterName = "weka.filters.unsupervised.attribute.Standardize";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-2")),String.valueOf(kcontext.getVariable("output-data-set-2")),filterName);</script>
+    </scriptTask>
+    
+    
+    
+    <scriptTask id="weka.filters.unsupervised.attribute.PrincipalComponents" name="weka.filters.unsupervised.attribute.PrincipalComponents" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_1hrkucc</incoming>
+      <outgoing>SequenceFlow_1sqo1vh</outgoing>
+      <script>kcontext.setVariable("input-data-set-3","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-2.arff");
+                kcontext.setVariable("output-data-set-3","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-3.arff");
+                
+                String filterName = "weka.filters.unsupervised.attribute.PrincipalComponents";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-3")),String.valueOf(kcontext.getVariable("output-data-set-3")),filterName);</script>
+    </scriptTask>
+    
+    
+    <scriptTask id="weka.filters.unsupervised.attribute.ReplaceMissingValues" name="weka.filters.unsupervised.attribute.ReplaceMissingValues" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_1sqo1vh</incoming>
+      <outgoing>SequenceFlow_0wjxgbc</outgoing>
+      <script>kcontext.setVariable("input-data-set-4","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-3.arff");
+                kcontext.setVariable("output-data-set-4","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-4.arff");
+                
+                String filterName = "weka.filters.unsupervised.attribute.ReplaceMissingValues";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-4")),String.valueOf(kcontext.getVariable("output-data-set-4")),filterName);</script>
+    </scriptTask>
+    
+    
+    
+    <scriptTask id="weka.filters.unsupervised.instance.Resample" name="weka.filters.unsupervised.instance.Resample" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_0wjxgbc</incoming>
+      <outgoing>SequenceFlow_0tqnqor</outgoing>
+      <script>kcontext.setVariable("input-data-set-5","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-4.arff");
+                kcontext.setVariable("output-data-set-5","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-5.arff");
+                
+                String filterName = "weka.filters.unsupervised.instance.Resample";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-5")),String.valueOf(kcontext.getVariable("output-data-set-5")),filterName);</script>
+    </scriptTask>
+    
+    
+    
+    <scriptTask id="weka.classifiers.functions.LinearRegression" name="weka.classifiers.functions.LinearRegression" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_0tqnqor</incoming>
+      <outgoing>SequenceFlow_0tiw9jt</outgoing>
+      <script>kcontext.setVariable("input-data-set-6","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-5.arff");
+                kcontext.setVariable("output-model-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/model-1-output.model");
+                
+                String predictorName = "weka.classifiers.functions.LinearRegression";
+          
+                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
+                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable("input-data-set-6")),String.valueOf(kcontext.getVariable("output-model-1")),predictorName);</script>
+    </scriptTask>
+    
+    
+    <endEvent id="EndEvent" name="EndEvent">
+      <incoming>SequenceFlow_0tiw9jt</incoming>
+      <terminateEventDefinition />
+    </endEvent>
+
+    <sequenceFlow id="SequenceFlow_0r7vfa0" sourceRef="StartEvent" targetRef="weka.filters.unsupervised.instance.PeriodicSampling" />
+    <sequenceFlow id="SequenceFlow_1hlekw7" sourceRef="weka.filters.unsupervised.instance.PeriodicSampling" targetRef="weka.filters.unsupervised.attribute.Standardize" />
+    <sequenceFlow id="SequenceFlow_1hrkucc" sourceRef="weka.filters.unsupervised.attribute.Standardize" targetRef="weka.filters.unsupervised.attribute.PrincipalComponents" />
+    <sequenceFlow id="SequenceFlow_1sqo1vh" sourceRef="weka.filters.unsupervised.attribute.PrincipalComponents" targetRef="weka.filters.unsupervised.attribute.ReplaceMissingValues" />
+    <sequenceFlow id="SequenceFlow_0wjxgbc" sourceRef="weka.filters.unsupervised.attribute.ReplaceMissingValues" targetRef="weka.filters.unsupervised.instance.Resample" />
+    <sequenceFlow id="SequenceFlow_0tqnqor" sourceRef="weka.filters.unsupervised.instance.Resample" targetRef="weka.classifiers.functions.LinearRegression" />
+    <sequenceFlow id="SequenceFlow_0tiw9jt" sourceRef="weka.classifiers.functions.LinearRegression" targetRef="EndEvent" />
+  </process>
+  
+  
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="ml.process">
+      <bpmndi:BPMNShape bpmnElement="StartEvent">
+        <dc:Bounds x="27" y="292" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="25" y="340" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="weka.filters.unsupervised.instance.PeriodicSampling">
+        <dc:Bounds x="110" y="276" width="135" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="weka.filters.unsupervised.attribute.Standardize">
+        <dc:Bounds x="269" y="276" width="135" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="weka.filters.unsupervised.attribute.PrincipalComponents">
+        <dc:Bounds x="427" y="276" width="135" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="weka.filters.unsupervised.attribute.ReplaceMissingValues">
+        <dc:Bounds x="591" y="276" width="135" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="weka.filters.unsupervised.instance.Resample">
+        <dc:Bounds x="749" y="276" width="135" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="weka.classifiers.functions.LinearRegression">
+        <dc:Bounds x="912" y="276" width="135" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EndEvent">
+        <dc:Bounds x="1090" y="292" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="340" width="49" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge>
+        <di:waypoint x="42" y="143" />
+        <di:waypoint x="202" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge>
+        <di:waypoint x="202" y="145" />
+        <di:waypoint x="380" y="146" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0r7vfa0_di" bpmnElement="SequenceFlow_0r7vfa0">
+        <di:waypoint x="75" y="316" />
+        <di:waypoint x="110" y="316" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hlekw7_di" bpmnElement="SequenceFlow_1hlekw7">
+        <di:waypoint x="245" y="316" />
+        <di:waypoint x="269" y="316" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hrkucc_di" bpmnElement="SequenceFlow_1hrkucc">
+        <di:waypoint x="404" y="316" />
+        <di:waypoint x="427" y="316" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1sqo1vh_di" bpmnElement="SequenceFlow_1sqo1vh">
+        <di:waypoint x="562" y="316" />
+        <di:waypoint x="591" y="316" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wjxgbc_di" bpmnElement="SequenceFlow_0wjxgbc">
+        <di:waypoint x="726" y="316" />
+        <di:waypoint x="749" y="316" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tqnqor_di" bpmnElement="SequenceFlow_0tqnqor">
+        <di:waypoint x="884" y="316" />
+        <di:waypoint x="912" y="316" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tiw9jt_di" bpmnElement="SequenceFlow_0tiw9jt">
+        <di:waypoint x="1047" y="316" />
+        <di:waypoint x="1090" y="316" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
