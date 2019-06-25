@@ -21,7 +21,9 @@ import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
 import org.drools.definition.process.Connection;
 import org.drools.definition.process.Node;
+import org.drools.io.Resource;
 import org.drools.io.ResourceFactory;
+import org.drools.io.impl.ByteArrayResource;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.workflow.core.node.ActionNode;
@@ -46,6 +48,141 @@ import weka.core.converters.CSVSaver;
  */
 public class SurrogatePipelineMapping {
 
+    public PetriNetsPipeline mappingFromBPMN2PetriNetsPipelineFromBPMNString(String bpmnPipeline) {
+     
+        List<Place> placeList = new ArrayList<>();
+        List<Transition> transitionList = new ArrayList<>();
+        List<Arc> arcList = new ArrayList<>();
+        
+
+//        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+//
+//        kbuilder.add(ResourceFactory.newFileResource(bpmnModel), ResourceType.BPMN2);
+        
+        
+        Resource resource = new ByteArrayResource(bpmnPipeline.getBytes());
+
+            KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+            kbuilder.add(resource, ResourceType.BPMN2);
+        
+
+        KnowledgeBase kbase = kbuilder.newKnowledgeBase();
+
+        RuleFlowProcess process = (RuleFlowProcess) kbase.getProcess("ml.process");
+
+        StartNode startNode = process.getStart();
+        System.out.println("start node " + startNode.getName());
+        
+        Place startPlace = createPlace(startNode.getUniqueId());
+        placeList.add(startPlace);
+        boolean isNodeAfterStart = true;
+        
+        
+        ActionNode currentActionNode = null;
+        Place currentPlace =null;
+        boolean isReachEndEvent = false;
+
+        while (!isReachEndEvent) {
+
+            List<Connection> connectionList = null;
+            // start node
+            
+            if (currentActionNode == null) {
+                connectionList = startNode.getDefaultOutgoingConnections();
+            } else {
+                connectionList = currentActionNode.getDefaultOutgoingConnections();
+            }
+
+            if (connectionList == null) {
+                isReachEndEvent = true;
+            } else {
+
+                for (Connection outConnection : connectionList) {
+                    Node node = outConnection.getTo();
+                    System.out.println("connection: " + outConnection.getToType());
+                    if (node instanceof EndNode) {
+                        isReachEndEvent = true;
+                        System.out.println("endnote: " + node.getName());
+//                        Place endPlace = createPlace(((EndNode) node).getUniqueId());
+//                        placeList.add(endPlace);
+                    } else {
+                        
+                        // for Arc1
+                        String placeId1 = "";
+                       
+                        
+                        if (currentActionNode==null) {
+                            placeId1 = startNode.getUniqueId();
+                        } else {
+                            placeId1 = currentPlace.getId();
+                        }
+                     
+
+                        currentActionNode = (ActionNode) node;
+                        
+                        //get token
+                        if (isNodeAfterStart) {
+                            
+                            String script = currentActionNode.getAction().toString();
+                            
+                            
+                            String dataPath = getDataPathFromScript(script);
+                            System.out.println(dataPath);
+                            Token token = createToken(dataPath);
+                            startPlace.setToken(token);
+                            
+                            isNodeAfterStart = false;
+                        }
+                        
+
+                        Transition currentTransition = createTransition(currentActionNode.getName(), currentActionNode.getName());
+                        transitionList.add(currentTransition);
+                        
+                        String arcId1 = placeId1+"_"+currentTransition.getId();
+                        Arc arc1 = new Arc(arcId1, placeId1, currentTransition.getId(), true);
+                        arcList.add(arc1);
+                        
+                        // middle Place
+                        Place middlePlace = createPlace("mid-"+currentActionNode.getName());
+                        placeList.add(middlePlace);
+                        
+                        // add Arc 2
+                        String arcId2 = currentTransition.getId()+"_"+middlePlace.getId();
+                        Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
+                        arcList.add(arc2);
+                        currentPlace = middlePlace;
+                        System.out.println("actionNode: " + currentActionNode.getName());
+                    }
+                }
+
+            }
+
+           
+
+        }
+        
+        for (Place pl : placeList) {
+            System.out.println("place: " + pl.getId());
+            
+        }
+        
+        for (Arc pl : arcList) {
+            System.out.println("arc: " + pl.getId());
+            
+        }
+        
+        for (Transition pl : transitionList) {
+            System.out.println("trans: " + pl.getId());
+            
+        }
+        
+        PetriNetsPipeline pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
+
+        //System.out.println("script: " + node.getAction().toString());
+        return pipeline;
+    }
+    
+    
     public PetriNetsPipeline mappingFromBPMN2PetriNetsPipeline(File bpmnModel) {
      
         List<Place> placeList = new ArrayList<>();

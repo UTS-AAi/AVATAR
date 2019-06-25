@@ -10,7 +10,7 @@
       <incoming>SequenceFlow_0r7vfa0</incoming>
       <outgoing>SequenceFlow_1hlekw7</outgoing>
       <script>kcontext.setVariable("input-data-set-1","#input_dataset#");
-                kcontext.setVariable("output-data-set-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-1.arff");
+                kcontext.setVariable("output-data-set-1","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
                 
                 String filterName = "#filter_1#";
           
@@ -22,8 +22,8 @@
     <scriptTask id="#filter_2#" name="#filter_2#" scriptFormat="http://www.java.com/java">
       <incoming>SequenceFlow_1hlekw7</incoming>
       <outgoing>SequenceFlow_1hrkucc</outgoing>
-      <script>kcontext.setVariable("input-data-set-2","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-1.arff");
-                kcontext.setVariable("output-data-set-2","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-2.arff");
+      <script>kcontext.setVariable("input-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
+                kcontext.setVariable("output-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
                 
                 String filterName = "#filter_2#";
           
@@ -36,8 +36,8 @@
     <scriptTask id="#filter_3#" name="#filter_3#" scriptFormat="http://www.java.com/java">
       <incoming>SequenceFlow_1hrkucc</incoming>
       <outgoing>SequenceFlow_1sqo1vh</outgoing>
-      <script>kcontext.setVariable("input-data-set-3","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-2.arff");
-                kcontext.setVariable("output-data-set-3","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-3.arff");
+      <script>kcontext.setVariable("input-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
+                kcontext.setVariable("output-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-3.arff");
                 
                 String filterName = "#filter_3#";
           
@@ -49,8 +49,8 @@
     <scriptTask id="#filter_4#" name="#filter_4#" scriptFormat="http://www.java.com/java">
       <incoming>SequenceFlow_1sqo1vh</incoming>
       <outgoing>SequenceFlow_0wjxgbc</outgoing>
-      <script>kcontext.setVariable("input-data-set-4","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-3.arff");
-                kcontext.setVariable("output-data-set-4","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-4.arff");
+      <script>kcontext.setVariable("input-data-set-4","C:/experiments/tools/avatar/output/temp-data-out-3.arff");
+                kcontext.setVariable("output-data-set-4","C:/experiments/tools/avatar/output/temp-data-out-4.arff");
                 
                 String filterName = "#filter_4#";
           
@@ -63,8 +63,8 @@
     <scriptTask id="#filter_5#" name="#filter_5#" scriptFormat="http://www.java.com/java">
       <incoming>SequenceFlow_0wjxgbc</incoming>
       <outgoing>SequenceFlow_0tqnqor</outgoing>
-      <script>kcontext.setVariable("input-data-set-5","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-4.arff");
-                kcontext.setVariable("output-data-set-5","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-5.arff");
+      <script>kcontext.setVariable("input-data-set-5","C:/experiments/tools/avatar/output/temp-data-out-4.arff");
+                kcontext.setVariable("output-data-set-5","C:/experiments/tools/avatar/output/temp-data-out-5.arff");
                 
                 String filterName = "#filter_5#";
           
@@ -77,8 +77,8 @@
     <scriptTask id="#classifier#" name="#classifier#" scriptFormat="http://www.java.com/java">
       <incoming>SequenceFlow_0tqnqor</incoming>
       <outgoing>SequenceFlow_0tiw9jt</outgoing>
-      <script>kcontext.setVariable("input-data-set-6","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/temp-data-out-5.arff");
-                kcontext.setVariable("output-model-1","C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/model-1-output.model");
+      <script>kcontext.setVariable("input-data-set-6","C:/experiments/tools/avatar/output/temp-data-out-5.arff");
+                kcontext.setVariable("output-model-1","C:/experiments/tools/avatar/output/model-1-output.model");
                 
                 String predictorName = "#classifier#";
           
