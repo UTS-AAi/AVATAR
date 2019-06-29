@@ -20,7 +20,7 @@ public class App {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String datasetPath = "C:/experiments/datasets/arff/abalone_train.arff";
+        String datasetPath = "C:/experiments/datasets/arff/amazon_t_all.arff";
         
         
 //        RandomPipelineGenerator randomPipelineGenerator = new RandomPipelineGenerator(datasetPath);
@@ -29,9 +29,11 @@ public class App {
 //        System.out.println(bpmnPipeline);
         
 
-
+      
+        boolean isAvatar = true;
         long timeBudgetInMinutes = 5;
-            RandomSearch randomSearch = new RandomSearch(datasetPath, timeBudgetInMinutes);
+        
+            RandomSearch randomSearch = new RandomSearch(datasetPath, timeBudgetInMinutes, isAvatar);
             randomSearch.start();
             randomSearch.finalise();
       

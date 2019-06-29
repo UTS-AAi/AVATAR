@@ -20,8 +20,13 @@ public class ResultApp {
         // TODO code application logic here
         
         RandomSearchResultAnalyse randomSearchResultAnalyse = new RandomSearchResultAnalyse();
+//        randomSearchResultAnalyse.writeTheLastPipeline(
+//                "C:/experiments/results/tmp/allModels.json", 
+//                "C:/experiments/results/tmp/issue.bpmn");
+//        
+        
         randomSearchResultAnalyse.analyse(
-                "C:/experiments/results/tmp/winequality-avatar-allModels.json",
+                "C:/experiments/results/tmp/gisette-avatar-allModels.json",
                 "C:/experiments/results/tmp/tmp-bestPipeline.bpmn");
     }
     

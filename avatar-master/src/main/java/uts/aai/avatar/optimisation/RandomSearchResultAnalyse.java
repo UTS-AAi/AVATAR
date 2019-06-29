@@ -30,6 +30,30 @@ import uts.aai.pn.utils.JSONUtils;
  */
 public class RandomSearchResultAnalyse {
     
+    
+    public void writeTheLastPipeline(String randomSearchResultFilePath, String lastPipelinePath) {
+        
+        MLComponentConfiguration.initDefault();
+        
+        IOUtils iou = new IOUtils();
+        String allEvaluationResultStr = iou.readData(randomSearchResultFilePath);
+        try {
+            AllEvaluationResult allEvaluationResult = JSONUtils.unmarshal(allEvaluationResultStr, AllEvaluationResult.class);
+            
+   
+            EvaluationResult evaluationResult = allEvaluationResult.getEvaluationResultList().
+                    get(allEvaluationResult.getEvaluationResultList().size()-1);
+         
+            //evaluateBPMNPipeline(bestResult.getBpmnPipeline());
+            iou.overWriteData(evaluationResult.getBpmnPipeline(), lastPipelinePath);
+            
+        } catch (JAXBException ex) {
+            Logger.getLogger(RandomSearchResultAnalyse.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
     public void analyse(String randomSearchResultFilePath, String outputBestPipelineFilePath){
         
         MLComponentConfiguration.initDefault();
@@ -75,7 +99,7 @@ public class RandomSearchResultAnalyse {
             System.out.println("Valid Pipeline: " +validPipeline);
             System.out.println("Invalid Pipeline: " +(allEvaluationResult.getEvaluationResultList().size()-validPipeline));
             System.out.println("AVG Total Time: " +sumTime/allEvaluationResult.getEvaluationResultList().size());
-            System.out.println("AVG valid pipeline evaluation time: " + sumValid/validPipeline);
+            if (validPipeline!=0) System.out.println("AVG valid pipeline evaluation time: " + sumValid/validPipeline);
             System.out.println("AVG INvalid pipeline evaluation time: " + sumInvalid/invalidPipeline);
             System.out.println("Highest Accuracy: " + highestAccuracy);
             

@@ -24,10 +24,10 @@ public class MappingApp {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        String bpmnModel = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\combination\\dataset_1\\MORST_100.bpmn";
+        String bpmnModel = "C:\\experiments\\results\\tmp\\issue.bpmn";
         String surrogateModelOuput = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\testing\\output\\pn_1.xml";
         
-        MLComponentConfiguration.initConfiguration();
+        MLComponentConfiguration.initDefault();
         
        
         SurrogatePipelineMapping spm = new SurrogatePipelineMapping();
@@ -40,11 +40,11 @@ public class MappingApp {
         PetriNetsExecutionEngine engine = new PetriNetsExecutionEngine(petriNetsPipeline);
         long startTime = System.currentTimeMillis();
         
-        engine.execute();
-        
+        boolean rs = engine.execute();
+        System.out.println("");
         long endTime = System.currentTimeMillis();
                 
-        System.out.println("Surrogate Pipeline Validation Time: " + (endTime-startTime) + " ms");
+        System.out.println(rs+" - Surrogate Pipeline Validation Time: " + (endTime-startTime) + " ms");
     }
     
 }

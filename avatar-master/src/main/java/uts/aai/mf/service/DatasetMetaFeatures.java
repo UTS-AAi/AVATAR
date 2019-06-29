@@ -475,8 +475,7 @@ public class DatasetMetaFeatures {
     private List<List<String>> readCSV() {
 
         String line = "";
-        String cvsSplitBy = ",";
-
+        
         List<List<String>> dataset = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -486,7 +485,9 @@ public class DatasetMetaFeatures {
                 // use comma as separator
                 //System.out.println("" + line);
                 List<String> oneRow = new ArrayList<>();
-                String[] dataRow = line.split(cvsSplitBy);
+                String[] dataRow = line.split(",");
+                //String[] dataRow = split(line,',');
+                
                 for (int i = 0; i < dataRow.length; i++) {
                     oneRow.add(dataRow[i]);
                 }
@@ -501,6 +502,28 @@ public class DatasetMetaFeatures {
         return dataset;
 
     }
+    
+    public String[] split(String line, char delimiter) {
+        CharSequence[] temp = new CharSequence[(line.length() / 2) + 1];
+        int wordCount = 0;
+        int i = 0;
+        int j = line.indexOf(delimiter, 0); // first substring
+
+        while (j >= 0) {
+            temp[wordCount++] = line.substring(i, j);
+            i = j + 1;
+            j = line.indexOf(delimiter, i); // rest of substrings
+        }
+
+        temp[wordCount++] = line.substring(i); // last substring
+
+        String[] result = new String[wordCount];
+        System.arraycopy(temp, 0, result, 0, wordCount);
+
+        return result;
+    }
+    
+    
 
     private List<MLComponentIO> getAllClassesCapabilities() {
 
