@@ -288,7 +288,9 @@ public class RandomPipelineGenerator {
             String sequenceFlowTarget = "";
             
             if (i==0) {
-                sequenceFlowId 
+                sequenceFlowSource = "StartEvent"; 
+            } else if (i==listOfUUIDs.size()-1) {
+                
             }
             
             
