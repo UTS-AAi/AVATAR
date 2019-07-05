@@ -1,2 +1,2 @@
 # AVATAR
-mAchine learning pipeline eVAluaTion using suRrogaTe model in Automatic machine learning
+mAchine learning pipeline eVAluaTion in Automatic pipeline composition and optimisation using suRrogaTe model 
