@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
@@ -58,11 +59,13 @@ public class RandomSearch {
     private long timeBudgetInMinutes;
     private boolean isAvatar;
     private ArrayList<EvaluationResult> evaluationResultList;
+    private String outputFolder;
 
-    public RandomSearch(String datasetPath, long timeBudgetInMinutes, boolean isAvatar) {
+    public RandomSearch(String datasetPath, long timeBudgetInMinutes, boolean isAvatar,String outputFolder) {
         this.datasetPath = datasetPath;
         this.timeBudgetInMinutes = timeBudgetInMinutes;
         this.isAvatar = isAvatar;
+        this.outputFolder = outputFolder;
     }
 
     private void initRandomSearch() {
@@ -83,6 +86,8 @@ public class RandomSearch {
             cleanTemp();
 
             String bpmnPipeline = createRandomPipeline();
+            
+            
             long startEvaluationTime = System.currentTimeMillis();
             EvaluationResult evaluationResult = null;
             String rs1 = "";
@@ -212,11 +217,23 @@ public class RandomSearch {
     }
 
     private String createRandomPipeline() {
-        RandomPipelineGenerator randomPipelineGenerator = new RandomPipelineGenerator(datasetPath);
-        String bpmnPipeline = randomPipelineGenerator.generateBPMNPipeline();
+//        RandomPipelineGenerator randomPipelineGenerator = new RandomPipelineGenerator(datasetPath,outputFolder);
+//        String bpmnPipeline = randomPipelineGenerator.generateBPMNPipeline();
+        int numberOfPreprocessingComponent = randInt(0, 5);
+
+        RandomPipelineGenerator generator = new RandomPipelineGenerator(datasetPath,outputFolder);
+        //String bpmnPipeline = generator.generateBPMNTemplate(0);
+        String bpmnPipeline = generator.generateBPMNPipelineWithRandomComponents(numberOfPreprocessingComponent);
 
         return bpmnPipeline;
     }
+    
+    private int randInt(int min, int max) {
+
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return randomNum;
+    }
+
 
     private EvaluationResult evaluateBPMNPipeline(String bpmnPipeline) {
 
