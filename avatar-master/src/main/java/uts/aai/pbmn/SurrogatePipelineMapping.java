@@ -298,11 +298,11 @@ public class SurrogatePipelineMapping {
 
         String dataPath = getBetweenStrings(script, "kcontext.setVariable(\"input-data-set-1\",\"", ".arff\");");
         String sourceArff = dataPath + ".arff";
-        String targetCSV = dataPath + ".csv";
+        //String targetCSV = dataPath + ".csv";
 
-        fromArffToCSV(sourceArff, targetCSV);
+        //fromArffToCSV(sourceArff, targetCSV);
 
-        return targetCSV;
+        return sourceArff;
     }
 
     private String getBetweenStrings(
@@ -368,7 +368,7 @@ public class SurrogatePipelineMapping {
             List<Parameter> parameterList = new ArrayList<>();
             DatasetMetaFeatures datasetMetaFeatures = new DatasetMetaFeatures(filePath);
 
-            List<MLComponentIO> listOfMetaFeatures = datasetMetaFeatures.analyseMetaFeatures();
+            List<MLComponentIO> listOfMetaFeatures = datasetMetaFeatures.analyseMetaFeaturesArff();
             System.out.println("");
             for (MLComponentIO mLComponentIO : listOfMetaFeatures) {
                 System.out.println(mLComponentIO.getmLComponentCapability() + " : " + mLComponentIO.getValue());

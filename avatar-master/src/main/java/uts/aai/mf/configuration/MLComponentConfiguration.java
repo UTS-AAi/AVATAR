@@ -319,32 +319,32 @@ public class MLComponentConfiguration {
 //        }
 //        
         
-        {
-            String componentId = "weka.classifiers.functions.MultilayerPerceptron";
-            String componentName = "MultilayerPerceptron";
-            String componentFullClassName = "weka.classifiers.functions.MultilayerPerceptron";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
-        
+//        {
+//            String componentId = "weka.classifiers.functions.MultilayerPerceptron";
+//            String componentName = "MultilayerPerceptron";
+//            String componentFullClassName = "weka.classifiers.functions.MultilayerPerceptron";
+//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+//            String componentExecutionScript = "weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//            
+//            
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
+//        
         {
             String componentId = "weka.classifiers.functions.SimpleLinearRegression";
             String componentName = "SimpleLinearRegression";

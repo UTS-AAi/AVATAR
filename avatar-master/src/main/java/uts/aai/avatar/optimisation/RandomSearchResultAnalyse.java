@@ -55,7 +55,7 @@ public class RandomSearchResultAnalyse {
     }
     
     public void analyse(String randomSearchResultFilePath, String outputBestPipelineFilePath){
-        
+        int counter=0;
         MLComponentConfiguration.initDefault();
         
         IOUtils iou = new IOUtils();
@@ -92,6 +92,15 @@ public class RandomSearchResultAnalyse {
                 }
                 
                 sumTime+=evaluationResult.getEvaluationTime();
+                
+                
+                if (!evaluationResult.isValidity()) {
+                    String tmpPipeline = evaluationResult.getBpmnPipeline();
+                    String outPath = randomSearchResultFilePath+String.valueOf(counter)+".bpmn";
+                    iou.overWriteData(tmpPipeline, outPath);
+                    counter++;
+                    
+                }
                 
             }
             

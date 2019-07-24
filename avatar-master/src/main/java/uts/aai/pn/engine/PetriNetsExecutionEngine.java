@@ -85,16 +85,24 @@ public class PetriNetsExecutionEngine {
             
             TransitionFunction transitionFunction = transition.getTransitionFunction();
             //Token outputToken = transitionFunction.fire(currentPlace.getToken());
+            System.out.println("--------------------------");
+            currentPlace.getToken().toString();
             Token outputToken = transitionFunction.fireAlg(currentPlace.getToken(), transition.getId());
+            
            
             
             if (outputToken!=null) {
                 //printToken(outputToken);
                 nextPlace.setToken(outputToken);
+                outputToken.toString();
             } else {
+                System.out.println("NULL TOKEN");
                 isInvalidPipeline = true;
             }
             
+            
+            
+            System.out.println("--------------------------");
         }
         
         

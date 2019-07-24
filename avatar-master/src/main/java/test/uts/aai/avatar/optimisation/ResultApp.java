@@ -26,7 +26,7 @@ public class ResultApp {
 //        
         
         randomSearchResultAnalyse.analyse(
-                "C:/experiments/results/tmp/wineq_avatar-i_allModels.json",
+                "C:/experiments/tools/avatar/log/allModels.json",
                 "C:/experiments/results/tmp/tmp-bestPipeline.bpmn");
     }
     

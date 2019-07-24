@@ -60,6 +60,8 @@ public class RandomSearch {
     private boolean isAvatar;
     private ArrayList<EvaluationResult> evaluationResultList;
     private String outputFolder;
+    
+   
 
     public RandomSearch(String datasetPath, long timeBudgetInMinutes, boolean isAvatar,String outputFolder) {
         this.datasetPath = datasetPath;
@@ -93,7 +95,12 @@ public class RandomSearch {
             String rs1 = "";
             String rs2 = "";
 
-            if (isAvatar) {
+            
+            
+            
+            //if (isAvatar) 
+            {
+          
                 System.out.println("START AVATAR");
 
                 evaluationResult = evaluateAvatar(bpmnPipeline);
@@ -105,7 +112,12 @@ public class RandomSearch {
                 rs2 = String.valueOf(evaluationResult.isValidity());
                 cleanTemp();
                 System.out.println("END AVATAR");
-            } else {
+           
+                
+            } 
+            //else 
+            {
+          
                 System.out.println("START BPMN");
                 evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
                 if (evaluationResult == null) {
@@ -116,19 +128,30 @@ public class RandomSearch {
                 cleanTemp();
 
                 System.out.println("END BPMN");
+         
             }
+            
+            EvaluationResult tmp = null;
 
-            System.out.println(rs1 + "-" + rs2);
-//
-//            
-//            if (!rs1.equals(rs2)) {
-//                isDiff = true;
-//            }
-            long endEvaluationTime = System.currentTimeMillis();
-            evaluationResult.setEvaluationTime(endEvaluationTime - startEvaluationTime);
-            evaluationResultList.add(evaluationResult);
+            if (rs1.equals(rs2)) {
+                tmp = new EvaluationResult(bpmnPipeline, true, 0.0);
+            } else {
+                double tmp2 = -1.0;
+                if (rs2.equals(String.valueOf(Boolean.TRUE))) {
+                    tmp2 = 1.0;
+                }
+                
+                tmp = new EvaluationResult(bpmnPipeline, false, tmp2);
+            }
+            
+            evaluationResultList.add(tmp);
+                
+            
+//            long endEvaluationTime = System.currentTimeMillis();
+//            evaluationResult.setEvaluationTime(endEvaluationTime - startEvaluationTime);
+//            evaluationResultList.add(evaluationResult);
 
-            System.out.println(evaluationResult.isValidity() + " - " + (endEvaluationTime - startEvaluationTime));
+//            System.out.println(evaluationResult.isValidity() + " - " + (endEvaluationTime - startEvaluationTime));
 
         }
 
@@ -279,10 +302,12 @@ public class RandomSearch {
             PetriNetsExecutionEngine engine = new PetriNetsExecutionEngine(petriNetsPipeline);
             boolean result = engine.execute();
 
-            if (result) {
-                EvaluationResult evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
-                return evaluationResult;
-            }
+            EvaluationResult evaluationResult = new EvaluationResult(null, result, null);
+            return evaluationResult;
+//            if (result) {
+//                EvaluationResult evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
+//                return evaluationResult;
+//            }
 
         } catch (Exception e) {
         }
@@ -300,24 +325,7 @@ public class RandomSearch {
         }
     }
 
-    private Token createToken(String filePath) {
-
-        List<Parameter> parameterList = new ArrayList<>();
-        DatasetMetaFeatures datasetMetaFeatures = new DatasetMetaFeatures(filePath);
-
-        List<MLComponentIO> listOfMetaFeatures = datasetMetaFeatures.analyseMetaFeatures();
-        System.out.println("");
-        for (MLComponentIO mLComponentIO : listOfMetaFeatures) {
-            System.out.println(mLComponentIO.getmLComponentCapability() + " : " + mLComponentIO.getValue());
-            Parameter parameter = new Parameter(mLComponentIO.getmLComponentCapability().name(), mLComponentIO.getValue());
-            parameterList.add(parameter);
-
-        }
-
-        Token token = new Token("metatoken", parameterList);
-
-        return token;
-    }
+ 
 
     public void mappingFromBPMN2NativeWekaCommand(String bpmnPipeline) {
 

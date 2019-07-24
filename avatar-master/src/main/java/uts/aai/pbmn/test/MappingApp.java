@@ -24,7 +24,7 @@ public class MappingApp {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        String bpmnModel = "C:\\experiments\\results\\tmp\\issue.bpmn";
+        String bpmnModel = "C:\\experiments\\tools\\avatar\\log\\allModels.json0.bpmn";
         String surrogateModelOuput = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\testing\\output\\pn_1.xml";
         
         MLComponentConfiguration.initDefault();

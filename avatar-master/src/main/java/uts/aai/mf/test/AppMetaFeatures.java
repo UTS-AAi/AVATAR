@@ -30,10 +30,10 @@ public class AppMetaFeatures {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String filePath = "C:/Users/ntdun/Desktop/data/abalone-small.csv";
+        String filePath = "C:/Users/ntdun/Desktop/data/abalone-small.arff";
         DatasetMetaFeatures datasetMetaFeatures = new DatasetMetaFeatures(filePath);
         
-        List<MLComponentIO> listOfMetaFeatures = datasetMetaFeatures.analyseMetaFeatures();
+        List<MLComponentIO> listOfMetaFeatures = datasetMetaFeatures.analyseMetaFeaturesArff();
         System.out.println("");
         for (MLComponentIO mLComponentIO : listOfMetaFeatures) {
             System.out.println(mLComponentIO.getmLComponentCapability() + " : " + mLComponentIO.getValue());

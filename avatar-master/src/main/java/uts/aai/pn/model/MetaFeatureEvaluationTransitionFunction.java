@@ -32,33 +32,33 @@ public class MetaFeatureEvaluationTransitionFunction implements TransitionFuncti
     @Override
     public Token fireAlg(Token token, String algorithm) {
         
-        System.out.println("CHECK 1");
+        
 
         AlgorithmConfiguration algorithmConfiguration = Configuration.getAlgorithmConfiguration(algorithm);
         
-        System.out.println("CHECK 2");
+     
 
         if (token.getParameterList() == null) {
             System.out.println("NULL HERE: token.getParameterList()");
         }
 
-           System.out.println("CHECK 3");
+           
         if (algorithmConfiguration.getCapabilityList() == null) {
             System.out.println("NULL HERE: algorithmConfiguration.getCapabilityList()");
         }
 
-         System.out.println("CHECK 4");
+       
         if (checkComponentValidity(token.getParameterList(), algorithmConfiguration.getCapabilityList())) {
            
             List<Parameter> outputParameterList = calculateOutputToken(token.getParameterList(), algorithmConfiguration.getEffectList());
          
-             System.out.println("CHECK 5");
+           
             token.setParameterList(outputParameterList);
         } else {
             token = null;
         }
 
-         System.out.println("CHECK 6");
+      
         return token;
     }
 

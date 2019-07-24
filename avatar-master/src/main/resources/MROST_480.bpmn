@@ -2,73 +2,40 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:g="http://www.jboss.org/drools/flow/gpd" xmlns:tns="http://www.jboss.org/drools" id="Definition" targetNamespace="http://www.jboss.org/drools" expressionLanguage="http://www.mvel.org/2.0" typeLanguage="http://www.java.com/javaTypes" exporter="Camunda Modeler" exporterVersion="2.2.4" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <process id="ml.process" name="ML Process" processType="Private" isExecutable="true">
     <startEvent id="StartEvent" name="StartEvent">
-      <outgoing>d64bc3bc-06c7-469a-990e-ea5e5d5e5fbd</outgoing>
+      <outgoing>cda7a053-4a2a-4b20-8615-ded79f9f7b9c</outgoing>
     </startEvent>
-<scriptTask id="weka.filters.unsupervised.attribute.Standardize" name="weka.filters.unsupervised.attribute.Standardize" scriptFormat="http://www.java.com/java">
-      <incoming>d64bc3bc-06c7-469a-990e-ea5e5d5e5fbd</incoming>
-      <outgoing>42a91147-2573-42bf-a223-8979dc84ff3f</outgoing>
+<scriptTask id="weka.filters.unsupervised.instance.RemovePercentage" name="weka.filters.unsupervised.instance.RemovePercentage" scriptFormat="http://www.java.com/java">
+      <incoming>cda7a053-4a2a-4b20-8615-ded79f9f7b9c</incoming>
+      <outgoing>6c4bbaa0-57ef-422e-9235-1dbdaeea05f6</outgoing>
       <script>kcontext.setVariable("input-data-set-1","C:/experiments/datasets/arff/abalone_train.arff");
                 kcontext.setVariable("output-data-set-1","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
                 
-                String filterName = "weka.filters.unsupervised.attribute.Standardize";
+                String filterName = "weka.filters.unsupervised.instance.RemovePercentage";
           
                 uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
                 wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-1")),String.valueOf(kcontext.getVariable("output-data-set-1")),filterName);</script>
     </scriptTask>
-<scriptTask id="weka.filters.unsupervised.attribute.EMImputation" name="weka.filters.unsupervised.attribute.EMImputation" scriptFormat="http://www.java.com/java">
-      <incoming>42a91147-2573-42bf-a223-8979dc84ff3f</incoming>
-      <outgoing>91ad5a94-2292-432e-a67b-bf6a665be1a0</outgoing>
+<scriptTask id="weka.filters.unsupervised.attribute.Discretize" name="weka.filters.unsupervised.attribute.Discretize" scriptFormat="http://www.java.com/java">
+      <incoming>6c4bbaa0-57ef-422e-9235-1dbdaeea05f6</incoming>
+      <outgoing>2a0fc717-2a8f-40b2-ae25-5a848e05d43f</outgoing>
       <script>kcontext.setVariable("input-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
                 kcontext.setVariable("output-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
                 
-                String filterName = "weka.filters.unsupervised.attribute.EMImputation";
+                String filterName = "weka.filters.unsupervised.attribute.Discretize";
           
                 uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
                 wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-2")),String.valueOf(kcontext.getVariable("output-data-set-2")),filterName);</script>
     </scriptTask>
-<scriptTask id="weka.filters.unsupervised.instance.PeriodicSampling" name="weka.filters.unsupervised.instance.PeriodicSampling" scriptFormat="http://www.java.com/java">
-      <incoming>91ad5a94-2292-432e-a67b-bf6a665be1a0</incoming>
-      <outgoing>f9927b93-4516-4602-b6e9-9b06a9e10a41</outgoing>
-      <script>kcontext.setVariable("input-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
-                kcontext.setVariable("output-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-3.arff");
-                
-                String filterName = "weka.filters.unsupervised.instance.PeriodicSampling";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-3")),String.valueOf(kcontext.getVariable("output-data-set-3")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.filters.unsupervised.attribute.PrincipalComponents" name="weka.filters.unsupervised.attribute.PrincipalComponents" scriptFormat="http://www.java.com/java">
-      <incoming>f9927b93-4516-4602-b6e9-9b06a9e10a41</incoming>
-      <outgoing>dd51eb0d-9267-4927-9f6a-e9e56e22b384</outgoing>
-      <script>kcontext.setVariable("input-data-set-4","C:/experiments/tools/avatar/output/temp-data-out-3.arff");
-                kcontext.setVariable("output-data-set-4","C:/experiments/tools/avatar/output/temp-data-out-4.arff");
-                
-                String filterName = "weka.filters.unsupervised.attribute.PrincipalComponents";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-4")),String.valueOf(kcontext.getVariable("output-data-set-4")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.filters.unsupervised.instance.ReservoirSample" name="weka.filters.unsupervised.instance.ReservoirSample" scriptFormat="http://www.java.com/java">
-      <incoming>dd51eb0d-9267-4927-9f6a-e9e56e22b384</incoming>
-      <outgoing>20cb1dcf-9934-47d1-9b58-e5808a2b0193</outgoing>
-      <script>kcontext.setVariable("input-data-set-5","C:/experiments/tools/avatar/output/temp-data-out-4.arff");
-                kcontext.setVariable("output-data-set-5","C:/experiments/tools/avatar/output/temp-data-out-5.arff");
-                
-                String filterName = "weka.filters.unsupervised.instance.ReservoirSample";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-5")),String.valueOf(kcontext.getVariable("output-data-set-5")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.classifiers.trees.RandomForest" name="weka.classifiers.trees.RandomForest" scriptFormat="http://www.java.com/java">
-      <incoming>20cb1dcf-9934-47d1-9b58-e5808a2b0193</incoming>
+<scriptTask id="weka.classifiers.trees.REPTree" name="weka.classifiers.trees.REPTree" scriptFormat="http://www.java.com/java">
+      <incoming>2a0fc717-2a8f-40b2-ae25-5a848e05d43f</incoming>
       <outgoing>SequenceFlow_0tiw9jt</outgoing>
-      <script>kcontext.setVariable("input-data-set-6","C:/experiments/tools/avatar/output/temp-data-out-5.arff");
+      <script>kcontext.setVariable("input-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
                 kcontext.setVariable("output-model-1","C:/experiments/tools/avatar/output/model-1-output.model");
                 
-                String predictorName = "weka.classifiers.trees.RandomForest";
+                String predictorName = "weka.classifiers.trees.REPTree";
           
                 uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable("input-data-set-6")),String.valueOf(kcontext.getVariable("output-model-1")),predictorName);</script>
+                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable("input-data-set-3")),String.valueOf(kcontext.getVariable("output-model-1")),predictorName);</script>
     </scriptTask>
     
     
@@ -76,12 +43,9 @@
       <incoming>SequenceFlow_0tiw9jt</incoming>
       <terminateEventDefinition />
     </endEvent>
-<sequenceFlow id="d64bc3bc-06c7-469a-990e-ea5e5d5e5fbd" sourceRef="StartEvent" targetRef="weka.filters.unsupervised.attribute.Standardize" />
-<sequenceFlow id="42a91147-2573-42bf-a223-8979dc84ff3f" sourceRef="weka.filters.unsupervised.attribute.Standardize" targetRef="weka.filters.unsupervised.attribute.EMImputation" />
-<sequenceFlow id="91ad5a94-2292-432e-a67b-bf6a665be1a0" sourceRef="weka.filters.unsupervised.attribute.EMImputation" targetRef="weka.filters.unsupervised.instance.PeriodicSampling" />
-<sequenceFlow id="f9927b93-4516-4602-b6e9-9b06a9e10a41" sourceRef="weka.filters.unsupervised.instance.PeriodicSampling" targetRef="weka.filters.unsupervised.attribute.PrincipalComponents" />
-<sequenceFlow id="dd51eb0d-9267-4927-9f6a-e9e56e22b384" sourceRef="weka.filters.unsupervised.attribute.PrincipalComponents" targetRef="weka.filters.unsupervised.instance.ReservoirSample" />
-<sequenceFlow id="20cb1dcf-9934-47d1-9b58-e5808a2b0193" sourceRef="weka.filters.unsupervised.instance.ReservoirSample" targetRef="weka.classifiers.trees.RandomForest" />
-<sequenceFlow id="SequenceFlow_0tiw9jt" sourceRef="weka.classifiers.trees.RandomForest" targetRef="EndEvent" />
+<sequenceFlow id="cda7a053-4a2a-4b20-8615-ded79f9f7b9c" sourceRef="StartEvent" targetRef="weka.filters.unsupervised.instance.RemovePercentage" />
+<sequenceFlow id="6c4bbaa0-57ef-422e-9235-1dbdaeea05f6" sourceRef="weka.filters.unsupervised.instance.RemovePercentage" targetRef="weka.filters.unsupervised.attribute.Discretize" />
+<sequenceFlow id="2a0fc717-2a8f-40b2-ae25-5a848e05d43f" sourceRef="weka.filters.unsupervised.attribute.Discretize" targetRef="weka.classifiers.trees.REPTree" />
+<sequenceFlow id="SequenceFlow_0tiw9jt" sourceRef="weka.classifiers.trees.REPTree" targetRef="EndEvent" />
 </process>
  </definitions>

@@ -27,7 +27,7 @@ public class App {
         String outputFolder= "C:/experiments/tools/avatar/output/";
       
         boolean isAvatar = true;
-        long timeBudgetInMinutes = 60;
+        long timeBudgetInMinutes = 180;
         
             RandomSearch randomSearch = new RandomSearch(datasetPath, timeBudgetInMinutes, isAvatar,outputFolder);
             randomSearch.start();

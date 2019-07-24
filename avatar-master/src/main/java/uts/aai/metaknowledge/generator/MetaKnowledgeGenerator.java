@@ -35,7 +35,7 @@ import weka.core.converters.CSVSaver;
 public class MetaKnowledgeGenerator {
 
     public void run() {
-        String outputPath = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\testing\\output\\metadata-temp-out";
+        String outputPath = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\testing\\output\\metadata-temp-out.arff";
         String dataFolderName = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\testing\\synthetic";
         String metaKnowledgeFile = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\meta_knowledge\\meta_knowledge.json";
         cleanOutput(outputPath);
@@ -60,9 +60,9 @@ public class MetaKnowledgeGenerator {
                 if (!fileEntry.isDirectory() && fileEntry.getName().contains(".arff")) {
                     System.out.println(fileEntry.getName());
 
-                    String filePathWithoutExtension = fileEntry.getAbsolutePath();
-                    filePathWithoutExtension = filePathWithoutExtension.substring(0, filePathWithoutExtension.length() - 5);
-                    findAlgorithmCapabilitiesAndEffectsFromOneDataset(filePathWithoutExtension, outputPath, algorithmId, listOfCapabilities, listOfEffects);
+                    String filePathWitExtension = fileEntry.getAbsolutePath();
+      
+                    findAlgorithmCapabilitiesAndEffectsFromOneDataset(filePathWitExtension, outputPath, algorithmId, listOfCapabilities, listOfEffects);
                     cleanOutput(outputPath);
                 }
             }
@@ -96,7 +96,7 @@ public class MetaKnowledgeGenerator {
             findCapabilities(listOfInputMetaFeatures, listOfCapabilities);
             List<MLComponentIO> listOfOutputMetaFeatures = null;
             if (!MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER)) {
-                fromArffToCSV(outputPath + ".arff", outputPath + ".csv");
+                //fromArffToCSV(outputPath + ".arff", outputPath + ".csv");
                 listOfOutputMetaFeatures = calculateDatasetMetafeatures(outputPath);
             }
 
@@ -173,8 +173,8 @@ public class MetaKnowledgeGenerator {
 
     private List<MLComponentIO> calculateDatasetMetafeatures(String syntheticDatasetFilePath) {
 
-        DatasetMetaFeatures datasetMetaFeatures = new DatasetMetaFeatures(syntheticDatasetFilePath + ".csv");
-        List<MLComponentIO> listOfMetafeatures = datasetMetaFeatures.analyseMetaFeatures();
+        DatasetMetaFeatures datasetMetaFeatures = new DatasetMetaFeatures(syntheticDatasetFilePath);
+        List<MLComponentIO> listOfMetafeatures = datasetMetaFeatures.analyseMetaFeaturesArff();
 
         return listOfMetafeatures;
 
@@ -183,7 +183,7 @@ public class MetaKnowledgeGenerator {
     private boolean executeAlgorithm(String algorithmID, String inputPath, String outputPath) {
 
         WekaExecutor wekaExecutor = new WekaExecutor();
-        boolean result = wekaExecutor.executeAlgorithm(inputPath + ".arff", outputPath + ".arff", algorithmID);
+        boolean result = wekaExecutor.executeAlgorithm(inputPath , outputPath , algorithmID);
         return result;
     }
 
