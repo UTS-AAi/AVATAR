@@ -29,14 +29,16 @@ public class MLComponent {
     private MLComponentType mLComponentType;
     private String componentExecutionScriptSingleComponentWeka;
     private String componentExecutionScriptFilteredClassifierWeka;
-    
     private List<MLComponentIO> listOfCapabilities;
     private List<MLComponentIO> listOfEffects;
+    private List<MLHyperparameter> listOfMLHyperparameters;
+    
+    
 
     public MLComponent() {
     }
 
-    public MLComponent(String componentId, String componentName, String componentFullClassName, MLComponentType mLComponentType, String componentExecutionScriptSingleComponentWeka, String componentExecutionScriptFilteredClassifierWeka, List<MLComponentIO> listOfCapabilities, List<MLComponentIO> listOfEffects) {
+    public MLComponent(String componentId, String componentName, String componentFullClassName, MLComponentType mLComponentType, String componentExecutionScriptSingleComponentWeka, String componentExecutionScriptFilteredClassifierWeka, List<MLComponentIO> listOfCapabilities, List<MLComponentIO> listOfEffects, List<MLHyperparameter> listOfMLHyperparameters) {
         this.componentId = componentId;
         this.componentName = componentName;
         this.componentFullClassName = componentFullClassName;
@@ -45,6 +47,7 @@ public class MLComponent {
         this.componentExecutionScriptFilteredClassifierWeka = componentExecutionScriptFilteredClassifierWeka;
         this.listOfCapabilities = listOfCapabilities;
         this.listOfEffects = listOfEffects;
+        this.listOfMLHyperparameters = listOfMLHyperparameters;
     }
 
     public String getComponentExecutionScriptFilteredClassifierWeka() {
@@ -111,6 +114,14 @@ public class MLComponent {
 
     public void setListOfEffects(List<MLComponentIO> listOfEffects) {
         this.listOfEffects = listOfEffects;
+    }
+
+    public List<MLHyperparameter> getListOfMLHyperparameters() {
+        return listOfMLHyperparameters;
+    }
+
+    public void setListOfMLHyperparameters(List<MLHyperparameter> listOfMLHyperparameters) {
+        this.listOfMLHyperparameters = listOfMLHyperparameters;
     }
 
     

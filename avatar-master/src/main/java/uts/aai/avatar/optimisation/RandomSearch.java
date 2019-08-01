@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
+import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;
@@ -81,8 +82,8 @@ public class RandomSearch {
 
         long startExperimentTime = System.currentTimeMillis();
 
-        while (!isTimeOut(startExperimentTime)) //boolean isDiff = false;
-        //while(!isDiff)
+        //while (!isTimeOut(startExperimentTime)) //boolean isDiff = false;
+       
         {
 
             cleanTemp();
@@ -98,7 +99,7 @@ public class RandomSearch {
             
             
             
-            //if (isAvatar) 
+            if (isAvatar) 
             {
           
                 System.out.println("START AVATAR");
@@ -115,7 +116,7 @@ public class RandomSearch {
            
                 
             } 
-            //else 
+            else 
             {
           
                 System.out.println("START BPMN");
@@ -131,27 +132,27 @@ public class RandomSearch {
          
             }
             
-            EvaluationResult tmp = null;
-
-            if (rs1.equals(rs2)) {
-                tmp = new EvaluationResult(bpmnPipeline, true, 0.0);
-            } else {
-                double tmp2 = -1.0;
-                if (rs2.equals(String.valueOf(Boolean.TRUE))) {
-                    tmp2 = 1.0;
-                }
+//            EvaluationResult tmp = null;
+//
+//            if (rs1.equals(rs2)) {
+//                tmp = new EvaluationResult(bpmnPipeline, true, 0.0);
+//            } else {
+//                double tmp2 = -1.0;
+//                if (rs2.equals(String.valueOf(Boolean.TRUE))) {
+//                    tmp2 = 1.0;
+//                }
+//                
+//                tmp = new EvaluationResult(bpmnPipeline, false, tmp2);
+//            }
+//            
+//            evaluationResultList.add(tmp);
                 
-                tmp = new EvaluationResult(bpmnPipeline, false, tmp2);
-            }
             
-            evaluationResultList.add(tmp);
-                
-            
-//            long endEvaluationTime = System.currentTimeMillis();
-//            evaluationResult.setEvaluationTime(endEvaluationTime - startEvaluationTime);
-//            evaluationResultList.add(evaluationResult);
+            long endEvaluationTime = System.currentTimeMillis();
+            evaluationResult.setEvaluationTime(endEvaluationTime - startEvaluationTime);
+            evaluationResultList.add(evaluationResult);
 
-//            System.out.println(evaluationResult.isValidity() + " - " + (endEvaluationTime - startEvaluationTime));
+            System.out.println(evaluationResult.isValidity() + " - " + (endEvaluationTime - startEvaluationTime));
 
         }
 
@@ -262,6 +263,7 @@ public class RandomSearch {
 
         try {
 
+            IOUtils iou = new IOUtils();
             Resource resource = new ByteArrayResource(bpmnPipeline.getBytes());
 
             KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -277,7 +279,7 @@ public class RandomSearch {
             ksession.startProcess("ml.process", params);
             ksession.dispose();
 
-            IOUtils iou = new IOUtils();
+            
             String evaluationResultStr = iou.readData(AppConst.TEMP_EVALUATION_RESULT_PATH);
 
             EvaluationResult evaluationResult = JSONUtils.unmarshal(evaluationResultStr, EvaluationResult.class);
@@ -303,13 +305,14 @@ public class RandomSearch {
             boolean result = engine.execute();
 
             EvaluationResult evaluationResult = new EvaluationResult(null, result, null);
-            return evaluationResult;
-//            if (result) {
-//                EvaluationResult evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
-//                return evaluationResult;
-//            }
+        
+            if (result) {
+                evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
+                return evaluationResult;
+            }
 
         } catch (Exception e) {
+            System.out.println(e);
         }
 
         return null;
@@ -319,7 +322,10 @@ public class RandomSearch {
         IOUtils iou = new IOUtils();
         File directory = new File(AppConst.TEMP_OUTPUT_PATH);
         try {
-            FileUtils.cleanDirectory(directory);
+            //FileUtils.cleanDirectory(directory);
+            FileDeleteStrategy.FORCE.delete(directory);
+
+            directory.mkdir();    
         } catch (IOException ex) {
             Logger.getLogger(AutoProcessTestApp.class.getName()).log(Level.SEVERE, null, ex);
         }

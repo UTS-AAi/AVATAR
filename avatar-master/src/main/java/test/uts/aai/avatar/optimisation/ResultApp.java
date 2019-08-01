@@ -23,7 +23,7 @@ public class ResultApp {
 //        randomSearchResultAnalyse.writeTheLastPipeline(
 //                "C:/experiments/results/tmp/allModels.json", 
 //                "C:/experiments/results/tmp/issue.bpmn");
-//        
+        
         
         randomSearchResultAnalyse.analyse(
                 "C:/experiments/tools/avatar/log/allModels.json",

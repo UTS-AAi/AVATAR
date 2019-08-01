@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 import uts.aai.global.AppConst;
 import uts.aai.metaknowledge.generator.AlgorithmMetaKnowledge;
+import uts.aai.mf.model.MLHyperparameter;
 import uts.aai.pn.utils.IOUtils;
 import uts.aai.pn.utils.JSONUtils;
 
@@ -92,6 +93,10 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.bayes.NaiveBayes";
             String componentExecutionScriptFilteredClassifierWeka = "-W weka.classifiers.bayes.NaiveBayes --";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_ATTRIBUTES));
             listOfInputs.add(getMLComponentIO(MLMetafeature.NUMERIC_ATTRIBUTES));
@@ -113,91 +118,96 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
+            
             listOfMLComponentByType.add(mLComponent);
         }
 
        
         
-        {
-            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomial";
-            String componentName = "NaiveBayesMultinomial";
-            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomial";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomial";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomial";
+//            String componentName = "NaiveBayesMultinomial";
+//            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomial";
+//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+//            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomial";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//            
+//            
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
+//        
+//        {
+//            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomialText";
+//            String componentName = "NaiveBayesMultinomialText";
+//            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomialText";
+//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+//            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomialText -P 0 -M 3.0 -norm 1.0 -lnorm 2.0 -tokenizer \"weka.core.tokenizers.WordTokenizer -delimiters \\\" \\\\r\\\\n\\\\t.,;:\\\\\\'\\\\\\\"()?!\\\"\" -stemmer weka.core.stemmers.NullStemmer";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//            
+//            
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
         
-        {
-            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomialText";
-            String componentName = "NaiveBayesMultinomialText";
-            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomialText";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomialText -P 0 -M 3.0 -norm 1.0 -lnorm 2.0 -tokenizer \"weka.core.tokenizers.WordTokenizer -delimiters \\\" \\\\r\\\\n\\\\t.,;:\\\\\\'\\\\\\\"()?!\\\"\" -stemmer weka.core.stemmers.NullStemmer";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
         
-        
-        {
-            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
-            String componentName = "NaiveBayesMultinomialUpdateable";
-            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
-        
+//        {
+//            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
+//            String componentName = "NaiveBayesMultinomialUpdateable";
+//            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
+//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+//            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//            
+//            
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
+//        
         {
             String componentId = "weka.classifiers.bayes.NaiveBayesUpdateable";
             String componentName = "NaiveBayesUpdateable";
@@ -205,6 +215,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesUpdateable";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -220,7 +231,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -235,10 +247,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.functions.LinearRegression";
             String componentName = "LinearRegression";
             String componentFullClassName = "weka.classifiers.functions.LinearRegression";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.REGRESSOR;
             String componentExecutionScript = "weka.classifiers.functions.LinearRegression -S 0 -R 1.0E-8";
             String componentExecutionScriptFilteredClassifierWeka = "-W weka.classifiers.functions.LinearRegression -- -S 0 -R 1.0E-8";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_ATTRIBUTES));
             listOfInputs.add(getMLComponentIO(MLMetafeature.NUMERIC_ATTRIBUTES));
@@ -261,7 +274,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs, listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -273,7 +286,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.functions.Logistic -R 1.0E-8 -M -1";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -288,113 +302,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
-        
-//        {
-//            String componentId = "weka.classifiers.functions.GaussianProcesses";
-//            String componentName = "GaussianProcesses";
-//            String componentFullClassName = "weka.classifiers.functions.GaussianProcesses";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.functions.GaussianProcesses -L 1.0 -N 0 -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
-//        
-        
-//        {
-//            String componentId = "weka.classifiers.functions.MultilayerPerceptron";
-//            String componentName = "MultilayerPerceptron";
-//            String componentFullClassName = "weka.classifiers.functions.MultilayerPerceptron";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
-//        
-        {
-            String componentId = "weka.classifiers.functions.SimpleLinearRegression";
-            String componentName = "SimpleLinearRegression";
-            String componentFullClassName = "weka.classifiers.functions.SimpleLinearRegression";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.functions.SimpleLinearRegression";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
-        
-        
-        {
-            String componentId = "weka.classifiers.functions.SMOreg";
-            String componentName = "SMOreg";
-            String componentFullClassName = "weka.classifiers.functions.SMOreg";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.functions.SMOreg -C 1.0 -N 0 -I \"weka.classifiers.functions.supportVector.RegSMOImproved -L 0.001 -W 1 -P 1.0E-12 -T 0.001 -V\" -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -405,6 +314,90 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.functions.SimpleLogistic -I 0 -M 500 -H 50 -W 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            
+            
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,
+                    listOfHyperparameters);
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        {
+            String componentId = "weka.classifiers.functions.GaussianProcesses";
+            String componentName = "GaussianProcesses";
+            String componentFullClassName = "weka.classifiers.functions.GaussianProcesses";
+            MLComponentType mLComponentType = MLComponentType.REGRESSOR;
+            String componentExecutionScript = "weka.classifiers.functions.GaussianProcesses -L 1.0 -N 0 -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            
+            
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs, listOfHyperparameters);
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        
+        {
+            String componentId = "weka.classifiers.functions.MultilayerPerceptron";
+            String componentName = "MultilayerPerceptron";
+            String componentFullClassName = "weka.classifiers.functions.MultilayerPerceptron";
+            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            String componentExecutionScript = "weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            
+            
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,
+                    listOfHyperparameters);
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        {
+            String componentId = "weka.classifiers.functions.SimpleLinearRegression";
+            String componentName = "SimpleLinearRegression";
+            String componentFullClassName = "weka.classifiers.functions.SimpleLinearRegression";
+            MLComponentType mLComponentType = MLComponentType.REGRESSOR;
+            String componentExecutionScript = "weka.classifiers.functions.SimpleLinearRegression";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -420,7 +413,64 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        
+        {
+            String componentId = "weka.classifiers.functions.SMOreg";
+            String componentName = "SMOreg";
+            String componentFullClassName = "weka.classifiers.functions.SMOreg";
+            MLComponentType mLComponentType = MLComponentType.REGRESSOR;
+            String componentExecutionScript = "weka.classifiers.functions.SMOreg -C 1.0 -N 0 -I \"weka.classifiers.functions.supportVector.RegSMOImproved -L 0.001 -W 1 -P 1.0E-12 -T 0.001 -V\" -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            
+            
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,listOfHyperparameters);
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        {
+            String componentId = "weka.classifiers.functions.SimpleLogistic";
+            String componentName = "SimpleLogistic";
+            String componentFullClassName = "weka.classifiers.functions.SimpleLogistic";
+            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            String componentExecutionScript = "weka.classifiers.functions.SimpleLogistic -I 0 -M 500 -H 50 -W 0.0";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            
+            
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -431,7 +481,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.functions.SMO -C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -446,7 +497,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -463,6 +515,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.lazy.IBk -K 1 -W 0 -A \"weka.core.neighboursearch.LinearNNSearch -A \\\"weka.core.EuclideanDistance -R first-last\\\"\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -478,7 +531,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -489,6 +543,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.lazy.KStar -B 20 -M a";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -504,7 +559,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -515,7 +571,9 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.lazy.LWL -U 0 -K -1 -A \"weka.core.neighboursearch.LinearNNSearch -A \\\"weka.core.EuclideanDistance -R first-last\\\"\" -W weka.classifiers.trees.DecisionStump";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -530,7 +588,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -544,9 +603,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.AdaBoostM1";
             String componentName = "AdaBoostM1";
             String componentFullClassName = "weka.classifiers.meta.AdaBoostM1";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.AdaBoostM1 -P 100 -S 1 -I 10 -W weka.classifiers.trees.DecisionStump";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -562,7 +623,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -570,9 +632,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.AttributeSelectedClassifier";
             String componentName = "AttributeSelectedClassifier";
             String componentFullClassName = "weka.classifiers.meta.AttributeSelectedClassifier";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.AttributeSelectedClassifier -E \"weka.attributeSelection.CfsSubsetEval \" -S \"weka.attributeSelection.BestFirst -D 1 -N 5\" -W weka.classifiers.trees.J48 -- -C 0.25 -M 2";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -588,7 +652,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -597,10 +662,10 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.Bagging";
             String componentName = "Bagging";
             String componentFullClassName = "weka.classifiers.meta.Bagging";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.Bagging -P 100 -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.REPTree -- -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -615,7 +680,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -623,9 +689,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.ClassificationViaRegression";
             String componentName = "ClassificationViaRegression";
             String componentFullClassName = "weka.classifiers.meta.ClassificationViaRegression";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.ClassificationViaRegression -W weka.classifiers.trees.M5P -- -M 4.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -641,45 +709,24 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
-        {
-            String componentId = "weka.classifiers.meta.CostSensitiveClassifier";
-            String componentName = "CostSensitiveClassifier";
-            String componentFullClassName = "weka.classifiers.meta.CostSensitiveClassifier";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.meta.CostSensitiveClassifier -N C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7 -S 1 -W weka.classifiers.rules.ZeroR";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
-        
+      
         
         {
             String componentId = "weka.classifiers.meta.CVParameterSelection";
             String componentName = "CVParameterSelection";
             String componentFullClassName = "weka.classifiers.meta.CVParameterSelection";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.CVParameterSelection -X 10 -S 1 -W weka.classifiers.rules.ZeroR";
             String componentExecutionScriptFilteredClassifierWeka = "";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -694,7 +741,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -702,9 +750,10 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.LogitBoost";
             String componentName = "LogitBoost";
             String componentFullClassName = "weka.classifiers.meta.LogitBoost";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.LogitBoost -P 100 -F 0 -R 1 -L -1.7976931348623157E308 -H 1.0 -S 1 -I 10 -W weka.classifiers.trees.DecisionStump";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -720,7 +769,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -729,9 +779,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.MultiClassClassifier";
             String componentName = "MultiClassClassifier";
             String componentFullClassName = "weka.classifiers.meta.MultiClassClassifier";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.MultiClassClassifier -M 0 -R 2.0 -S 1 -W weka.classifiers.functions.Logistic -- -R 1.0E-8 -M -1";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -747,45 +799,46 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
 
-        {
-            String componentId = "weka.classifiers.meta.MultiClassClassifierUpdateable";
-            String componentName = "MultiClassClassifierUpdateable";
-            String componentFullClassName = "weka.classifiers.meta.MultiClassClassifierUpdateable";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.meta.MultiClassClassifierUpdateable -M 0 -R 2.0 -S 1 -W weka.classifiers.functions.Logistic -- -R 1.0E-8 -M -1";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.classifiers.meta.MultiClassClassifierUpdateable";
+//            String componentName = "MultiClassClassifierUpdateable";
+//            String componentFullClassName = "weka.classifiers.meta.MultiClassClassifierUpdateable";
+//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+//            String componentExecutionScript = "weka.classifiers.meta.MultiClassClassifierUpdateable -M 0 -R 2.0 -S 1 -W weka.classifiers.functions.Logistic -- -R 1.0E-8 -M -1";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//            
+//            
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
         
         {
             String componentId = "weka.classifiers.meta.MultiScheme";
             String componentName = "MultiScheme";
             String componentFullClassName = "weka.classifiers.meta.MultiScheme";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.MultiScheme -X 0 -S 1 -B \"weka.classifiers.rules.ZeroR \"";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -800,7 +853,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -808,9 +862,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.RandomCommittee";
             String componentName = "RandomCommittee";
             String componentFullClassName = "weka.classifiers.meta.RandomCommittee";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.RandomCommittee -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.RandomTree -- -K 0 -M 1.0 -S 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -826,7 +882,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -834,10 +891,12 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.RandomSubSpace";
             String componentName = "RandomSubSpace";
             String componentFullClassName = "weka.classifiers.meta.RandomSubSpace";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.RandomSubSpace -P 0.5 -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.REPTree -- -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -852,7 +911,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -860,9 +920,11 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.Stacking";
             String componentName = "Stacking";
             String componentFullClassName = "weka.classifiers.meta.Stacking";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.Stacking -X 10 -M \"weka.classifiers.rules.ZeroR \" -S 1 -num-slots 1 -B \"weka.classifiers.rules.ZeroR \"";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -878,7 +940,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -886,9 +949,10 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.meta.Vote";
             String componentName = "Vote";
             String componentFullClassName = "weka.classifiers.meta.Vote";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.Vote -S 1 -B \"weka.classifiers.rules.ZeroR \" -R AVG";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -904,40 +968,41 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
         
-        ////////////////////////////////////////////////
-        // MISC
-        ///////////////////////////////////////////////
-        
-        {
-            String componentId = "weka.classifiers.misc.InputMappedClassifier";
-            String componentName = "InputMappedClassifier";
-            String componentFullClassName = "weka.classifiers.misc.InputMappedClassifier";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.misc.InputMappedClassifier -I -trim -W weka.classifiers.rules.ZeroR";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        ////////////////////////////////////////////////
+//        // MISC
+//        ///////////////////////////////////////////////
+//        
+//        {
+//            String componentId = "weka.classifiers.misc.InputMappedClassifier";
+//            String componentName = "InputMappedClassifier";
+//            String componentFullClassName = "weka.classifiers.misc.InputMappedClassifier";
+//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+//            String componentExecutionScript = "weka.classifiers.misc.InputMappedClassifier -I -trim -W weka.classifiers.rules.ZeroR";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//            
+//            
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
         
         ////////////////////////////////////////////////
         // RULES
@@ -951,6 +1016,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.rules.DecisionTable -X 1 -S \"weka.attributeSelection.BestFirst -D 1 -N 5\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
 
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -965,7 +1032,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -976,7 +1044,9 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.rules.JRip -F 3 -N 2.0 -O 2 -S 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -991,7 +1061,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1003,6 +1074,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.rules.OneR -B 6";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -1018,35 +1090,11 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
-        {
-            String componentId = "";
-            String componentName = "";
-            String componentFullClassName = "";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-            
-            
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
         
         
         {
@@ -1056,6 +1104,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.rules.PART -M 2 -C 0.25 -Q 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -1071,7 +1121,8 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,
+                    listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1084,6 +1135,7 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.rules.ZeroR";
             String componentExecutionScriptFilteredClassifierWeka = "";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -1098,7 +1150,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1114,6 +1166,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.trees.DecisionStump";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -1129,7 +1182,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1140,7 +1193,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.trees.J48 -C 0.25 -M 2";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -1155,7 +1208,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1167,6 +1220,7 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.trees.LMT -I -1 -M 15 -W 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
             
@@ -1181,7 +1235,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1192,6 +1246,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.trees.RandomForest -I 10 -K 0 -S 1 -num-slots 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -1207,7 +1262,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1218,6 +1273,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.trees.RandomTree -K 0 -M 1.0 -S 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -1233,7 +1289,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1244,6 +1300,7 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
             String componentExecutionScript = "weka.classifiers.trees.REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             
@@ -1259,7 +1316,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1288,6 +1345,7 @@ public class MLComponentConfiguration {
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
             listOfOutputs.add(getMLComponentIO(MLMetafeature.MISSING_VALUES));
             listOfOutputs.add(getMLComponentIO(MLMetafeature.MISSING_CLASS_VALUES));
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             MLComponent mLComponent = new MLComponent(
                     componentId,
@@ -1297,7 +1355,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1309,6 +1367,7 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.attribute.EMImputation -N -1 -E 1.0E-4 -Q 1.0E-8";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.EMImputation -N -1 -E 1.0E-4 -Q 1.0E-8\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1325,7 +1384,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1397,6 +1456,7 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.attribute.PrincipalComponents -R 0.95 -A 5 -M -1 -c last";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.PrincipalComponents -R 0.95 -A 5 -M -1\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 //            listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_ATTRIBUTES));
 //            listOfInputs.add(getMLComponentIO(MLMetafeature.NUMERIC_ATTRIBUTES));
@@ -1424,7 +1484,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1444,6 +1504,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.instance.Resample -S 1 -Z 50.0";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.instance.Resample -S 1 -Z 50.0\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1458,7 +1520,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1470,6 +1532,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.instance.ReservoirSample -S 1 -Z 50";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.instance.ReservoirSample -S 1 -Z 50\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1484,7 +1548,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1496,6 +1560,7 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.instance.RemovePercentage -P 50.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             List<MLComponentIO> listOfInputs = new ArrayList<>();
           
 
@@ -1509,7 +1574,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1552,6 +1617,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.instance.RemoveOutliers -O \"weka.filters.unsupervised.attribute.InterquartileRange -R first-last -O 3.0 -E 6.0\"";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.instance.RemoveOutliers -O \\\\\\\"weka.filters.unsupervised.attribute.InterquartileRange -R first-last -O 3.0 -E 6.0\\\\\\\"\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1567,7 +1634,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1586,6 +1653,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.attribute.Center";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.Center \\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1600,7 +1669,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1612,6 +1681,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.attribute.Standardize";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.Standardize \\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1626,7 +1697,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1638,6 +1709,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.attribute.Normalize -S 1.0 -T 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.Normalize -S 1.0 -T 0.0\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -1652,7 +1725,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
 
@@ -1664,6 +1737,8 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.filters.unsupervised.attribute.IndependentComponents -W -A -1 -N 200 -T 1.0E-4";
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.IndependentComponents -W -A -1 -N 200 -T 1.0E-4\\\" ";
 
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_ATTRIBUTES));
             listOfInputs.add(getMLComponentIO(MLMetafeature.NUMERIC_ATTRIBUTES));
@@ -1688,7 +1763,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1704,6 +1779,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
             String componentExecutionScript = "weka.filters.unsupervised.attribute.Discretize -B 10 -M -1.0 -R first-last";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
           
@@ -1718,61 +1795,61 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
         
-        {
-            String componentId = "weka.filters.unsupervised.attribute.NominalToBinary";
-            String componentName = "NominalToBinary";
-            String componentFullClassName = "weka.filters.unsupervised.attribute.NominalToBinary";
-            MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
-            String componentExecutionScript = "weka.filters.unsupervised.attribute.NominalToBinary -R first-last";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-          
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.filters.unsupervised.attribute.NominalToBinary";
+//            String componentName = "NominalToBinary";
+//            String componentFullClassName = "weka.filters.unsupervised.attribute.NominalToBinary";
+//            MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
+//            String componentExecutionScript = "weka.filters.unsupervised.attribute.NominalToBinary -R first-last";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//          
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
         
         
-        {
-            String componentId = "weka.filters.unsupervised.attribute.NominalToString";
-            String componentName = "NominalToString";
-            String componentFullClassName = "weka.filters.unsupervised.attribute.NominalToString";
-            MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
-            String componentExecutionScript = "weka.filters.unsupervised.attribute.NominalToString -C last";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-          
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.filters.unsupervised.attribute.NominalToString";
+//            String componentName = "NominalToString";
+//            String componentFullClassName = "weka.filters.unsupervised.attribute.NominalToString";
+//            MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
+//            String componentExecutionScript = "weka.filters.unsupervised.attribute.NominalToString -C last";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//          
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
         
         {
             String componentId = "weka.filters.unsupervised.attribute.NumericToBinary";
@@ -1781,6 +1858,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
             String componentExecutionScript = "weka.filters.unsupervised.attribute.NumericToBinary";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
           
@@ -1795,7 +1874,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1806,6 +1885,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
             String componentExecutionScript = "weka.filters.unsupervised.attribute.NumericToNominal -R first-last";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
           
@@ -1820,7 +1901,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         
@@ -1832,6 +1913,8 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.DATA_TRANSFORMATION;
             String componentExecutionScript = "weka.filters.unsupervised.attribute.StringToNominal -R last";
             String componentExecutionScriptFilteredClassifierWeka = "";
+            
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
           
@@ -1846,7 +1929,7 @@ public class MLComponentConfiguration {
                     componentExecutionScript,
                     componentExecutionScriptFilteredClassifierWeka,
                     listOfInputs,
-                    listOfOutputs);
+                    listOfOutputs,listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
         

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,16 @@ import uts.aai.mf.model.MLComponentType;
 import uts.aai.pn.utils.IOUtils;
 import uts.aai.pn.utils.JSONUtils;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeoutException;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
+
 /**
  *
  * @author ntdun
@@ -35,7 +46,10 @@ public class WekaExecutor {
 
         boolean result = true;
 
-        if (MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.CLASSIFIER)) {
+        if (MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                || MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.REGRESSOR)
+                || MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                || MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
             result = executePredictor(inputData, outputData, filterId);
         } else {
             result = executeFilter(inputData, outputData, filterId);
@@ -57,7 +71,7 @@ public class WekaExecutor {
 
         if (Files.notExists(new File(inputData).toPath())) {
             result = false;
-            System.out.println("No Input File ------------------------");
+            System.out.println("No Input File ------------------------:" + inputData);
         } else if (new File(inputData).length() < 5) {
             result = false;
             System.out.println("Invalid Input File ------------------------");
@@ -77,7 +91,12 @@ public class WekaExecutor {
                 System.out.println("command: \n" + commandStr);
                 Process process = Runtime.getRuntime().exec(commandStr);
                 System.out.println("Waiting for batch file ...");
+
+              
                 process.waitFor();
+                
+                
+                
                 System.out.println("Batch file done.");
                 System.out.println("Done! " + filterId);
 
@@ -95,12 +114,13 @@ public class WekaExecutor {
     }
 
     public boolean executePredictor(String inputData, String outputModel, String predictorId) {
+        IOUtils iou = new IOUtils();
         System.out.println("executePredictor xxxxxxxxxxxx");
         boolean result = true;
 
         if (Files.notExists(new File(inputData).toPath())) {
             result = false;
-            System.out.println("No Input File ------------------------");
+            System.out.println("No Input File ------------------------:" + inputData);
         } else if (new File(inputData).length() < 5) {
             result = false;
             System.out.println("Invalid Input File ------------------------");
@@ -118,6 +138,8 @@ public class WekaExecutor {
                         + " -d " + outputModel + "\n";
                 System.out.println(commandStr);
                 Process process = Runtime.getRuntime().exec(commandStr);
+                
+                
 
                 String processOutput = "";
                 String s = "";
@@ -159,16 +181,21 @@ public class WekaExecutor {
                 }
 
                 System.out.println("Waiting for batch file ...");
-                process.waitFor(3, TimeUnit.MINUTES);
-                
-                
+                //process.waitFor(AppConst.EXECUTION_TIMEOUT, TimeUnit.MINUTES);
+
+                if (accuracy == null) {
+                    result = false;
+                }
+
                 if (Files.notExists(new File(outputModel).toPath())) {
                     result = false;
                 } else if (new File(outputModel).length() < 5) {
                     result = false;
                 }
                 
-       
+                process.waitFor();
+               
+
                 System.out.println("Batch file done.");
                 System.out.println("Done! " + predictorId);
                 System.out.println("accuracy: " + accuracy);
@@ -176,8 +203,6 @@ public class WekaExecutor {
                 EvaluationResult evaluationResult = new EvaluationResult("", result, accuracy);
 
                 String evaluationResultString = JSONUtils.marshal(evaluationResult, EvaluationResult.class);
-
-                IOUtils iou = new IOUtils();
 
 //            String outputLog = String.valueOf(result)+",";
 //            iou.writeData(outputLog, AppConst.WEKA_EXECUTOR_LOG);
@@ -189,6 +214,19 @@ public class WekaExecutor {
                 } else if (new File(outputModel).length() < 5) {
                     result = false;
                 }
+
+                if (!result) {
+                    EvaluationResult evaluationResult = new EvaluationResult("", result, null);
+                    String evaluationResultString = "";
+                    try {
+                        evaluationResultString = JSONUtils.marshal(evaluationResult, EvaluationResult.class);
+                        iou.overWriteData(evaluationResultString, AppConst.TEMP_EVALUATION_RESULT_PATH);
+
+                    } catch (JAXBException jex) {
+                        Logger.getLogger(WekaExecutor.class.getName()).log(Level.SEVERE, null, jex);
+                    }
+                }
+
             }
         } else {
 
@@ -196,8 +234,8 @@ public class WekaExecutor {
             String evaluationResultString = "";
             try {
                 evaluationResultString = JSONUtils.marshal(evaluationResult, EvaluationResult.class);
-                IOUtils iou = new IOUtils();
                 iou.overWriteData(evaluationResultString, AppConst.TEMP_EVALUATION_RESULT_PATH);
+
             } catch (JAXBException ex) {
                 Logger.getLogger(WekaExecutor.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -231,6 +269,38 @@ public class WekaExecutor {
 
     private void test() {
 
+    }
+
+    // ///////////////////////////////////////////
+    private class InterruptScheduler extends TimerTask {
+
+        Thread target = null;
+
+        public InterruptScheduler(Thread target) {
+            this.target = target;
+        }
+
+        @Override
+        public void run() {
+            target.interrupt();
+        }
+
+    }
+
+    public Double evaluateModel(String modelPath, String validationSet) {
+        try {
+            Classifier cls = (Classifier) weka.core.SerializationHelper.read(modelPath);
+            DataSource source = new DataSource(validationSet);
+            Instances validationData = source.getDataSet();
+            validationData.setClassIndex(validationData.numAttributes() - 1);
+            Evaluation evaluation = new Evaluation(validationData);
+            evaluation.evaluateModel(cls, validationData);
+            Double accuracy = evaluation.pctCorrect();
+            return accuracy;
+        } catch (Exception ex) {
+            Logger.getLogger(WekaExecutor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }
