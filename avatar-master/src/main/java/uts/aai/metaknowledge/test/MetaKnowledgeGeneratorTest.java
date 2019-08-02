@@ -22,8 +22,8 @@ public class MetaKnowledgeGeneratorTest {
         String dataFolderName = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\testing\\synthetic";
         String metaKnowledgeFile = "C:\\DATA\\Projects\\eclipse-workspace\\aai_aw\\weka-3-7-7\\data\\meta_knowledge\\meta_knowledge.json";
         MetaKnowledgeGenerator mkg = new MetaKnowledgeGenerator(outputPath, dataFolderName, metaKnowledgeFile);
-        //mkg.run();
-        mkg.update("C:\\experiments\\datasets\\arff\\convex_train.arff");
+        mkg.run();
+        //mkg.update("C:\\experiments\\datasets\\arff\\convex_train.arff");
         
     }
     

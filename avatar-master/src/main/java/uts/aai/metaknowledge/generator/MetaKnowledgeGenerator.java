@@ -50,11 +50,12 @@ public class MetaKnowledgeGenerator {
 
     public void run() {
 
-        cleanOutput(outputPath);
+        cleanOutput();
         init();
 
         for (MLComponent mLComponent : MLComponentConfiguration.getListOfMLComponents()) {
 
+            System.out.println("mLComponent: " + mLComponent.getComponentId());
             //MLComponent mLComponent = MLComponentConfiguration.getComponentByID("weka.filters.unsupervised.attribute.PrincipalComponents");
             List<MLComponentIO> listOfCapabilities = disableAllMetaFeatures();;
             List<MLComponentIO> listOfEffects = disableAllMetaFeatures();;
@@ -72,8 +73,8 @@ public class MetaKnowledgeGenerator {
 
                     String filePathWitExtension = fileEntry.getAbsolutePath();
 
-                    findAlgorithmCapabilitiesAndEffectsFromOneDataset(filePathWitExtension, outputPath, algorithmId, listOfCapabilities, listOfEffects);
-                    cleanOutput(outputPath);
+                    findAlgorithmCapabilitiesAndEffectsFromOneDataset(filePathWitExtension, algorithmId, listOfCapabilities, listOfEffects);
+                    cleanOutput();
                 }
             }
 
@@ -89,13 +90,13 @@ public class MetaKnowledgeGenerator {
     }
 
     public void update(String newDataSetPath) {
-        cleanOutput(outputPath);
+        cleanOutput();
         MLComponentConfiguration.initDefault();
 
         for (MLComponent mLComponent : MLComponentConfiguration.getListOfMLComponents()) {
 
-            findAlgorithmCapabilitiesAndEffectsFromOneDataset(newDataSetPath, outputPath, mLComponent.getComponentId(), mLComponent.getListOfCapabilities(), mLComponent.getListOfEffects());
-            cleanOutput(outputPath);
+            findAlgorithmCapabilitiesAndEffectsFromOneDataset(newDataSetPath, mLComponent.getComponentId(), mLComponent.getListOfCapabilities(), mLComponent.getListOfEffects());
+            cleanOutput();
 
         }
 
@@ -103,34 +104,35 @@ public class MetaKnowledgeGenerator {
 
     }
 
-    private void cleanOutput(String outputPath) {
-        File file = new File(outputPath + ".arff");
+    private void cleanOutput() {
+        File file = new File(outputPath);
         file.delete();
-
-        file = new File(outputPath + ".csv");
-        file.delete();
+        
+       
     }
 
-    private void findAlgorithmCapabilitiesAndEffectsFromOneDataset(String datasetPath, String outputPath, String algorithmId, List<MLComponentIO> listOfCapabilities, List<MLComponentIO> listOfEffects) {
+    private void findAlgorithmCapabilitiesAndEffectsFromOneDataset(String datasetPath, String algorithmId, List<MLComponentIO> listOfCapabilities, List<MLComponentIO> listOfEffects) {
 
         List<MLComponentIO> listOfInputMetaFeatures = calculateDatasetMetafeatures(datasetPath);
 
-        boolean isSuccess = executeAlgorithm(algorithmId, datasetPath, outputPath);
+        boolean isSuccess = executeAlgorithm(algorithmId, datasetPath);
 
         if (isSuccess) {
             findCapabilities(listOfInputMetaFeatures, listOfCapabilities);
             List<MLComponentIO> listOfOutputMetaFeatures = null;
             if (!MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
-                    || !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
-                    || !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
-                    || !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+                    && !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
+                    && !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                    && !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
                 //fromArffToCSV(outputPath + ".arff", outputPath + ".csv");
                 listOfOutputMetaFeatures = calculateDatasetMetafeatures(outputPath);
             }
 
             printCompare(listOfInputMetaFeatures, listOfOutputMetaFeatures);
             findEffects(algorithmId, listOfInputMetaFeatures, listOfOutputMetaFeatures, listOfEffects);
-
+            System.out.println("SUCCESS .................................................");
+        } else {
+            System.out.println("FAIL .................................................");
         }
 
 //            printMLComponentIOList(listOfCapabilities,"Capabilities");
@@ -211,7 +213,7 @@ public class MetaKnowledgeGenerator {
 
     }
 
-    private boolean executeAlgorithm(String algorithmID, String inputPath, String outputPath) {
+    private boolean executeAlgorithm(String algorithmID, String inputPath) {
 
         WekaExecutor wekaExecutor = new WekaExecutor();
         boolean result = wekaExecutor.executeAlgorithm(inputPath, outputPath, algorithmID);

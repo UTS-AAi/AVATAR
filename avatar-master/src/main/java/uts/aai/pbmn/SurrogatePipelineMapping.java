@@ -297,6 +297,7 @@ public class SurrogatePipelineMapping {
     private String getDataPathFromScript(String script) {
 
         String dataPath = getBetweenStrings(script, "kcontext.setVariable(\"input-data-set-1\",\"", ".arff\");");
+        dataPath.replaceAll("\"", "");
         String sourceArff = dataPath + ".arff";
         //String targetCSV = dataPath + ".csv";
 
@@ -351,6 +352,7 @@ public class SurrogatePipelineMapping {
     private Token createToken(String filePath) {
 
         String tokenPath = filePath + ".token";
+        System.out.println("token path: " + tokenPath);
         IOUtils iou = new IOUtils();
 
         File tempFile = new File(tokenPath);

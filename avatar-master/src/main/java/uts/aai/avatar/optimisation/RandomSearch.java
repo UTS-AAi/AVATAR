@@ -39,6 +39,7 @@ import uts.aai.mf.model.MLComponent;
 import uts.aai.mf.model.MLComponentIO;
 import uts.aai.mf.service.DatasetMetaFeatures;
 import uts.aai.pbmn.SurrogatePipelineMapping;
+import uts.aai.pbmn.WekaExecutor;
 import uts.aai.pbmn.test.AutoProcessTestApp;
 import uts.aai.pn.engine.PetriNetsExecutionEngine;
 import uts.aai.pn.model.Parameter;
@@ -61,10 +62,8 @@ public class RandomSearch {
     private boolean isAvatar;
     private ArrayList<EvaluationResult> evaluationResultList;
     private String outputFolder;
-    
-   
 
-    public RandomSearch(String datasetPath, long timeBudgetInMinutes, boolean isAvatar,String outputFolder) {
+    public RandomSearch(String datasetPath, long timeBudgetInMinutes, boolean isAvatar, String outputFolder) {
         this.datasetPath = datasetPath;
         this.timeBudgetInMinutes = timeBudgetInMinutes;
         this.isAvatar = isAvatar;
@@ -82,56 +81,47 @@ public class RandomSearch {
 
         long startExperimentTime = System.currentTimeMillis();
 
-        //while (!isTimeOut(startExperimentTime)) //boolean isDiff = false;
-       
+        while (!isTimeOut(startExperimentTime)) //boolean isDiff = false;
         {
 
             cleanTemp();
+            int numberOfPreprocessingComponent = randInt(0, 5);
+            String bpmnPipeline = createRandomPipeline(numberOfPreprocessingComponent);
 
-            String bpmnPipeline = createRandomPipeline();
-            
-            
             long startEvaluationTime = System.currentTimeMillis();
             EvaluationResult evaluationResult = null;
             String rs1 = "";
             String rs2 = "";
 
-            
-            
-            
-            if (isAvatar) 
-            {
-          
+            if (isAvatar) {
+
                 System.out.println("START AVATAR");
 
-                evaluationResult = evaluateAvatar(bpmnPipeline);
+                evaluationResult = evaluateAvatar(bpmnPipeline,numberOfPreprocessingComponent);
 
                 if (evaluationResult == null) {
 
                     evaluationResult = new EvaluationResult(bpmnPipeline, false, null);
                 }
                 rs2 = String.valueOf(evaluationResult.isValidity());
-                cleanTemp();
+               
                 System.out.println("END AVATAR");
-           
-                
-            } 
-            else 
-            {
-          
+
+            } else {
+
                 System.out.println("START BPMN");
-                evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
+                evaluationResult = evaluateBPMNPipeline(bpmnPipeline,numberOfPreprocessingComponent);
                 if (evaluationResult == null) {
 
                     evaluationResult = new EvaluationResult(bpmnPipeline, false, null);
                 }
                 rs1 = String.valueOf(evaluationResult.isValidity());
-                cleanTemp();
+            
 
                 System.out.println("END BPMN");
-         
+
             }
-            
+
 //            EvaluationResult tmp = null;
 //
 //            if (rs1.equals(rs2)) {
@@ -146,8 +136,6 @@ public class RandomSearch {
 //            }
 //            
 //            evaluationResultList.add(tmp);
-                
-            
             long endEvaluationTime = System.currentTimeMillis();
             evaluationResult.setEvaluationTime(endEvaluationTime - startEvaluationTime);
             evaluationResultList.add(evaluationResult);
@@ -240,26 +228,25 @@ public class RandomSearch {
         }
     }
 
-    private String createRandomPipeline() {
+    private String createRandomPipeline(int numberOfPreprocessingComponent) {
 //        RandomPipelineGenerator randomPipelineGenerator = new RandomPipelineGenerator(datasetPath,outputFolder);
 //        String bpmnPipeline = randomPipelineGenerator.generateBPMNPipeline();
-        int numberOfPreprocessingComponent = randInt(0, 5);
+        
 
-        RandomPipelineGenerator generator = new RandomPipelineGenerator(datasetPath,outputFolder);
+        RandomPipelineGenerator generator = new RandomPipelineGenerator(datasetPath, outputFolder);
         //String bpmnPipeline = generator.generateBPMNTemplate(0);
         String bpmnPipeline = generator.generateBPMNPipelineWithRandomComponents(numberOfPreprocessingComponent);
 
         return bpmnPipeline;
     }
-    
+
     private int randInt(int min, int max) {
 
         int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
         return randomNum;
     }
 
-
-    private EvaluationResult evaluateBPMNPipeline(String bpmnPipeline) {
+    private EvaluationResult evaluateBPMNPipeline(String bpmnPipeline, int numberOfPreprocessingComponent) {
 
         try {
 
@@ -279,11 +266,29 @@ public class RandomSearch {
             ksession.startProcess("ml.process", params);
             ksession.dispose();
 
-            
-            String evaluationResultStr = iou.readData(AppConst.TEMP_EVALUATION_RESULT_PATH);
+            WekaExecutor wekaExecutor = new WekaExecutor();
+            String lastOutputPath = datasetPath;
+            if (numberOfPreprocessingComponent!=0) {
+                lastOutputPath = AppConst.TEMP_LAST_OUTPUT_FILTER_PATH 
+                        + String.valueOf(numberOfPreprocessingComponent) + ".arff";
+            }
+             
+            System.out.println("lastOutputPath:"+lastOutputPath);        
+                    
+            Double accuracy = wekaExecutor.evaluateModel(AppConst.TEMP_OUTPUT_MODEL_PATH, lastOutputPath);
 
-            EvaluationResult evaluationResult = JSONUtils.unmarshal(evaluationResultStr, EvaluationResult.class);
-            evaluationResult.setBpmnPipeline(bpmnPipeline);
+            EvaluationResult evaluationResult = null;
+
+            if (accuracy != null) {
+                evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.TRUE, accuracy);
+                
+
+            } else {
+                evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.FALSE, null);
+            }
+            
+            System.out.println("Accuracy: " + accuracy);
+
             return evaluationResult;
 
         } catch (Exception e) {
@@ -293,7 +298,7 @@ public class RandomSearch {
 
     }
 
-    private EvaluationResult evaluateAvatar(String bpmnPipeline) {
+    private EvaluationResult evaluateAvatar(String bpmnPipeline, int numberOfPreprocessingComponent) {
 
         try {
 
@@ -305,9 +310,9 @@ public class RandomSearch {
             boolean result = engine.execute();
 
             EvaluationResult evaluationResult = new EvaluationResult(null, result, null);
-        
+
             if (result) {
-                evaluationResult = evaluateBPMNPipeline(bpmnPipeline);
+                evaluationResult = evaluateBPMNPipeline(bpmnPipeline,numberOfPreprocessingComponent);
                 return evaluationResult;
             }
 
@@ -319,25 +324,20 @@ public class RandomSearch {
     }
 
     private void cleanTemp() {
-        IOUtils iou = new IOUtils();
+
         File directory = new File(AppConst.TEMP_OUTPUT_PATH);
         try {
-            //FileUtils.cleanDirectory(directory);
-            FileDeleteStrategy.FORCE.delete(directory);
+            FileUtils.cleanDirectory(directory);
 
-            directory.mkdir();    
         } catch (IOException ex) {
             Logger.getLogger(AutoProcessTestApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
- 
-
     public void mappingFromBPMN2NativeWekaCommand(String bpmnPipeline) {
 
         ArrayList<MLComponent> listOfMLComponents = new ArrayList<>();
-        
-        
+
         Resource resource = new ByteArrayResource(bpmnPipeline.getBytes());
 
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -421,7 +421,7 @@ public class RandomSearch {
 
         String outputFileName = "output_model";
         String fullCommand = prepareFullCommand(outputFileName, pipeline);
-       
+
         return fullCommand;
     }
 

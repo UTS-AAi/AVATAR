@@ -5,6 +5,7 @@
  */
 package test.uts.aai.avatar.optimisation;
 
+import uts.aai.global.AppConst;
 import uts.aai.pbmn.WekaExecutor;
 
 /**
@@ -18,8 +19,8 @@ public class EvaluateModel {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String modelPath = "C:\\experiments\\tools\\avatar\\output\\m1.model";
-        String validationSet = "C:\\experiments\\datasets\\arff\\abalone_train.arff";
+        String modelPath = AppConst.TEMP_OUTPUT_MODEL_PATH;
+        String validationSet = "C:/experiments/datasets/arff/convex_train.arff";
         WekaExecutor wekaExecutor = new WekaExecutor();
         Double accuracy = wekaExecutor.evaluateModel(modelPath, validationSet);
         

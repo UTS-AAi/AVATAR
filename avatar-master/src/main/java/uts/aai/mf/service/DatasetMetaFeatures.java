@@ -61,9 +61,12 @@ public class DatasetMetaFeatures {
 
     public List<MLComponentIO> analyseMetaFeaturesArff() {
 
-        DataSource source = null;
+     
         try {
-            source = new DataSource(filePath);
+            filePath = filePath.trim();
+            filePath=filePath.replaceAll("\"", "");
+            System.out.println("Loading Source.. " + filePath);
+            DataSource source = new DataSource(filePath);
 
             Instances data = source.getDataSet();
 
@@ -89,7 +92,11 @@ public class DatasetMetaFeatures {
                         setComponentIO(MLMetafeature.NUMERIC_CLASS, 1);
                     } else {
                         setComponentIO(MLMetafeature.NUMERIC_ATTRIBUTES, 1);
+                        if (data.attributeStats(i).distinctCount==2) {
+                            setComponentIO(MLMetafeature.BINARY_ATTRIBUTES, 1);
+                        }
                     }
+                    
                 }
                 
                 if (data.attribute(i).isNominal()) {

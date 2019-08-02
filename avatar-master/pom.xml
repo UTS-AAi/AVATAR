@@ -32,10 +32,16 @@
 			<version>${jbpm5.version}</version>
 		</dependency>
                 <!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
-<dependency>
+<!--<dependency>
     <groupId>nz.ac.waikato.cms.weka</groupId>
     <artifactId>weka-stable</artifactId>
     <version>3.8.0</version>
+</dependency>-->
+
+<dependency>
+    <groupId>nz.ac.waikato.cms.weka</groupId>
+    <artifactId>weka-avatar</artifactId>
+    <version>3.7.7</version>
 </dependency>
 	 <dependency>
 	  <groupId>commons-io</groupId>

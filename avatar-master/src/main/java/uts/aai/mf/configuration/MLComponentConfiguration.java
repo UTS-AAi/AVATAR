@@ -37,9 +37,11 @@ import uts.aai.pn.utils.JSONUtils;
 public class MLComponentConfiguration {
 
     private static List<MLComponent> listOfMLComponents;
+    private static List<String> listOfNotAutoFinaliseAlgorithm;
 
     public static List<MLComponent> initConfiguration() {
 
+        initNotAutoFinaliseAlgorithm();
         listOfMLComponents = new ArrayList<>();
 
         listOfMLComponents.addAll(initClassifier());
@@ -65,6 +67,8 @@ public class MLComponentConfiguration {
         } catch (JAXBException ex) {
             Logger.getLogger(MLComponentConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        initNotAutoFinaliseAlgorithm();
 
     }
 
@@ -74,6 +78,18 @@ public class MLComponentConfiguration {
 
     public static void setListOfMLComponents(List<MLComponent> listOfMLComponents) {
         MLComponentConfiguration.listOfMLComponents = listOfMLComponents;
+    }
+    
+    public static void initNotAutoFinaliseAlgorithm(){
+        listOfNotAutoFinaliseAlgorithm = new ArrayList<>();
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.functions.MultilayerPerceptron");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.meta.AdaBoostM1");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.meta.Bagging");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.meta.LogitBoost");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.meta.MultiClassClassifier");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.meta.RandomCommittee");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.meta.RandomSubSpace");
+        listOfNotAutoFinaliseAlgorithm.add("weka.classifiers.trees.REPTree");
     }
 
     public static List<MLComponent> initClassifier() {
@@ -125,89 +141,7 @@ public class MLComponentConfiguration {
         }
 
        
-        
-//        {
-//            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomial";
-//            String componentName = "NaiveBayesMultinomial";
-//            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomial";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomial";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
-//        
-//        {
-//            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomialText";
-//            String componentName = "NaiveBayesMultinomialText";
-//            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomialText";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomialText -P 0 -M 3.0 -norm 1.0 -lnorm 2.0 -tokenizer \"weka.core.tokenizers.WordTokenizer -delimiters \\\" \\\\r\\\\n\\\\t.,;:\\\\\\'\\\\\\\"()?!\\\"\" -stemmer weka.core.stemmers.NullStemmer";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
-        
-        
-//        {
-//            String componentId = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
-//            String componentName = "NaiveBayesMultinomialUpdateable";
-//            String componentFullClassName = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.bayes.NaiveBayesMultinomialUpdateable";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            
-//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs,
-//                    listOfHyperparameters);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
-//        
+       
         {
             String componentId = "weka.classifiers.bayes.NaiveBayesUpdateable";
             String componentName = "NaiveBayesUpdateable";
@@ -805,31 +739,6 @@ public class MLComponentConfiguration {
         }
 
 
-//        {
-//            String componentId = "weka.classifiers.meta.MultiClassClassifierUpdateable";
-//            String componentName = "MultiClassClassifierUpdateable";
-//            String componentFullClassName = "weka.classifiers.meta.MultiClassClassifierUpdateable";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.meta.MultiClassClassifierUpdateable -M 0 -R 2.0 -S 1 -W weka.classifiers.functions.Logistic -- -R 1.0E-8 -M -1";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
         
         {
             String componentId = "weka.classifiers.meta.MultiScheme";
@@ -973,37 +882,7 @@ public class MLComponentConfiguration {
             listOfMLComponentByType.add(mLComponent);
         }
         
-        
-//        ////////////////////////////////////////////////
-//        // MISC
-//        ///////////////////////////////////////////////
-//        
-//        {
-//            String componentId = "weka.classifiers.misc.InputMappedClassifier";
-//            String componentName = "InputMappedClassifier";
-//            String componentFullClassName = "weka.classifiers.misc.InputMappedClassifier";
-//            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-//            String componentExecutionScript = "weka.classifiers.misc.InputMappedClassifier -I -trim -W weka.classifiers.rules.ZeroR";
-//            String componentExecutionScriptFilteredClassifierWeka = "";
-//
-//            List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            
-//            
-//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-//
-//            MLComponent mLComponent = new MLComponent(
-//                    componentId,
-//                    componentName,
-//                    componentFullClassName,
-//                    mLComponentType,
-//                    componentExecutionScript,
-//                    componentExecutionScriptFilteredClassifierWeka,
-//                    listOfInputs,
-//                    listOfOutputs);
-//            listOfMLComponentByType.add(mLComponent);
-//        }
-        
+   
         ////////////////////////////////////////////////
         // RULES
         ///////////////////////////////////////////////
@@ -2116,6 +1995,11 @@ public class MLComponentConfiguration {
             }
         }
         return null;
+    }
+    
+    public static boolean isNotAutoFinaliseAlgorithm(String algorithmId){
+        
+        return listOfNotAutoFinaliseAlgorithm.contains(algorithmId);
     }
 
 }
