@@ -123,7 +123,7 @@ public class WekaExecutor {
         iou.overWriteData("false",AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
         System.out.println("executePredictor xxxxxxxxxxxx");
         boolean result = true;
-
+        boolean isTimeout = false;
         if (Files.notExists(new File(inputData).toPath())) {
             result = false;
             System.out.println("No Input File ------------------------:" + inputData);
@@ -159,7 +159,7 @@ public class WekaExecutor {
 
                 System.out.println("Waiting for batch file ...");
 
-                isTimeout(process, predictorId, outputModel);
+                isTimeout = isTimeout(process, predictorId, outputModel);
 
                 System.out.println("Batch file done.");
                 System.out.println("Done! " + predictorId);
@@ -187,8 +187,13 @@ public class WekaExecutor {
                 result = false;
             } 
             
-            iou.overWriteData(String.valueOf(result),AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
-             cleanTemp();
+            if (isTimeout) {
+                iou.overWriteData("timeout",AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+            } else {
+                iou.overWriteData(String.valueOf(result),AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+            }
+            
+            cleanTemp();
             
         }
         return result;
@@ -253,8 +258,9 @@ public class WekaExecutor {
         return null;
     }
 
-    private void isTimeout(Process process, String algorithmId, String outputPath) {
+    private boolean isTimeout(Process process, String algorithmId, String outputPath) {
 
+        boolean isTimeout = false;
         long startTime = System.currentTimeMillis();
 
         while (process.isAlive()) {
@@ -277,6 +283,7 @@ public class WekaExecutor {
             if ((currentTime - startTime) > (AppConst.EXECUTION_TIMEOUT * 60 * 1000)) {
                 System.out.println("TIME OUT");
                 process.destroyForcibly();
+                isTimeout = true;
                 break;
             }
 
@@ -294,6 +301,7 @@ public class WekaExecutor {
             Logger.getLogger(WekaExecutor.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        return isTimeout;
     }
 
 }

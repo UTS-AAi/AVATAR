@@ -5,57 +5,44 @@
  */
 package uts.aai.avatar.model;
 
+import java.util.List;
+
 /**
  *
  * @author ntdun
  */
 public class EvaluationResult {
     
-    private String bpmnPipeline;
-    private boolean validity;
-    private Double accuracy;
-    private long evaluationTime;
+    private String id;
+    private List<EvaluationModel> evaluationModel;
+            
 
     public EvaluationResult() {
     }
 
-    public EvaluationResult(String bpmnPipeline, boolean validity, Double bestAccuracy) {
-        this.bpmnPipeline = bpmnPipeline;
-        this.validity = validity;
-        this.accuracy = bestAccuracy;
+    public EvaluationResult(String id, List<EvaluationModel> evaluationModel) {
+        this.id = id;
+        this.evaluationModel = evaluationModel;
     }
 
-    public String getBpmnPipeline() {
-        return bpmnPipeline;
+    public String getId() {
+        return id;
     }
 
-    public void setBpmnPipeline(String bpmnPipeline) {
-        this.bpmnPipeline = bpmnPipeline;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public boolean isValidity() {
-        return validity;
+    public List<EvaluationModel> getEvaluationModel() {
+        return evaluationModel;
     }
 
-    public void setValidity(boolean validity) {
-        this.validity = validity;
+    public void setEvaluationModel(List<EvaluationModel> evaluationModel) {
+        this.evaluationModel = evaluationModel;
     }
 
-    public Double getAccuracy() {
-        return accuracy;
-    }
+    
 
-    public void setAccuracy(Double accuracy) {
-        this.accuracy = accuracy;
-    }
-
-    public long getEvaluationTime() {
-        return evaluationTime;
-    }
-
-    public void setEvaluationTime(long evaluationTime) {
-        this.evaluationTime = evaluationTime;
-    }
     
     
     

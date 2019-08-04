@@ -23,5 +23,5 @@ public class AppConst {
     public final static String TEMP_OUTPUT_PATH = "C:/experiments/tools/avatar/output";
     public final static String TEMP_EVALUATION_RESULT_PATH = "C:/experiments/tools/avatar/output/temp_evaluation_result.json";
     public final static String RANDOM_SEARCH_OUTPUT_PATH = "C:/experiments/tools/avatar/log/allModels.json";
-    public final static Integer EXECUTION_TIMEOUT = 2000; 
+    public final static Integer EXECUTION_TIMEOUT = 15; 
 }

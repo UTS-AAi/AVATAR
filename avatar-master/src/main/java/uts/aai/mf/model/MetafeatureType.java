@@ -5,7 +5,7 @@
  */
 package uts.aai.mf.model;
 
-import org.eclipse.jdt.internal.compiler.ast.QualifiedTypeReference;
+
 
 /**
  *
