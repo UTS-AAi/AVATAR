@@ -2,73 +2,29 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:g="http://www.jboss.org/drools/flow/gpd" xmlns:tns="http://www.jboss.org/drools" id="Definition" targetNamespace="http://www.jboss.org/drools" expressionLanguage="http://www.mvel.org/2.0" typeLanguage="http://www.java.com/javaTypes" exporter="Camunda Modeler" exporterVersion="2.2.4" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <process id="ml.process" name="ML Process" processType="Private" isExecutable="true">
     <startEvent id="StartEvent" name="StartEvent">
-      <outgoing>97256392-f96b-4f39-ac65-ab73724f9085</outgoing>
+      <outgoing>8c61d1f0-4e1d-4564-a052-5fa9ef2bdb5b</outgoing>
     </startEvent>
-<scriptTask id="weka.filters.unsupervised.attribute.ReplaceMissingValues" name="weka.filters.unsupervised.attribute.ReplaceMissingValues" scriptFormat="http://www.java.com/java">
-      <incoming>97256392-f96b-4f39-ac65-ab73724f9085</incoming>
-      <outgoing>ff7d4300-285d-428a-8397-df1e00d43c92</outgoing>
+<scriptTask id="weka.filters.unsupervised.instance.RemovePercentage" name="weka.filters.unsupervised.instance.RemovePercentage" scriptFormat="http://www.java.com/java">
+      <incoming>8c61d1f0-4e1d-4564-a052-5fa9ef2bdb5b</incoming>
+      <outgoing>9f67c314-a7fc-4ed0-90e5-3b73497c7006</outgoing>
       <script>kcontext.setVariable("input-data-set-1","C:/experiments/datasets/arff/convex_train.arff");
                 kcontext.setVariable("output-data-set-1","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
-                
-                String filterName = "weka.filters.unsupervised.attribute.ReplaceMissingValues";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-1")),String.valueOf(kcontext.getVariable("output-data-set-1")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.filters.unsupervised.attribute.PrincipalComponents" name="weka.filters.unsupervised.attribute.PrincipalComponents" scriptFormat="http://www.java.com/java">
-      <incoming>ff7d4300-285d-428a-8397-df1e00d43c92</incoming>
-      <outgoing>0a089f22-234e-431b-b8dc-8556a63aba46</outgoing>
-      <script>kcontext.setVariable("input-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
-                kcontext.setVariable("output-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
-                
-                String filterName = "weka.filters.unsupervised.attribute.PrincipalComponents";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-2")),String.valueOf(kcontext.getVariable("output-data-set-2")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.filters.unsupervised.instance.PeriodicSampling" name="weka.filters.unsupervised.instance.PeriodicSampling" scriptFormat="http://www.java.com/java">
-      <incoming>0a089f22-234e-431b-b8dc-8556a63aba46</incoming>
-      <outgoing>4988be7c-a75f-470f-b6e4-cf3b9ac0edaa</outgoing>
-      <script>kcontext.setVariable("input-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-2.arff");
-                kcontext.setVariable("output-data-set-3","C:/experiments/tools/avatar/output/temp-data-out-3.arff");
-                
-                String filterName = "weka.filters.unsupervised.instance.PeriodicSampling";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-3")),String.valueOf(kcontext.getVariable("output-data-set-3")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.filters.unsupervised.instance.RemovePercentage" name="weka.filters.unsupervised.instance.RemovePercentage" scriptFormat="http://www.java.com/java">
-      <incoming>4988be7c-a75f-470f-b6e4-cf3b9ac0edaa</incoming>
-      <outgoing>bdfbaa0b-d99c-4da7-bba5-6deb9ca4fcd0</outgoing>
-      <script>kcontext.setVariable("input-data-set-4","C:/experiments/tools/avatar/output/temp-data-out-3.arff");
-                kcontext.setVariable("output-data-set-4","C:/experiments/tools/avatar/output/temp-data-out-4.arff");
                 
                 String filterName = "weka.filters.unsupervised.instance.RemovePercentage";
           
                 uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-4")),String.valueOf(kcontext.getVariable("output-data-set-4")),filterName);</script>
+                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-1")),String.valueOf(kcontext.getVariable("output-data-set-1")),filterName);</script>
     </scriptTask>
-<scriptTask id="weka.filters.unsupervised.attribute.NumericToNominal" name="weka.filters.unsupervised.attribute.NumericToNominal" scriptFormat="http://www.java.com/java">
-      <incoming>bdfbaa0b-d99c-4da7-bba5-6deb9ca4fcd0</incoming>
-      <outgoing>fe88e358-b3ae-4d2f-8e3c-b40cde762f78</outgoing>
-      <script>kcontext.setVariable("input-data-set-5","C:/experiments/tools/avatar/output/temp-data-out-4.arff");
-                kcontext.setVariable("output-data-set-5","C:/experiments/tools/avatar/output/temp-data-out-5.arff");
-                
-                String filterName = "weka.filters.unsupervised.attribute.NumericToNominal";
-          
-                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable("input-data-set-5")),String.valueOf(kcontext.getVariable("output-data-set-5")),filterName);</script>
-    </scriptTask>
-<scriptTask id="weka.classifiers.meta.MultiScheme" name="weka.classifiers.meta.MultiScheme" scriptFormat="http://www.java.com/java">
-      <incoming>fe88e358-b3ae-4d2f-8e3c-b40cde762f78</incoming>
+<scriptTask id="weka.classifiers.functions.SMO" name="weka.classifiers.functions.SMO" scriptFormat="http://www.java.com/java">
+      <incoming>9f67c314-a7fc-4ed0-90e5-3b73497c7006</incoming>
       <outgoing>SequenceFlow_0tiw9jt</outgoing>
-      <script>kcontext.setVariable("input-data-set-6","C:/experiments/tools/avatar/output/temp-data-out-5.arff");
+      <script>kcontext.setVariable("input-data-set-2","C:/experiments/tools/avatar/output/temp-data-out-1.arff");
                 kcontext.setVariable("output-model-1","C:/experiments/tools/avatar/output/model-1-output.model");
                 
-                String predictorName = "weka.classifiers.meta.MultiScheme";
+                String predictorName = "weka.classifiers.functions.SMO";
           
                 uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();
-                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable("input-data-set-6")),String.valueOf(kcontext.getVariable("output-model-1")),predictorName);</script>
+                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable("input-data-set-2")),String.valueOf(kcontext.getVariable("output-model-1")),predictorName);</script>
     </scriptTask>
     
     
@@ -76,12 +32,8 @@
       <incoming>SequenceFlow_0tiw9jt</incoming>
       <terminateEventDefinition />
     </endEvent>
-<sequenceFlow id="97256392-f96b-4f39-ac65-ab73724f9085" sourceRef="StartEvent" targetRef="weka.filters.unsupervised.attribute.ReplaceMissingValues" />
-<sequenceFlow id="ff7d4300-285d-428a-8397-df1e00d43c92" sourceRef="weka.filters.unsupervised.attribute.ReplaceMissingValues" targetRef="weka.filters.unsupervised.attribute.PrincipalComponents" />
-<sequenceFlow id="0a089f22-234e-431b-b8dc-8556a63aba46" sourceRef="weka.filters.unsupervised.attribute.PrincipalComponents" targetRef="weka.filters.unsupervised.instance.PeriodicSampling" />
-<sequenceFlow id="4988be7c-a75f-470f-b6e4-cf3b9ac0edaa" sourceRef="weka.filters.unsupervised.instance.PeriodicSampling" targetRef="weka.filters.unsupervised.instance.RemovePercentage" />
-<sequenceFlow id="bdfbaa0b-d99c-4da7-bba5-6deb9ca4fcd0" sourceRef="weka.filters.unsupervised.instance.RemovePercentage" targetRef="weka.filters.unsupervised.attribute.NumericToNominal" />
-<sequenceFlow id="fe88e358-b3ae-4d2f-8e3c-b40cde762f78" sourceRef="weka.filters.unsupervised.attribute.NumericToNominal" targetRef="weka.classifiers.meta.MultiScheme" />
-<sequenceFlow id="SequenceFlow_0tiw9jt" sourceRef="weka.classifiers.meta.MultiScheme" targetRef="EndEvent" />
+<sequenceFlow id="8c61d1f0-4e1d-4564-a052-5fa9ef2bdb5b" sourceRef="StartEvent" targetRef="weka.filters.unsupervised.instance.RemovePercentage" />
+<sequenceFlow id="9f67c314-a7fc-4ed0-90e5-3b73497c7006" sourceRef="weka.filters.unsupervised.instance.RemovePercentage" targetRef="weka.classifiers.functions.SMO" />
+<sequenceFlow id="SequenceFlow_0tiw9jt" sourceRef="weka.classifiers.functions.SMO" targetRef="EndEvent" />
 </process>
  </definitions>

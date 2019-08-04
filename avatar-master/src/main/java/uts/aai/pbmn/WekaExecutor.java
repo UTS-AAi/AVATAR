@@ -33,6 +33,8 @@ import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
+import org.apache.commons.io.FileUtils;
+import uts.aai.pbmn.test.AutoProcessTestApp;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -55,11 +57,7 @@ public class WekaExecutor {
 
             result = executePredictor(inputData, outputData, filterId);
 
-            Double accuracy = evaluateModel(outputData, inputData);
-
-            if (accuracy == null) {
-                result = false;
-            }
+            
         } else {
 
             result = executeFilter(inputData, outputData, filterId);
@@ -122,6 +120,7 @@ public class WekaExecutor {
 
     public boolean executePredictor(String inputData, String outputModel, String predictorId) {
         IOUtils iou = new IOUtils();
+        iou.overWriteData("false",AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
         System.out.println("executePredictor xxxxxxxxxxxx");
         boolean result = true;
 
@@ -171,12 +170,39 @@ public class WekaExecutor {
             }
             
             
+//            Double accuracy = evaluateModel(outputModel, inputData);
+//            
+//           
+//            if (accuracy != null) {
+//                System.out.println("ACCURACY: " + accuracy);
+//                iou.overWriteData(String.valueOf(accuracy),AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+//                result = true;
+//            } else {
+//                result = false;
+//            }
+            
+            
+            if (Files.notExists(new File(outputModel).toPath())
+                    || (new File(outputModel).length() < 1)) {
+                result = false;
+            } 
+            
+            iou.overWriteData(String.valueOf(result),AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+             cleanTemp();
+            
         }
         return result;
     }
 
-    private void test() {
+    private void cleanTemp() {
 
+        File directory = new File(AppConst.TEMP_OUTPUT_PATH);
+        try {
+            FileUtils.cleanDirectory(directory);
+
+        } catch (IOException ex) {
+            Logger.getLogger(AutoProcessTestApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // ///////////////////////////////////////////
@@ -202,7 +228,7 @@ public class WekaExecutor {
                 System.out.println("modelPath:-" + modelPath+"-");
                 System.out.println("validationSet:-" + validationSet+"-");
                 
-                Double accuracy=null;
+                 Double accuracy=null;
                 try (InputStream inputstreammodelPath = new FileInputStream(modelPath)) {
                     Classifier cls = (Classifier) weka.core.SerializationHelper.read(inputstreammodelPath);
                     try (InputStream inputstreamValidationSet = new FileInputStream(validationSet)) {
@@ -217,6 +243,7 @@ public class WekaExecutor {
                     
                     inputstreammodelPath.close();
                 }
+                
                 
                 return accuracy;
             }

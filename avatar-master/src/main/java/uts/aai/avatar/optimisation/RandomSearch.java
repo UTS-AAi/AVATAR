@@ -97,26 +97,27 @@ public class RandomSearch {
 
                 System.out.println("START AVATAR");
 
-                evaluationResult = evaluateAvatar(bpmnPipeline,numberOfPreprocessingComponent);
+                evaluationResult = evaluateAvatar(bpmnPipeline, numberOfPreprocessingComponent);
 
                 if (evaluationResult == null) {
-
+                    System.out.println("AVATAR EVALs NULL");
                     evaluationResult = new EvaluationResult(bpmnPipeline, false, null);
                 }
                 rs2 = String.valueOf(evaluationResult.isValidity());
-               
+
                 System.out.println("END AVATAR");
 
-            } else {
+            } else 
+            
+            {
 
                 System.out.println("START BPMN");
-                evaluationResult = evaluateBPMNPipeline(bpmnPipeline,numberOfPreprocessingComponent);
+                evaluationResult = evaluateBPMNPipeline(bpmnPipeline, numberOfPreprocessingComponent);
                 if (evaluationResult == null) {
 
                     evaluationResult = new EvaluationResult(bpmnPipeline, false, null);
                 }
                 rs1 = String.valueOf(evaluationResult.isValidity());
-            
 
                 System.out.println("END BPMN");
 
@@ -231,7 +232,6 @@ public class RandomSearch {
     private String createRandomPipeline(int numberOfPreprocessingComponent) {
 //        RandomPipelineGenerator randomPipelineGenerator = new RandomPipelineGenerator(datasetPath,outputFolder);
 //        String bpmnPipeline = randomPipelineGenerator.generateBPMNPipeline();
-        
 
         RandomPipelineGenerator generator = new RandomPipelineGenerator(datasetPath, outputFolder);
         //String bpmnPipeline = generator.generateBPMNTemplate(0);
@@ -248,6 +248,7 @@ public class RandomSearch {
 
     private EvaluationResult evaluateBPMNPipeline(String bpmnPipeline, int numberOfPreprocessingComponent) {
 
+        EvaluationResult evaluationResult = null;
         try {
 
             IOUtils iou = new IOUtils();
@@ -266,40 +267,54 @@ public class RandomSearch {
             ksession.startProcess("ml.process", params);
             ksession.dispose();
 
-            WekaExecutor wekaExecutor = new WekaExecutor();
-            String lastOutputPath = datasetPath;
-            if (numberOfPreprocessingComponent!=0) {
-                lastOutputPath = AppConst.TEMP_LAST_OUTPUT_FILTER_PATH 
-                        + String.valueOf(numberOfPreprocessingComponent) + ".arff";
-            }
-             
-            System.out.println("lastOutputPath:"+lastOutputPath);        
-                    
-            Double accuracy = wekaExecutor.evaluateModel(AppConst.TEMP_OUTPUT_MODEL_PATH, lastOutputPath);
+//            WekaExecutor wekaExecutor = new WekaExecutor();
+//            String lastOutputPath = datasetPath;
+//            if (numberOfPreprocessingComponent!=0) {
+//                lastOutputPath = AppConst.TEMP_LAST_OUTPUT_FILTER_PATH 
+//                        + String.valueOf(numberOfPreprocessingComponent) + ".arff";
+//            }
+//             
+//            System.out.println("lastOutputPath:"+lastOutputPath);        
+//                    
+//            Double accuracy = wekaExecutor.evaluateModel(AppConst.TEMP_OUTPUT_MODEL_PATH, lastOutputPath);
+ 
 
-            EvaluationResult evaluationResult = null;
+//            Double accuracy = null;
+            String accuracyStr = iou.readData(AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+            accuracyStr = accuracyStr.trim();
+            accuracyStr = accuracyStr.replaceAll("\n", "");
+            System.out.println("accracy string: -"+accuracyStr+"-");
+//            if (!accuracyStr.equals("false")) {
+//                accuracy = Double.parseDouble(accuracyStr);
+//            }
 
-            if (accuracy != null) {
-                evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.TRUE, accuracy);
-                
-
-            } else {
+            if (accuracyStr.equals("false")) {
                 evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.FALSE, null);
+            } else if (accuracyStr.equals("true")) {
+                evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.TRUE, null);
             }
             
-            System.out.println("Accuracy: " + accuracy);
+            System.out.println("bpmn evaluationResult: "+evaluationResult.isValidity());
+//            if (accuracy != null) {
+//                evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.TRUE, accuracy);
+//
+//            } else {
+//                evaluationResult = new EvaluationResult(bpmnPipeline, Boolean.FALSE, null);
+//            }
+//
+//            System.out.println("Accuracy: " + accuracy);
 
-            return evaluationResult;
+            
 
         } catch (Exception e) {
         }
 
-        return null;
+        return evaluationResult;
 
     }
 
     private EvaluationResult evaluateAvatar(String bpmnPipeline, int numberOfPreprocessingComponent) {
-
+        EvaluationResult evaluationResult = null;
         try {
 
             SurrogatePipelineMapping spm = new SurrogatePipelineMapping();
@@ -309,18 +324,18 @@ public class RandomSearch {
             PetriNetsExecutionEngine engine = new PetriNetsExecutionEngine(petriNetsPipeline);
             boolean result = engine.execute();
 
-            EvaluationResult evaluationResult = new EvaluationResult(null, result, null);
+            evaluationResult = new EvaluationResult(null, result, null);
 
             if (result) {
-                evaluationResult = evaluateBPMNPipeline(bpmnPipeline,numberOfPreprocessingComponent);
-                return evaluationResult;
+                evaluationResult = evaluateBPMNPipeline(bpmnPipeline, numberOfPreprocessingComponent);
+                System.out.println("BPMN EVAL: " + evaluationResult.isValidity());
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        return null;
+        return evaluationResult;
     }
 
     private void cleanTemp() {

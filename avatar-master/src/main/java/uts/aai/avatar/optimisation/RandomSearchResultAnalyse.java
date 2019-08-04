@@ -75,10 +75,10 @@ public class RandomSearchResultAnalyse {
             for (EvaluationResult evaluationResult : allEvaluationResult.getEvaluationResultList()) {
                 if (evaluationResult.isValidity() && evaluationResult.getAccuracy()!=null) {
                     
-                    if (evaluationResult.getAccuracy()>highestAccuracy) {
-                        bestResult = evaluationResult;
-                        highestAccuracy = evaluationResult.getAccuracy();
-                    }
+//                    if (evaluationResult.getAccuracy()>highestAccuracy) {
+//                        bestResult = evaluationResult;
+//                        highestAccuracy = evaluationResult.getAccuracy();
+//                    }
                     
                     
                 }
@@ -94,13 +94,13 @@ public class RandomSearchResultAnalyse {
                 sumTime+=evaluationResult.getEvaluationTime();
                 
                 
-                if (!evaluationResult.isValidity()) {
-                    String tmpPipeline = evaluationResult.getBpmnPipeline();
-                    String outPath = randomSearchResultFilePath+String.valueOf(counter)+".bpmn";
-                    iou.overWriteData(tmpPipeline, outPath);
-                    counter++;
-                    
-                }
+//                if (!evaluationResult.isValidity()) {
+//                    String tmpPipeline = evaluationResult.getBpmnPipeline();
+//                    String outPath = randomSearchResultFilePath+String.valueOf(counter)+".bpmn";
+//                    iou.overWriteData(tmpPipeline, outPath);
+//                    counter++;
+//                    
+//                }
                 
             }
             
@@ -114,7 +114,7 @@ public class RandomSearchResultAnalyse {
             
             
             //evaluateBPMNPipeline(bestResult.getBpmnPipeline());
-            iou.overWriteData(bestResult.getBpmnPipeline(), outputBestPipelineFilePath);
+          //  iou.overWriteData(bestResult.getBpmnPipeline(), outputBestPipelineFilePath);
             
         } catch (JAXBException ex) {
             Logger.getLogger(RandomSearchResultAnalyse.class.getName()).log(Level.SEVERE, null, ex);
