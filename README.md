@@ -24,10 +24,12 @@ The AVATAR evaluates a ML pipeline by mapping this pipeline to its surrogate pip
 ## Experimental results
 
 
-| Dataset      | Total Evaluated Pipeline | Invalid Pipelines | AVATAR - AVG Pipeline Evaluation Time (ms) | T-method - AVG Pipeline Evaluation Time   (ms) |
+| Dataset      | Total Evaluated Pipeline | Invalid Pipelines | AVATAR - Average Pipeline Validation Time (ms) | T-method - Average Pipeline Validation Time (ms) |
 |--------------|--------------------------|-------------------|--------------------------------------------|------------------------------------------------|
-| abalone      | 1780                     | 683               | 4                                          | 24,267                                         |
-| car          | 11204                    | 4387              | 9                                          | 3,845                                          |
+| abalone      | 1,780                     | 683               | 4                                          | 24,267                                         |
+| car          | 11,204                    | 4387              | 9                                          | 3,845                                          |
 | convex       | 847                      | 326               | 326                                        | 50,779                                         |
-| germancredit | 11765                    | 4557              | 12                                         | 3,659                                          |
-| winequality  | 3227                     | 1276              | 13                                         | 13,373                                         |
+| germancredit | 11,765                    | 4557              | 12                                         | 3,659                                          |
+| winequality  | 3,227                     | 1276              | 13                                         | 13,373                                         |
+
+The above table compares the average pipeline validation time between the AVATAR and the traditional method (T-method) which requires to execute the pipelines. We generate random pipelines with random number of components from 1 to 6. The predictors are always put at the end of the pipelines. The time budget for each run with one dataset is 12 hours. Each random pipeline is validated with both the AVATAR and T-method. The results show that the AVATAR significantly reduce the validation time in comparison with T-method.
