@@ -40,4 +40,4 @@ The above table compares the average pipeline validation time between the AVATAR
 * [Professor Bogdan Gabrys](http://bogdan-gabrys.com/)
 * [Associate Professor Katarzyna Musial](http://katarzyna-musial.com/)
 * Tomasz Maszczyk
-* Item
+
