@@ -24,3 +24,10 @@ The AVATAR evaluates a ML pipeline by mapping this pipeline to its surrogate pip
 ## Experimental results
 
 
+| Dataset      | Total Evaluated Pipeline | Invalid Pipelines | AVATAR - AVG Pipeline Evaluation Time (ms) | T-method - AVG Pipeline Evaluation Time   (ms) |
+|--------------|--------------------------|-------------------|--------------------------------------------|------------------------------------------------|
+| abalone      | 1780                     | 683               | 4                                          | 24,267                                         |
+| car          | 11204                    | 4387              | 9                                          | 3,845                                          |
+| convex       | 847                      | 326               | 326                                        | 50,779                                         |
+| germancredit | 11765                    | 4557              | 12                                         | 3,659                                          |
+| winequality  | 3227                     | 1276              | 13                                         | 13,373                                         |
