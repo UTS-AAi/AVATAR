@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.uts.aai.avatar.optimisation;
-
-import uts.aai.avatar.optimisation.RandomSearchResultAnalyse;
+package uts.aai.resultanalysis;
 
 /**
  *
  * @author ntdun
  */
-public class ResultApp {
+public class Test {
 
     /**
      * @param args the command line arguments
@@ -19,9 +17,11 @@ public class ResultApp {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        RandomSearchResultAnalyse randomSearchResultAnalyse = new RandomSearchResultAnalyse();
-        randomSearchResultAnalyse.analyse(
-                "C:/experiments/tools/avatar/log/allModels-wquality-12h.json");
+        
+        
+        String filePath = "C:/experiments/results/autosklearn/convex_seed0/smac3-output/run_1/runhistory.json";
+    	AutoSklearnHistoryRunAnalyse analyse = new AutoSklearnHistoryRunAnalyse();
+    	analyse.analyseAutosklearnHistoryRun(filePath);
     }
     
 }

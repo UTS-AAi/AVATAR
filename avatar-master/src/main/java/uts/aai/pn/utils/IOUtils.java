@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
  */
 public class IOUtils {
   
-    private String tomcatTempFolder="";
+
 
     public IOUtils() {
     
@@ -28,19 +28,14 @@ public class IOUtils {
         
     }
 
-    public IOUtils(String tomcatTempFolder) {
-        this.tomcatTempFolder = tomcatTempFolder;
-    }
-
+  
     
   
     
 
     public void writeData(String data, String fileName) {
 
-        if (!tomcatTempFolder.equals("")) {
-            fileName = tomcatTempFolder + "/" + fileName;
-        }
+       
 
         FileWriter fstream;
         try {
@@ -55,9 +50,6 @@ public class IOUtils {
     
     public void overWriteData(String data, String fileName) {
 
-        if (!tomcatTempFolder.equals("")) {
-            fileName = tomcatTempFolder + "/" + fileName;
-        }
         FileWriter fstream;
         try {
             fstream = new FileWriter(fileName, false);
@@ -71,9 +63,7 @@ public class IOUtils {
 
     public  String readData(String fileName) {
 
-        if (!tomcatTempFolder.equals("")) {
-            fileName = tomcatTempFolder + "/" + fileName;
-        }
+      
         String data = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -83,7 +73,7 @@ public class IOUtils {
             
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
-
+            
             while (line != null) {
                 sb.append(line);
                 sb.append(System.lineSeparator());

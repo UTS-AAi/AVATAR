@@ -49,6 +49,12 @@
 	  <version>2.4</version>
 	  <type>jar</type>
 	 </dependency>
+         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20180813</version>
+</dependency>
 	</dependencies>
 
 	<build>

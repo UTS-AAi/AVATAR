@@ -21,11 +21,11 @@ public class App {
     public static void main(String[] args) {
         // TODO code application logic here
        
-        String datasetPath = "C:/experiments/datasets/arff/abalone_train.arff";
+        String datasetPath = "C:/experiments/datasets/arff/allModels-convex-12h.arff";
         String outputFolder= "C:/experiments/tools/avatar/output/";
       
         boolean isAvatar = true;
-        long timeBudgetInMinutes = 30;
+        long timeBudgetInMinutes = 720;
         
             RandomSearch randomSearch = new RandomSearch(datasetPath, timeBudgetInMinutes, isAvatar,outputFolder);
             randomSearch.start();

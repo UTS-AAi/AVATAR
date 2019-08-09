@@ -85,7 +85,7 @@ public class RandomSearch {
        
         long startExperimentTime = System.currentTimeMillis();
 
-        while (!isTimeOut(startExperimentTime)) //boolean isDiff = false;
+        while (!isTimeOut(startExperimentTime)) 
         {
             
                     
@@ -114,6 +114,7 @@ public class RandomSearch {
                     listOfEvaluationModels.add(evaluationModel);
                 } else {
                     evaluationModel.setEvalTime(evaluationTime);
+                    listOfEvaluationModels.add(evaluationModel);
                 }
                 
                 System.out.println("END AVATAR: " + evaluationModel.getValidity());
@@ -137,6 +138,7 @@ public class RandomSearch {
                     listOfEvaluationModels.add(evaluationModel);
                 } else {
                     evaluationModel.setEvalTime(evaluationTime);
+                    listOfEvaluationModels.add(evaluationModel);
                 }
 
                 System.out.println("END BPMN: " + evaluationModel.getValidity());
