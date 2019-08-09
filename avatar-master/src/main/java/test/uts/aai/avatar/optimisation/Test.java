@@ -5,13 +5,13 @@
  */
 package test.uts.aai.avatar.optimisation;
 
-import uts.aai.feature.configuration.MLComponentConfiguration;
+import uts.aai.resultanalysis.AutoSklearnHistoryRunAnalyse;
 
 /**
  *
  * @author ntdun
  */
-public class AppAlgorithmCounter {
+public class Test {
 
     /**
      * @param args the command line arguments
@@ -19,11 +19,11 @@ public class AppAlgorithmCounter {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        MLComponentConfiguration.initDefault();
         
-        int noOfComponents = MLComponentConfiguration.getListOfMLComponents().size();
         
-        System.out.println("noOfComponents: " + noOfComponents);
+        String filePath = "C:/experiments/results/autosklearn/convex_seed0/smac3-output/run_1/runhistory.json";
+    	AutoSklearnHistoryRunAnalyse analyse = new AutoSklearnHistoryRunAnalyse();
+    	analyse.analyseAutosklearnHistoryRun(filePath);
     }
     
 }

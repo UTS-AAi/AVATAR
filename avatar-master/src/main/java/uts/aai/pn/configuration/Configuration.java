@@ -7,9 +7,9 @@ package uts.aai.pn.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
-import uts.aai.mf.configuration.MLComponentConfiguration;
-import uts.aai.mf.model.MLComponent;
-import uts.aai.mf.model.MLComponentIO;
+import uts.aai.feature.configuration.MLComponentConfiguration;
+import uts.aai.feature.model.MLComponent;
+import uts.aai.feature.model.MLComponentIO;
 import uts.aai.pn.model.AlgorithmConfiguration;
 import uts.aai.pn.model.Parameter;
 

@@ -21,8 +21,8 @@ import uts.aai.avatar.model.EvaluationResult;
 import uts.aai.avatar.optimisation.RandomSearch;
 
 import uts.aai.global.AppConst;
-import uts.aai.mf.configuration.MLComponentConfiguration;
-import uts.aai.mf.model.MLComponentType;
+import uts.aai.feature.configuration.MLComponentConfiguration;
+import uts.aai.feature.model.MLComponentType;
 import uts.aai.pn.utils.IOUtils;
 import uts.aai.pn.utils.JSONUtils;
 
@@ -34,7 +34,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
 import org.apache.commons.io.FileUtils;
-import uts.aai.pbmn.test.AutoProcessTestApp;
+import test.uts.aai.pbmn.AutoProcessTestApp;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -57,7 +57,6 @@ public class WekaExecutor {
 
             result = executePredictor(inputData, outputData, filterId);
 
-            
         } else {
 
             result = executeFilter(inputData, outputData, filterId);
@@ -112,7 +111,7 @@ public class WekaExecutor {
             if (Files.notExists(new File(outputData).toPath())
                     || (new File(outputData).length() < 1)) {
                 result = false;
-            } 
+            }
 
         }
         return result;
@@ -120,7 +119,7 @@ public class WekaExecutor {
 
     public boolean executePredictor(String inputData, String outputModel, String predictorId) {
         IOUtils iou = new IOUtils();
-        iou.overWriteData("false",AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+        iou.overWriteData("false", AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
         System.out.println("executePredictor xxxxxxxxxxxx");
         boolean result = true;
         boolean isTimeout = false;
@@ -163,13 +162,12 @@ public class WekaExecutor {
 
                 System.out.println("Batch file done.");
                 System.out.println("Done! " + predictorId);
-                
+
             } catch (Exception ex) {
                 System.out.println(ex);
                 return false;
             }
-            
-            
+
 //            Double accuracy = evaluateModel(outputModel, inputData);
 //            
 //           
@@ -180,21 +178,19 @@ public class WekaExecutor {
 //            } else {
 //                result = false;
 //            }
-            
-            
             if (Files.notExists(new File(outputModel).toPath())
                     || (new File(outputModel).length() < 1)) {
                 result = false;
-            } 
-            
-            if (isTimeout) {
-                iou.overWriteData("timeout",AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
-            } else {
-                iou.overWriteData(String.valueOf(result),AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
             }
-            
+
+            if (isTimeout) {
+                iou.overWriteData("timeout", AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+            } else {
+                iou.overWriteData(String.valueOf(result), AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
+            }
+
             cleanTemp();
-            
+
         }
         return result;
     }
@@ -229,11 +225,11 @@ public class WekaExecutor {
     public Double evaluateModel(String modelPath, String validationSet) {
         try {
             if (!Files.notExists(new File(modelPath).toPath())) {
-                
-                System.out.println("modelPath:-" + modelPath+"-");
-                System.out.println("validationSet:-" + validationSet+"-");
-                
-                 Double accuracy=null;
+
+                System.out.println("modelPath:-" + modelPath + "-");
+                System.out.println("validationSet:-" + validationSet + "-");
+
+                Double accuracy = null;
                 try (InputStream inputstreammodelPath = new FileInputStream(modelPath)) {
                     Classifier cls = (Classifier) weka.core.SerializationHelper.read(inputstreammodelPath);
                     try (InputStream inputstreamValidationSet = new FileInputStream(validationSet)) {
@@ -245,11 +241,10 @@ public class WekaExecutor {
                         accuracy = evaluation.pctCorrect();
                         inputstreamValidationSet.close();
                     }
-                    
+
                     inputstreammodelPath.close();
                 }
-                
-                
+
                 return accuracy;
             }
         } catch (Exception ex) {
@@ -264,20 +259,19 @@ public class WekaExecutor {
         long startTime = System.currentTimeMillis();
 
         while (process.isAlive()) {
-            
+
             System.out.println("... waiting ...");
 
             if (MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
-                || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
-                || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
-                || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+                    || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
+                    || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                    || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
                 if (!Files.notExists(new File(outputPath).toPath())) {
                     process.destroyForcibly();
                     break;
                 }
             }
 
-            
             long currentTime = System.currentTimeMillis();
 
             if ((currentTime - startTime) > (AppConst.EXECUTION_TIMEOUT * 60 * 1000)) {
@@ -293,14 +287,14 @@ public class WekaExecutor {
                 Logger.getLogger(WekaExecutor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         process.destroyForcibly();
         try {
             process.waitFor();
         } catch (InterruptedException ex) {
             Logger.getLogger(WekaExecutor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return isTimeout;
     }
 

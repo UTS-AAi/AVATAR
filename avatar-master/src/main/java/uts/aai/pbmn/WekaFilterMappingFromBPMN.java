@@ -25,11 +25,11 @@ import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.workflow.core.node.ActionNode;
 import org.jbpm.workflow.core.node.EndNode;
 import org.jbpm.workflow.core.node.StartNode;
-import uts.aai.mf.configuration.MLComponentConfiguration;
-import uts.aai.mf.model.MLComponent;
-import uts.aai.mf.model.MLComponentIO;
-import uts.aai.mf.service.DatasetMetaFeatures;
-import uts.aai.pbmn.test.AutoProcessTestApp;
+import uts.aai.feature.configuration.MLComponentConfiguration;
+import uts.aai.feature.model.MLComponent;
+import uts.aai.feature.model.MLComponentIO;
+import uts.aai.feature.service.DatasetMetaFeatures;
+import test.uts.aai.pbmn.AutoProcessTestApp;
 import uts.aai.pn.model.Arc;
 import uts.aai.pn.model.MetaFeatureEvaluationTransitionFunction;
 import uts.aai.pn.model.Parameter;
@@ -47,23 +47,19 @@ import weka.core.converters.CSVSaver;
  * @author ntdun
  */
 public class WekaFilterMappingFromBPMN {
-    
-
 
     public String datasetPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/synthetic/dataset_1.arff";
-    
-    
+
     public String randomPipelinePath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/combination/dataset_1_weka/";
     public String outputWekaModelPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/model/";
-    
-    public File bpmnModel; 
-   public void mappingFromBPMN2NativeWekaCommand(File bpmnModel) {
-     
-       this.bpmnModel = bpmnModel;
-     
+
+    public File bpmnModel;
+
+    public void mappingFromBPMN2NativeWekaCommand(File bpmnModel) {
+
+        this.bpmnModel = bpmnModel;
+
         ArrayList<MLComponent> listOfMLComponents = new ArrayList<>();
-  
-        
 
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
@@ -75,19 +71,16 @@ public class WekaFilterMappingFromBPMN {
 
         StartNode startNode = process.getStart();
         System.out.println("start node " + startNode.getName());
-        
-      
-        
-        
+
         ActionNode currentActionNode = null;
-       
+
         boolean isReachEndEvent = false;
 
         while (!isReachEndEvent) {
 
             List<Connection> connectionList = null;
             // start node
-            
+
             if (currentActionNode == null) {
                 connectionList = startNode.getDefaultOutgoingConnections();
             } else {
@@ -107,13 +100,9 @@ public class WekaFilterMappingFromBPMN {
 //                        Place endPlace = createPlace(((EndNode) node).getUniqueId());
 //                        placeList.add(endPlace);
                     } else {
-                    
-                     
 
                         currentActionNode = (ActionNode) node;
-                    
 
-                    
                         MLComponent mLComponent = MLComponentConfiguration.getComponentByID(currentActionNode.getName());
                         listOfMLComponents.add(mLComponent);
                         System.out.println("actionNode: " + currentActionNode.getName());
@@ -122,21 +111,13 @@ public class WekaFilterMappingFromBPMN {
 
             }
 
-           
-
         }
-        
-        
-        
-        generateFilteredClassiferWeka(listOfMLComponents);
-       
 
-        
-        
-       
+        generateFilteredClassiferWeka(listOfMLComponents);
+
     }
-   
-   private String prepareFullCommand(String outputFile, String pipeline) {
+
+    private String prepareFullCommand(String outputFile, String pipeline) {
         String command = "java -classpath C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/weka.jar weka.classifiers.meta.FilteredClassifier -t "
                 //+ "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/iris.arff"
                 + datasetPath
@@ -150,8 +131,8 @@ public class WekaFilterMappingFromBPMN {
 //                + classifierConfiguration;
         return command;
     }
-   
-   private void generateFilteredClassiferWeka(ArrayList<MLComponent> orderedPipelineComponents) {
+
+    private void generateFilteredClassiferWeka(ArrayList<MLComponent> orderedPipelineComponents) {
         String pipeline = orderedPipelineComponents.get(0).getComponentExecutionScriptFilteredClassifierWeka()
                 + orderedPipelineComponents.get(1).getComponentExecutionScriptFilteredClassifierWeka()
                 + orderedPipelineComponents.get(2).getComponentExecutionScriptFilteredClassifierWeka()
@@ -167,50 +148,46 @@ public class WekaFilterMappingFromBPMN {
         IOUtils iou = new IOUtils();
         iou.overWriteData(fullCommand, outputPipelineFilePath);
     }
-    
-   
-    
+
     private String getBetweenStrings(
-    String text,
-    String textFrom,
-    String textTo) {
+            String text,
+            String textFrom,
+            String textTo) {
 
-    String result = "";
+        String result = "";
 
-    // Cut the beginning of the text to not occasionally meet a      
-    // 'textTo' value in it:
-    result =
-      text.substring(
-        text.indexOf(textFrom) + textFrom.length(),
-        text.length());
+        // Cut the beginning of the text to not occasionally meet a      
+        // 'textTo' value in it:
+        result
+                = text.substring(
+                        text.indexOf(textFrom) + textFrom.length(),
+                        text.length());
 
-    // Cut the excessive ending of the text:
-    result =
-      result.substring(
-        0,
-        result.indexOf(textTo));
+        // Cut the excessive ending of the text:
+        result
+                = result.substring(
+                        0,
+                        result.indexOf(textTo));
 
-    return result;
-  }
+        return result;
+    }
 
- 
-    
-    private void fromArffToCSV(String sourceArff, String outputCSV){
-       
+    private void fromArffToCSV(String sourceArff, String outputCSV) {
+
         ArffLoader loader = new ArffLoader();
         try {
             loader.setSource(new File(sourceArff));
             Instances data = loader.getDataSet();
-            
+
             CSVSaver saver = new CSVSaver();
             saver.setInstances(data);
-            
+
             saver.setFile(new File(outputCSV));
             saver.writeBatch();
         } catch (IOException ex) {
             Logger.getLogger(SurrogatePipelineMapping.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
 }

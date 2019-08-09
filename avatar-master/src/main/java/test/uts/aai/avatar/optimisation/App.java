@@ -15,11 +15,8 @@ import uts.aai.pbmn.WekaExecutor;
  */
 public class App {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+     
        
         String datasetPath = "C:/experiments/datasets/arff/allModels-convex-12h.arff";
         String outputFolder= "C:/experiments/tools/avatar/output/";

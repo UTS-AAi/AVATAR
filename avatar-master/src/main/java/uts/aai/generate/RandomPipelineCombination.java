@@ -8,8 +8,8 @@ package uts.aai.generate;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import uts.aai.mf.configuration.MLComponentConfiguration;
-import uts.aai.mf.model.MLComponent;
+import uts.aai.feature.configuration.MLComponentConfiguration;
+import uts.aai.feature.model.MLComponent;
 import uts.aai.pn.utils.IOUtils;
 
 /**
@@ -22,10 +22,10 @@ public class RandomPipelineCombination {
     public String result = "";
     //public String datasetPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/iris-missingvalues.arff";
     public String datasetPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/synthetic/dataset_1.arff";
-    
-    
+
     public String randomPipelinePath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/combination/dataset_1/";
     public String outputWekaModelPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/model/";
+
     public void permute(String[] arr) {
         permuteHelper(arr, 0);
     }

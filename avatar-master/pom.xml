@@ -6,55 +6,52 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     <properties>
-		<drools.version>5.4.0.Final</drools.version>
-		<jbpm5.version>5.4.0.Final</jbpm5.version>
-	</properties>
+	<drools.version>5.4.0.Final</drools.version>
+	<jbpm5.version>5.4.0.Final</jbpm5.version>
+    </properties>
 	<dependencies>
-                <dependency>
+            <dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-databind</artifactId>
 		<version>2.6.3</version>
-                </dependency>
+            </dependency>
  
-		<dependency>
-			<groupId>org.jbpm</groupId>
-			<artifactId>jbpm-flow</artifactId>
-			<version>${jbpm5.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jbpm</groupId>
-			<artifactId>jbpm-bpmn2</artifactId>
-			<version>${jbpm5.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jbpm</groupId>
-			<artifactId>jbpm-flow-builder</artifactId>
-			<version>${jbpm5.version}</version>
-		</dependency>
-                <!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
-<!--<dependency>
-    <groupId>nz.ac.waikato.cms.weka</groupId>
-    <artifactId>weka-stable</artifactId>
-    <version>3.8.0</version>
-</dependency>-->
-
-<dependency>
-    <groupId>nz.ac.waikato.cms.weka</groupId>
-    <artifactId>weka-avatar</artifactId>
-    <version>3.7.7</version>
-</dependency>
-	 <dependency>
-	  <groupId>commons-io</groupId>
-	  <artifactId>commons-io</artifactId>
-	  <version>2.4</version>
-	  <type>jar</type>
-	 </dependency>
-         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-<dependency>
-    <groupId>org.json</groupId>
-    <artifactId>json</artifactId>
-    <version>20180813</version>
-</dependency>
+            <dependency>
+		<groupId>org.jbpm</groupId>
+		<artifactId>jbpm-flow</artifactId>
+		<version>${jbpm5.version}</version>
+            </dependency>
+	
+            <dependency>
+		<groupId>org.jbpm</groupId>
+		<artifactId>jbpm-bpmn2</artifactId>
+		<version>${jbpm5.version}</version>
+            </dependency>
+		
+            <dependency>
+		<groupId>org.jbpm</groupId>
+		<artifactId>jbpm-flow-builder</artifactId>
+		<version>${jbpm5.version}</version>
+            </dependency>
+               
+            <dependency>
+                <groupId>nz.ac.waikato.cms.weka</groupId>
+                <artifactId>weka-avatar</artifactId>
+                <version>3.7.7</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <type>jar</type>
+            </dependency>
+ 
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>20180813</version>
+            </dependency>
 	</dependencies>
 
 	<build>
@@ -67,26 +64,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-                        <!--
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.1.1</version>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>uts.pbmn.App</mainClass>
-
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-                        
-            -->
+             
         </plugins>
     </build>
 

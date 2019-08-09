@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-import uts.aai.mf.configuration.MLComponentConfiguration;
-import uts.aai.mf.model.MLComponent;
+import uts.aai.feature.configuration.MLComponentConfiguration;
+import uts.aai.feature.model.MLComponent;
 import uts.aai.pn.utils.IOUtils;
 
 /**
@@ -38,16 +38,16 @@ public class RandomPipelineGenerator {
 
         return bpmnPipeline;
     }
-    
+
     public String generateBPMNPipelineWithRandomComponents(int numberOfPreprocessingComponents) {
- 
+
         String componentTemplate = generateRandomComponents2(numberOfPreprocessingComponents);
         ArrayList<MLComponent> orderedPipelineComponents = randomSelectAlgorithmsForPipeline(componentTemplate);
         String bpmnPipeline = generateBPMNPipelineWithRandomTemplate(orderedPipelineComponents);
 
         return bpmnPipeline;
     }
-    
+
     public String generateRandomComponents2(int numberOfPreprocessingComponents) {
 
         ArrayList<String> componentList = new ArrayList<String>();
@@ -60,7 +60,7 @@ public class RandomPipelineGenerator {
         Collections.shuffle(componentList);
 
         String componentTemplate = "";
-        for (int i=0; i<numberOfPreprocessingComponents;i++) {
+        for (int i = 0; i < numberOfPreprocessingComponents; i++) {
             String component = componentList.get(i);
             componentTemplate += component;
         }
@@ -90,16 +90,15 @@ public class RandomPipelineGenerator {
     private ArrayList<MLComponent> randomSelectAlgorithmsForPipeline(String componentTemplate) {
 
         List<List<MLComponent>> listOfConfigurations = new ArrayList<>();
-         ArrayList<MLComponent> orderedPipelineComponents = new ArrayList<>();
-        
-    
+        ArrayList<MLComponent> orderedPipelineComponents = new ArrayList<>();
+
         for (int i = 0; i < componentTemplate.length(); i++) {
             String preprocessingType = String.valueOf(componentTemplate.charAt(i));
             List<MLComponent> filterList = initFilterListByType(preprocessingType);
             Collections.shuffle(filterList);
             listOfConfigurations.add(filterList);
             orderedPipelineComponents.add(filterList.get(0));
-            
+
         }
 
         List<MLComponent> classifierList = MLComponentConfiguration.initClassifier();
@@ -135,20 +134,18 @@ public class RandomPipelineGenerator {
         //iou.overWriteData(templateFileContent, outputPipelineFilePath);
         return templateFileContent;
     }
-    
+
     private String generateBPMNPipelineWithRandomTemplate(ArrayList<MLComponent> orderedPipelineComponents) {
 
-
-        String templateFileContent = generateBPMNTemplate(orderedPipelineComponents.size()-1);
+        String templateFileContent = generateBPMNTemplate(orderedPipelineComponents.size() - 1);
         templateFileContent = templateFileContent.replaceAll("#input_dataset#", datasetPath);
-        
-        
-        for (int i=0;i<orderedPipelineComponents.size()-1;i++) {
-            String filterName = "#filter_"+(i+1)+"#";
+
+        for (int i = 0; i < orderedPipelineComponents.size() - 1; i++) {
+            String filterName = "#filter_" + (i + 1) + "#";
             templateFileContent = templateFileContent.replaceAll(filterName, orderedPipelineComponents.get(i).getComponentId());
         }
 
-        templateFileContent = templateFileContent.replaceAll("#classifier#", orderedPipelineComponents.get(orderedPipelineComponents.size()-1).getComponentId());
+        templateFileContent = templateFileContent.replaceAll("#classifier#", orderedPipelineComponents.get(orderedPipelineComponents.size() - 1).getComponentId());
 
         //String outputPipelineFilePath = randomPipelinePath + template + "_" + pipelineId + ".bpmn";
         //iou.overWriteData(templateFileContent, outputPipelineFilePath);
@@ -352,7 +349,6 @@ public class RandomPipelineGenerator {
         return pipelineTemplate;
     }
 
-    
     private String randUUID() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
