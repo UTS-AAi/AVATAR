@@ -8,5 +8,5 @@ To address this issue, we propose a novel method to evaluate the validity of ML 
 
   
 <p align="center">
-<img src="UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.pdf" width=300 />
+<img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.pdf" width=300 />
 </p>
