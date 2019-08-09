@@ -7,10 +7,10 @@ To address this issue, we propose a novel method to evaluate the validity of ML 
 
 
 <p align="center">
-   <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.png" height=150 />
+   <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.png" height=300 />
 </p>
 
 
 <p align="center">
-   <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/illustrate_pipeline_construction.png" height=150 />
+   <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/illustrate_pipeline_construction.png" height=300 />
 </p>
