@@ -6,9 +6,6 @@ To further explore this research challenge, we have conducted experiments that s
 To address this issue, we propose a novel method to evaluate the validity of ML pipelines using a surrogate model to accelerate automatic ML pipeline composition and optimisation (AVATAR). 
 
 
-  
-<object data="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/illustrate_pipeline_construction.pdf" width="700px" height="700px">
-    <embed src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/illustrate_pipeline_construction.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
+<p align="center">
+   <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.png" width=300 />
+</p>
