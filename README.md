@@ -6,10 +6,8 @@ To further explore this research challenge, we have conducted experiments that s
 To address this issue, we propose a novel method to evaluate the validity of ML pipelines using a surrogate model to accelerate automatic ML pipeline composition and optimisation (AVATAR). 
 
 
-<p align="center">
-   <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.png" height=300 />
-</p>
 
+![Mapping a machine learning pipeline to its surrogate model](https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/mapping_surrogate.png "Mapping a machine learning pipeline to its surrogate model")
 
 <p align="center">
    <img src="https://github.com/UTS-AAi/AVATAR/blob/master/docs/images/illustrate_pipeline_construction.png" height=300 />
