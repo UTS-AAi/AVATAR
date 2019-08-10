@@ -36,8 +36,8 @@ The above table compares the average pipeline evaluation time between the AVATAR
 
 ## Contributors
 
-* [Tien-Dung Nguyen](https://www.researchgate.net/profile/Tien_Dung_Nguyen5) (TienDung.Nguyen-2@student.uts.edu.au)
-* [Professor Bogdan Gabrys](http://bogdan-gabrys.com/) (Bogdan.Gabrys@uts.edu.au) 
-* [Associate Professor Katarzyna Musial](http://katarzyna-musial.com/) (Katarzyna.Musial-Gabrys@uts.edu.au)
+* Tien-Dung Nguyen (TienDung.Nguyen-2@student.uts.edu.au)
+* Professor Bogdan Gabrys (Bogdan.Gabrys@uts.edu.au) 
+* Associate Professor Katarzyna Musial (Katarzyna.Musial-Gabrys@uts.edu.au)
 * Tomasz Maszczyk (Tomasz.Maszczyk@uts.edu.au)
 
