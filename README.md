@@ -28,7 +28,7 @@ The AVATAR evaluates a ML pipeline by mapping this pipeline to its surrogate pip
 |--------------|--------------------------|-------------------|--------------------------------------------|------------------------------------------------|
 | abalone      | 1,780                     | 683               | 4                                          | 24,267                                         |
 | car          | 11,204                    | 4387              | 9                                          | 3,845                                          |
-| convex       | 847                      | 326               | 326                                        | 50,779                                         |
+| convex       | 680                      | 250               | 221                                        | 64,093                                         |
 | germancredit | 11,765                    | 4557              | 12                                         | 3,659                                          |
 | winequality  | 3,227                     | 1276              | 13                                         | 13,373                                         |
 
@@ -36,8 +36,8 @@ The above table compares the average pipeline evaluation time between the AVATAR
 
 ## Contributors
 
-* [Tien-Dung Nguyen](https://www.researchgate.net/profile/Tien_Dung_Nguyen5)
-* [Professor Bogdan Gabrys](http://bogdan-gabrys.com/)
-* [Associate Professor Katarzyna Musial](http://katarzyna-musial.com/)
-* Tomasz Maszczyk
+* Tien-Dung Nguyen (TienDung.Nguyen-2@student.uts.edu.au)
+* Professor Bogdan Gabrys (Bogdan.Gabrys@uts.edu.au) 
+* Associate Professor Katarzyna Musial (Katarzyna.Musial-Gabrys@uts.edu.au)
+* Dr. Tomasz Maszczyk (Tomasz.Maszczyk@uts.edu.au)
 
