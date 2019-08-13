@@ -35,6 +35,7 @@ The AVATAR evaluates a ML pipeline by mapping this pipeline to its surrogate pip
 The above table compares the average pipeline evaluation time between the AVATAR and the traditional method (T-method) which evaluates pipelines by executing them. We generate random pipelines with a random number of components from 1 to 6. The predictors are always put at the end of the pipelines. The time budget for each run with one dataset is 12 hours. Each random pipeline is evaluated with both the AVATAR and T-method. The results show that the AVATAR significantly reduces the evaluation time of ML pipelines in comparison with T-method.
 
 ## Contributors
+The AVATAR is developed at Advanced Analytics Institute (AAi), University of Technology Sydney (UTS), Australia.
 
 * Tien-Dung Nguyen (TienDung.Nguyen-2@student.uts.edu.au)
 * Professor Bogdan Gabrys (Bogdan.Gabrys@uts.edu.au) 
