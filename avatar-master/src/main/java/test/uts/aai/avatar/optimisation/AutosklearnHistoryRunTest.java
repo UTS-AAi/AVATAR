@@ -11,19 +11,16 @@ import uts.aai.resultanalysis.AutoSklearnHistoryRunAnalyse;
  *
  * @author ntdun
  */
-public class Test {
+public class AutosklearnHistoryRunTest {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        
-        
         String filePath = "C:/experiments/results/autosklearn/convex_seed0/smac3-output/run_1/runhistory.json";
     	AutoSklearnHistoryRunAnalyse analyse = new AutoSklearnHistoryRunAnalyse();
-    	analyse.analyseAutosklearnHistoryRun(filePath);
+    	analyse.analyse(filePath);
     }
     
 }

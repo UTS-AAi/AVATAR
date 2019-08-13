@@ -5,13 +5,13 @@
  */
 package test.uts.aai.avatar.optimisation;
 
-import uts.aai.avatar.optimisation.RandomSearchResultAnalyse;
+import uts.aai.resultanalysis.TPOTHistoryRunAnalyse;
 
 /**
  *
  * @author ntdun
  */
-public class ResultApp {
+public class TPOTHistoryRunTest {
 
     /**
      * @param args the command line arguments
@@ -19,9 +19,14 @@ public class ResultApp {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        RandomSearchResultAnalyse randomSearchResultAnalyse = new RandomSearchResultAnalyse();
-        randomSearchResultAnalyse.analyse(
-                "C:/experiments/tools/avatar/log/allModels.json");
+        
+        
+
+    
+            String filePath = "C://experiments//tools//tpot//log.txt";
+            TPOTHistoryRunAnalyse analyse = new TPOTHistoryRunAnalyse();
+            analyse.analyse(filePath);
+            
     }
     
 }

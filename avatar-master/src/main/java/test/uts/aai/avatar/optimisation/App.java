@@ -18,7 +18,7 @@ public class App {
     public static void main(String[] args) {
      
        
-        String datasetPath = "C:/experiments/datasets/arff/allModels-convex-12h.arff";
+        String datasetPath = "C:/experiments/datasets/arff/convex_train.arff";
         String outputFolder= "C:/experiments/tools/avatar/output/";
       
         boolean isAvatar = true;
