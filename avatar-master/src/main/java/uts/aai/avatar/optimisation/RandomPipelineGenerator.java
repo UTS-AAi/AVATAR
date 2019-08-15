@@ -13,7 +13,12 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import uts.aai.feature.configuration.MLComponentConfiguration;
 import uts.aai.feature.model.MLComponent;
+import uts.aai.feature.model.MLComponentType;
+import uts.aai.feature.model.MLHyperparameter;
+import uts.aai.feature.model.MLHyperparameterType;
+import uts.aai.global.AppConst;
 import uts.aai.pn.utils.IOUtils;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -28,6 +33,117 @@ public class RandomPipelineGenerator {
         this.datasetPath = datasetPath;
         this.outputFolder = outputFolder;
     }
+
+    public String generateNativeWekaPipeline(String trainingData, String outputModel) {
+        String componentTemplate = generateRandomComponents();
+        ArrayList<MLComponent> orderedPipelineComponents = randomSelectAlgorithmsForPipeline(componentTemplate);
+        String nativeWekaCommand = prepareNativeWekaCommand(orderedPipelineComponents, trainingData, outputModel);
+
+        return nativeWekaCommand;
+    }
+
+    private String prepareNativeWekaCommand(ArrayList<MLComponent> orderedPipelineComponents, String inputData, String outputModel) {
+        String wekajar = AppConst.WEKA_JAR_PATH;
+
+        String algorithmCommand = "-F \"weka.filters.MultiFilter -F weka.filters.AllFilter";
+        for (MLComponent mLComponent : orderedPipelineComponents) {
+
+            
+            if (mLComponent.getmLComponentType().equals(MLComponentType.DATA_BALANCER)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.DATA_SAMPLING)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.DATA_TRANSFORMATION)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.DIMENTIONALITY_REDUCTION)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.MISSING_VALUE_HANDLER)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.OUTLIER_REMOVAL)) {
+                algorithmCommand += " -F \\\"";
+                algorithmCommand += mLComponent.getComponentFullClassName();
+                
+                List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
+                for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
+                    String hyperVal= getRandomHyperparameterValue(mLHyperparameter);
+                    if (!hyperVal.equals("")) {
+                        algorithmCommand += " " + hyperVal;
+                    }
+                }
+                
+                algorithmCommand += "\\\"";
+            } else if (mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.REGRESSOR)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+                algorithmCommand += "\"" +" -W ";
+                algorithmCommand += mLComponent.getComponentFullClassName();
+                algorithmCommand += " --";
+                
+                List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
+                for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
+                    String hyperVal= getRandomHyperparameterValue(mLHyperparameter);
+                    if (!hyperVal.equals("")) {
+                        algorithmCommand += " " + hyperVal;
+                    }
+                }
+                
+            }
+
+        }
+
+        String commandStr = "java -classpath " + wekajar + " "
+                + "weka.classifiers.meta.FilteredClassifier"
+                + " -t " + inputData
+                + " -d " + outputModel + " "
+                + algorithmCommand;
+
+        return commandStr;
+    }
+    
+    private String getRandomHyperparameterValue(MLHyperparameter mLHyperparameter){
+        String hyperParamVal ="";
+        switch (mLHyperparameter.getHyperparameterType()) {
+            case BOOLEAN:
+                if (randomBoolValue()) {
+                    hyperParamVal +=mLHyperparameter.getCommand();
+                }   
+                break;
+            case INTEGER:
+                int randInt = randomInt(mLHyperparameter.getMinIntValue(), mLHyperparameter.getMaxIntValue());
+                hyperParamVal += mLHyperparameter.getCommand()+ " " + String.valueOf(randInt);
+                break;
+            case NOMINAL:
+                String randStr = randomString(mLHyperparameter.getListOfNomnialValues());
+                hyperParamVal += mLHyperparameter.getCommand()+ " " + randStr;
+                break;
+            case NUMERIC:
+                double randNumeric = randomDouble(mLHyperparameter.getMinNumericValue(), mLHyperparameter.getMaxNumericValue());
+                hyperParamVal += mLHyperparameter.getCommand()+ " " + String.valueOf(randNumeric);
+                break;
+            default:
+                break;
+        }
+        
+        return hyperParamVal;
+    }
+    
+    private boolean randomBoolValue(){
+        return Math.random() < 0.5;
+    }
+    
+    private int randomInt(int min, int max){
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return randomNum;
+    }
+    
+    private double randomDouble(double min, double max) {
+        double randomNum = ThreadLocalRandom.current().nextDouble(min, max);
+        return randomNum;
+    }
+    
+    private String randomString(ArrayList<String> listOfNomnialValues) {
+        int randomIndex = randomInt(0, listOfNomnialValues.size()-1);
+        String randomStr = listOfNomnialValues.get(randomIndex);
+        return randomStr;
+    }
+    
+    
 
     public String generateBPMNPipeline() {
 //        String componentStr = generateRandomComponents();

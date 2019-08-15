@@ -27,6 +27,7 @@ import javax.xml.bind.JAXBException;
 import uts.aai.global.AppConst;
 import uts.aai.knowledge.generator.AlgorithmMetaKnowledge;
 import uts.aai.feature.model.MLHyperparameter;
+import uts.aai.feature.model.MLHyperparameterType;
 import uts.aai.pn.utils.IOUtils;
 import uts.aai.pn.utils.JSONUtils;
 
@@ -210,6 +211,30 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0E-10);
+                hp.setMaxNumericValue(1.0E-1);
+                hp.setDefaultNumericValue(1.0E-8);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.BOOLEAN);
+                hp.setMinNumericValue(1.0E-10);
+                hp.setMaxNumericValue(1.0E-1);
+                hp.setDefaultNumericValue(1.0E-8);
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
