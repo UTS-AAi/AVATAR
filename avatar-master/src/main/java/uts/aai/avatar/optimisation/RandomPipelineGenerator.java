@@ -29,6 +29,9 @@ public class RandomPipelineGenerator {
     private String datasetPath;
     private String outputFolder;
 
+    public RandomPipelineGenerator() {
+    }
+
     public RandomPipelineGenerator(String datasetPath, String outputFolder) {
         this.datasetPath = datasetPath;
         this.outputFolder = outputFolder;
@@ -37,6 +40,14 @@ public class RandomPipelineGenerator {
     public String generateNativeWekaPipeline(String trainingData, String outputModel) {
         String componentTemplate = generateRandomComponents();
         ArrayList<MLComponent> orderedPipelineComponents = randomSelectAlgorithmsForPipeline(componentTemplate);
+
+        String nativeWekaCommand = prepareNativeWekaCommand(orderedPipelineComponents, trainingData, outputModel);
+
+        return nativeWekaCommand;
+    }
+
+    public String generateNativeWekaPipeline(String trainingData, String outputModel, ArrayList<MLComponent> orderedPipelineComponents) {
+
         String nativeWekaCommand = prepareNativeWekaCommand(orderedPipelineComponents, trainingData, outputModel);
 
         return nativeWekaCommand;
@@ -48,7 +59,6 @@ public class RandomPipelineGenerator {
         String algorithmCommand = "-F \"weka.filters.MultiFilter -F weka.filters.AllFilter";
         for (MLComponent mLComponent : orderedPipelineComponents) {
 
-            
             if (mLComponent.getmLComponentType().equals(MLComponentType.DATA_BALANCER)
                     || mLComponent.getmLComponentType().equals(MLComponentType.DATA_SAMPLING)
                     || mLComponent.getmLComponentType().equals(MLComponentType.DATA_TRANSFORMATION)
@@ -57,32 +67,32 @@ public class RandomPipelineGenerator {
                     || mLComponent.getmLComponentType().equals(MLComponentType.OUTLIER_REMOVAL)) {
                 algorithmCommand += " -F \\\"";
                 algorithmCommand += mLComponent.getComponentFullClassName();
-                
+
                 List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
                 for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
-                    String hyperVal= getRandomHyperparameterValue(mLHyperparameter);
+                    String hyperVal = getRandomHyperparameterValue(mLHyperparameter);
                     if (!hyperVal.equals("")) {
                         algorithmCommand += " " + hyperVal;
                     }
                 }
-                
+
                 algorithmCommand += "\\\"";
             } else if (mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER)
                     || mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
                     || mLComponent.getmLComponentType().equals(MLComponentType.REGRESSOR)
                     || mLComponent.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
-                algorithmCommand += "\"" +" -W ";
+                algorithmCommand += "\"" + " -W ";
                 algorithmCommand += mLComponent.getComponentFullClassName();
                 algorithmCommand += " --";
-                
+
                 List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
                 for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
-                    String hyperVal= getRandomHyperparameterValue(mLHyperparameter);
+                    String hyperVal = getRandomHyperparameterValue(mLHyperparameter);
                     if (!hyperVal.equals("")) {
                         algorithmCommand += " " + hyperVal;
                     }
                 }
-                
+
             }
 
         }
@@ -95,55 +105,62 @@ public class RandomPipelineGenerator {
 
         return commandStr;
     }
-    
-    private String getRandomHyperparameterValue(MLHyperparameter mLHyperparameter){
-        String hyperParamVal ="";
+
+    private String getRandomHyperparameterValue(MLHyperparameter mLHyperparameter) {
+        String hyperParamVal = "";
         switch (mLHyperparameter.getHyperparameterType()) {
             case BOOLEAN:
                 if (randomBoolValue()) {
-                    hyperParamVal +=mLHyperparameter.getCommand();
-                }   
+                    hyperParamVal += mLHyperparameter.getCommand();
+                }
                 break;
             case INTEGER:
                 int randInt = randomInt(mLHyperparameter.getMinIntValue(), mLHyperparameter.getMaxIntValue());
-                hyperParamVal += mLHyperparameter.getCommand()+ " " + String.valueOf(randInt);
+                hyperParamVal += mLHyperparameter.getCommand() + " " + String.valueOf(randInt);
                 break;
             case NOMINAL:
                 String randStr = randomString(mLHyperparameter.getListOfNomnialValues());
-                hyperParamVal += mLHyperparameter.getCommand()+ " " + randStr;
+                hyperParamVal += mLHyperparameter.getCommand() + " " + randStr;
                 break;
             case NUMERIC:
                 double randNumeric = randomDouble(mLHyperparameter.getMinNumericValue(), mLHyperparameter.getMaxNumericValue());
-                hyperParamVal += mLHyperparameter.getCommand()+ " " + String.valueOf(randNumeric);
+                hyperParamVal += mLHyperparameter.getCommand() + " " + String.valueOf(randNumeric);
                 break;
             default:
                 break;
         }
-        
+
         return hyperParamVal;
     }
-    
-    private boolean randomBoolValue(){
+
+    private boolean randomBoolValue() {
         return Math.random() < 0.5;
     }
-    
-    private int randomInt(int min, int max){
-        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-        return randomNum;
+
+    private int randomInt(int min, int max) {
+        if (min < max) {
+            int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+            return randomNum;
+        } else {
+            return min;
+        }
     }
-    
+
     private double randomDouble(double min, double max) {
-        double randomNum = ThreadLocalRandom.current().nextDouble(min, max);
-        return randomNum;
+
+        if (min < max) {
+            double randomNum = ThreadLocalRandom.current().nextDouble(min, max);
+            return randomNum;
+        } else {
+            return min;
+        }
     }
-    
+
     private String randomString(ArrayList<String> listOfNomnialValues) {
-        int randomIndex = randomInt(0, listOfNomnialValues.size()-1);
+        int randomIndex = randomInt(0, listOfNomnialValues.size() - 1);
         String randomStr = listOfNomnialValues.get(randomIndex);
         return randomStr;
     }
-    
-    
 
     public String generateBPMNPipeline() {
 //        String componentStr = generateRandomComponents();
