@@ -17,7 +17,7 @@ public class TPOTHistoryRunAnalyse {
         
         int validPipelineCounter = 0;
         int invalidPipelineCounter = 0;
-        
+        int allCounter = 0;
         IOUtils iou = new IOUtils();
         String jsonStr = iou.readData(filePath);
         
@@ -32,6 +32,7 @@ public class TPOTHistoryRunAnalyse {
                 } else {
                     invalidPipelineCounter++;
                 }
+                allCounter++;
                         
             } 
                 
@@ -40,6 +41,7 @@ public class TPOTHistoryRunAnalyse {
         
         System.out.println("Valid Pipelines: " + validPipelineCounter);
         System.out.println("Invalid Pipelines: " + invalidPipelineCounter);
+        System.out.println("RS Pipelines: " + invalidPipelineCounter+"/"+allCounter);
         
     }
 }

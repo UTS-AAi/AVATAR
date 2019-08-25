@@ -26,6 +26,7 @@ public class AutoSklearnHistoryRunAnalyse {
         int success = 0;
         int crashed= 0;
         int memout = 0;
+        int timeout = 0;
         int others = 0;
        
         JSONArray objData = objRoot.getJSONArray("data");
@@ -40,8 +41,11 @@ public class AutoSklearnHistoryRunAnalyse {
                 crashed++;
             } else if (pipelineStatus.contains("MEMOUT")) {
                 memout++;
+            } else if (pipelineStatus.contains("TIMEOUT")) {
+                timeout++;
             } else {
                 others++;
+                System.out.println("pipelineStatus: " + pipelineStatus);
             }
             
            
@@ -51,9 +55,10 @@ public class AutoSklearnHistoryRunAnalyse {
         System.out.println("Success: " + success);
         System.out.println("crashed: " + crashed);
         System.out.println("memout: " + memout);
+        System.out.println("timeout: " + timeout);
         System.out.println("others: " + others);
         
-        //System.out.println("objData: " + objData.toString());
+        System.out.println("RS: " + crashed + "/" + (success+crashed+memout+timeout+others));
     }
     
     

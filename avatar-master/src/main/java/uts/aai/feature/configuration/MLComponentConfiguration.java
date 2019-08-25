@@ -106,7 +106,7 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.functions.supportVector.PolyKernel";
             String componentName = "PolyKernel";
             String componentFullClassName = "weka.classifiers.functions.supportVector.PolyKernel";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.BASE_LEARNER;
             String componentExecutionScript = "weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
 

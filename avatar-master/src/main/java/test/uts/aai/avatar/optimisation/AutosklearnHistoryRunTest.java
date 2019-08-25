@@ -18,7 +18,7 @@ public class AutosklearnHistoryRunTest {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String filePath = "C:/experiments/results/autosklearn/convex_seed0/smac3-output/run_1/runhistory.json";
+        String filePath = "C:\\experiments\\results\\autosklearn\\winequalitywhite_seed4\\smac3-output\\run_1\\runhistory.json";
     	AutoSklearnHistoryRunAnalyse analyse = new AutoSklearnHistoryRunAnalyse();
     	analyse.analyse(filePath);
     }

@@ -23,7 +23,7 @@ public class TPOTHistoryRunTest {
         
 
     
-            String filePath = "C://experiments//tools//tpot//log.txt";
+            String filePath = "C:\\experiments\\results\\tpot-results-16august2019\\car\\log-car-seed0.txt";
             TPOTHistoryRunAnalyse analyse = new TPOTHistoryRunAnalyse();
             analyse.analyse(filePath);
             
