@@ -113,10 +113,174 @@ public class MLComponentConfiguration {
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
             
             {
-                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.BOOLEAN);
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-E", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(5.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.BOOLEAN);
                 hp.setDefaultBoolValue(Boolean.FALSE);
                 listOfHyperparameters.add(hp);
             }
+
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,
+                    listOfHyperparameters);
+
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        {
+            String componentId = "weka.classifiers.functions.supportVector.NormalizedPolyKernel";
+            String componentName = "NormalizedPolyKernel";
+            String componentFullClassName = "weka.classifiers.functions.supportVector.NormalizedPolyKernel";
+            MLComponentType mLComponentType = MLComponentType.BASE_LEARNER;
+            String componentExecutionScript = "weka.classifiers.functions.supportVector.NormalizedPolyKernel -C 250007 -E 2.0";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-E", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(5.0);
+                hp.setDefaultNumericValue(2.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.BOOLEAN);
+                hp.setDefaultBoolValue(Boolean.FALSE);
+                listOfHyperparameters.add(hp);
+            }
+
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,
+                    listOfHyperparameters);
+
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        
+        {
+            String componentId = "weka.classifiers.functions.supportVector.Puk";
+            String componentName = "Puk";
+            String componentFullClassName = "weka.classifiers.functions.supportVector.Puk";
+            MLComponentType mLComponentType = MLComponentType.BASE_LEARNER;
+            String componentExecutionScript = "weka.classifiers.functions.supportVector.Puk -C 250007 -O 1.0 -S 1.0";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-O", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.0);
+                hp.setMaxNumericValue(100.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.0);
+                hp.setMaxNumericValue(5.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
+
+            List<MLComponentIO> listOfInputs = new ArrayList<>();
+            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+
+            MLComponent mLComponent = new MLComponent(
+                    componentId,
+                    componentName,
+                    componentFullClassName,
+                    mLComponentType,
+                    componentExecutionScript,
+                    componentExecutionScriptFilteredClassifierWeka,
+                    listOfInputs,
+                    listOfOutputs,
+                    listOfHyperparameters);
+
+            listOfMLComponentByType.add(mLComponent);
+        }
+        
+        {
+            String componentId = "weka.classifiers.functions.supportVector.RBFKernel";
+            String componentName = "RBFKernel";
+            String componentFullClassName = "weka.classifiers.functions.supportVector.RBFKernel";
+            MLComponentType mLComponentType = MLComponentType.BASE_LEARNER;
+            String componentExecutionScript = "weka.classifiers.functions.supportVector.RBFKernel -C 250007 -G 10.0";
+            String componentExecutionScriptFilteredClassifierWeka = "";
+
+            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-G", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(10.0);
+                hp.setDefaultNumericValue(0.01);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -417,6 +581,30 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.functions.GaussianProcesses -L 1.0 -N 0 -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(2);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(5.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.BASE_LEARNER);
+                hp.setDefaultBaseLearner("weka.classifiers.functions.supportVector.PolyKernel");
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -438,7 +626,7 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.functions.MultilayerPerceptron";
             String componentName = "MultilayerPerceptron";
             String componentFullClassName = "weka.classifiers.functions.MultilayerPerceptron";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.CLASSIFIER_REGRESSOR;
             String componentExecutionScript = "weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();

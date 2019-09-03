@@ -10,5 +10,5 @@ package uts.aai.feature.model;
  * @author ntdun
  */
 public enum MLHyperparameterType {
-    NUMERIC, NOMINAL, INTEGER, BOOLEAN
+    NUMERIC, NOMINAL, INTEGER, BOOLEAN, BASE_LEARNER
 }

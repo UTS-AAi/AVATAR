@@ -20,6 +20,8 @@ public class MLHyperparameter {
     private ArrayList<String> listOfNomnialValues;
     private String defaultNominalValue;
     
+    private String defaultBaseLearner;
+    
     private Double maxNumericValue;
     private Double minNumericValue;
     private Double defaultNumericValue;
@@ -121,6 +123,14 @@ public class MLHyperparameter {
 
     public void setDefaultBoolValue(Boolean defaultBoolValue) {
         this.defaultBoolValue = defaultBoolValue;
+    }
+
+    public String getDefaultBaseLearner() {
+        return defaultBaseLearner;
+    }
+
+    public void setDefaultBaseLearner(String defaultBaseLearner) {
+        this.defaultBaseLearner = defaultBaseLearner;
     }
             
     
