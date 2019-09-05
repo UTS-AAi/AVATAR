@@ -20,6 +20,7 @@ import uts.aai.feature.model.MLMetafeature;
 import uts.aai.feature.model.MLComponentIO;
 import uts.aai.feature.model.MLComponentType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -631,6 +632,79 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
+            {
+                MLHyperparameter hp = new MLHyperparameter("-H", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("a", "i", "o", "t")));
+                hp.setDefaultNominalValue("a");
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(0.99);
+                hp.setDefaultNumericValue(0.3);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(0.99);
+                hp.setDefaultNumericValue(0.2);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-B", MLHyperparameterType.BOOLEAN);
+                hp.setDefaultBoolValue(Boolean.FALSE);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.BOOLEAN);
+                hp.setDefaultBoolValue(Boolean.FALSE);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.BOOLEAN);
+                hp.setDefaultBoolValue(Boolean.FALSE);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(2);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(100);
+                hp.setMaxIntValue(1000);
+                hp.setDefaultIntValue(500);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-V", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-E", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(20);
+                hp.setMaxIntValue(20);
+                hp.setDefaultIntValue(20);
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
