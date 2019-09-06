@@ -99,6 +99,7 @@ public class MLComponentConfiguration {
         List<MLComponent> listOfMLComponentByType = new ArrayList<>();
         
         
+        
         ////////////////////////////////////////////////
         // BASE LEARNERS
         /////////////////////////////////////////////// 
@@ -757,6 +758,37 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.functions.SMOreg -C 1.0 -N 0 -I \"weka.classifiers.functions.supportVector.RegSMOImproved -L 0.001 -W 1 -P 1.0E-12 -T 0.001 -V\" -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(2);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(100.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("\"weka.classifiers.functions.supportVector.RegSMOImproved -L 0.001 -W 1 -P 1.0E-12 -T 0.001 -V\"")));
+                hp.setDefaultNominalValue("\"weka.classifiers.functions.supportVector.RegSMOImproved -L 0.001 -W 1 -P 1.0E-12 -T 0.001 -V\"");
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.BASE_LEARNER);
+                hp.setDefaultBaseLearner("weka.classifiers.functions.supportVector.PolyKernel");
+                listOfHyperparameters.add(hp);
+            }
+            
+            
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -774,33 +806,7 @@ public class MLComponentConfiguration {
                     listOfOutputs, listOfHyperparameters);
             listOfMLComponentByType.add(mLComponent);
         }
-
-        {
-            String componentId = "weka.classifiers.functions.SimpleLogistic";
-            String componentName = "SimpleLogistic";
-            String componentFullClassName = "weka.classifiers.functions.SimpleLogistic";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
-            String componentExecutionScript = "weka.classifiers.functions.SimpleLogistic -I 0 -M 500 -H 50 -W 0.0";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
+       
 
         {
             String componentId = "weka.classifiers.functions.SMO";
@@ -810,6 +816,62 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.functions.SMO -C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -C 250007 -E 1.0\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(100.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.001);
+                hp.setMaxNumericValue(0.001);
+                hp.setDefaultNumericValue(0.001);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-P", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0E-12);
+                hp.setMaxNumericValue(1.0E-12);
+                hp.setDefaultNumericValue(1.0E-12);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(2);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-V", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.BASE_LEARNER);
+                hp.setDefaultBaseLearner("weka.classifiers.functions.supportVector.PolyKernel");
+                listOfHyperparameters.add(hp);
+            }
+            
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -840,6 +902,32 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.lazy.IBk -K 1 -W 0 -A \"weka.core.neighboursearch.LinearNNSearch -A \\\"weka.core.EuclideanDistance -R first-last\\\"\"";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-A", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("\"weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"\""
+                        ,"\"weka.core.neighboursearch.BallTree -A \"weka.core.EuclideanDistance -R first-last\" -C \"weka.core.neighboursearch.balltrees.TopDownConstructor -N 40 -S weka.core.neighboursearch.balltrees.PointsClosestToFurthestChildren\"\""
+                        ,"\"weka.core.neighboursearch.CoverTree -A \"weka.core.EuclideanDistance -R first-last\" -B 1.3\""
+                        ,"\"weka.core.neighboursearch.KDTree -A \"weka.core.EuclideanDistance -R first-last\" -S weka.core.neighboursearch.kdtrees.SlidingMidPointOfWidestSide -W 0.01 -L 40 -N\"")));
+                hp.setDefaultNominalValue("\"weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"\"");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -867,6 +955,24 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.lazy.KStar -B 20 -M a";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-B", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(20);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("d","m","n","a")));
+                hp.setDefaultNominalValue("d");
+                listOfHyperparameters.add(hp);
+            }
+            
+          
+            
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -890,10 +996,43 @@ public class MLComponentConfiguration {
             String componentId = "weka.classifiers.lazy.LWL";
             String componentName = "LWL";
             String componentFullClassName = "weka.classifiers.lazy.LWL";
-            MLComponentType mLComponentType = MLComponentType.CLASSIFIER;
+            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.lazy.LWL -U 0 -K -1 -A \"weka.core.neighboursearch.LinearNNSearch -A \\\"weka.core.EuclideanDistance -R first-last\\\"\" -W weka.classifiers.trees.DecisionStump";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-U", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(5);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+              {
+                MLHyperparameter hp = new MLHyperparameter("-A", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("\"weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"\""
+                        ,"\"weka.core.neighboursearch.BallTree -A \"weka.core.EuclideanDistance -R first-last\" -C \"weka.core.neighboursearch.balltrees.TopDownConstructor -N 40 -S weka.core.neighboursearch.balltrees.PointsClosestToFurthestChildren\"\""
+                        ,"\"weka.core.neighboursearch.CoverTree -A \"weka.core.EuclideanDistance -R first-last\" -B 1.3\""
+                        ,"\"weka.core.neighboursearch.KDTree -A \"weka.core.EuclideanDistance -R first-last\" -S weka.core.neighboursearch.kdtrees.SlidingMidPointOfWidestSide -W 0.01 -L 40 -N\"")));
+                hp.setDefaultNominalValue("\"weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"\"");
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.PREDICTORS);
+                hp.setDefaultPredictor("weka.classifiers.trees.DecisionStump");
+                listOfHyperparameters.add(hp);
+            }
+            
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 

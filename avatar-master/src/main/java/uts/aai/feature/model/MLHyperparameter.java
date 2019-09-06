@@ -21,6 +21,7 @@ public class MLHyperparameter {
     private String defaultNominalValue;
     
     private String defaultBaseLearner;
+    private String defaultPredictor;
     
     private Double maxNumericValue;
     private Double minNumericValue;
@@ -132,6 +133,20 @@ public class MLHyperparameter {
     public void setDefaultBaseLearner(String defaultBaseLearner) {
         this.defaultBaseLearner = defaultBaseLearner;
     }
-            
+
+    public MLHyperparameter(String defaultPredictor) {
+        this.defaultPredictor = defaultPredictor;
+    }
+
+    public String getDefaultPredictor() {
+        return defaultPredictor;
+    }
+
+    public void setDefaultPredictor(String defaultPredictor) {
+        this.defaultPredictor = defaultPredictor;
+    }
+        
+
+    
     
 }
