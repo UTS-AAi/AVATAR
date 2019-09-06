@@ -1017,7 +1017,7 @@ public class MLComponentConfiguration {
                 listOfHyperparameters.add(hp);
             }
             
-              {
+            {
                 MLHyperparameter hp = new MLHyperparameter("-A", MLHyperparameterType.NOMINAL);
                 hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("\"weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"\""
                         ,"\"weka.core.neighboursearch.BallTree -A \"weka.core.EuclideanDistance -R first-last\" -C \"weka.core.neighboursearch.balltrees.TopDownConstructor -N 40 -S weka.core.neighboursearch.balltrees.PointsClosestToFurthestChildren\"\""
@@ -1064,6 +1064,36 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-P", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(500);
+                hp.setDefaultIntValue(100);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.PREDICTORS);
+                hp.setDefaultPredictor("weka.classifiers.trees.DecisionStump");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1083,33 +1113,33 @@ public class MLComponentConfiguration {
             listOfMLComponentByType.add(mLComponent);
         }
 
-        {
-            String componentId = "weka.classifiers.meta.AttributeSelectedClassifier";
-            String componentName = "AttributeSelectedClassifier";
-            String componentFullClassName = "weka.classifiers.meta.AttributeSelectedClassifier";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.AttributeSelectedClassifier -E \"weka.attributeSelection.CfsSubsetEval \" -S \"weka.attributeSelection.BestFirst -D 1 -N 5\" -W weka.classifiers.trees.J48 -- -C 0.25 -M 2";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.classifiers.meta.AttributeSelectedClassifier";
+//            String componentName = "AttributeSelectedClassifier";
+//            String componentFullClassName = "weka.classifiers.meta.AttributeSelectedClassifier";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.AttributeSelectedClassifier -E \"weka.attributeSelection.CfsSubsetEval \" -S \"weka.attributeSelection.BestFirst -D 1 -N 5\" -W weka.classifiers.trees.J48 -- -C 0.25 -M 2";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
 
         {
             String componentId = "weka.classifiers.meta.Bagging";
@@ -1119,6 +1149,45 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.meta.Bagging -P 100 -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.REPTree -- -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-P", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(50);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(100);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-num-slots", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(1);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.PREDICTORS);
+                hp.setDefaultPredictor("weka.classifiers.trees.REPTree");
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -1144,8 +1213,14 @@ public class MLComponentConfiguration {
             MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
             String componentExecutionScript = "weka.classifiers.meta.ClassificationViaRegression -W weka.classifiers.trees.M5P -- -M 4.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
-
+            
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.PREDICTORS);
+                hp.setDefaultPredictor("weka.classifiers.trees.M5P");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1165,33 +1240,33 @@ public class MLComponentConfiguration {
             listOfMLComponentByType.add(mLComponent);
         }
 
-        {
-            String componentId = "weka.classifiers.meta.CVParameterSelection";
-            String componentName = "CVParameterSelection";
-            String componentFullClassName = "weka.classifiers.meta.CVParameterSelection";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.CVParameterSelection -X 10 -S 1 -W weka.classifiers.rules.ZeroR";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.classifiers.meta.CVParameterSelection";
+//            String componentName = "CVParameterSelection";
+//            String componentFullClassName = "weka.classifiers.meta.CVParameterSelection";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.CVParameterSelection -X 10 -S 1 -W weka.classifiers.rules.ZeroR";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
 
         {
             String componentId = "weka.classifiers.meta.LogitBoost";
@@ -1201,6 +1276,68 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.meta.LogitBoost -P 100 -F 0 -R 1 -L -1.7976931348623157E308 -H 1.0 -S 1 -I 10 -W weka.classifiers.trees.DecisionStump";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-P", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(500);
+                hp.setDefaultIntValue(100);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-F", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(1);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(-1.7976931348623157E308);
+                hp.setMaxNumericValue(-1.7976931348623157E308);
+                hp.setDefaultNumericValue(-1.7976931348623157E308);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-H", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(1.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.PREDICTORS);
+                hp.setDefaultPredictor("weka.classifiers.trees.M5P");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1220,87 +1357,87 @@ public class MLComponentConfiguration {
             listOfMLComponentByType.add(mLComponent);
         }
 
-        {
-            String componentId = "weka.classifiers.meta.MultiClassClassifier";
-            String componentName = "MultiClassClassifier";
-            String componentFullClassName = "weka.classifiers.meta.MultiClassClassifier";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.MultiClassClassifier -M 0 -R 2.0 -S 1 -W weka.classifiers.functions.Logistic -- -R 1.0E-8 -M -1";
-            String componentExecutionScriptFilteredClassifierWeka = "";
+//        {
+//            String componentId = "weka.classifiers.meta.MultiClassClassifier";
+//            String componentName = "MultiClassClassifier";
+//            String componentFullClassName = "weka.classifiers.meta.MultiClassClassifier";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.MultiClassClassifier -M 0 -R 2.0 -S 1 -W weka.classifiers.functions.Logistic -- -R 1.0E-8 -M -1";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
 
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//        {
+//            String componentId = "weka.classifiers.meta.MultiScheme";
+//            String componentName = "MultiScheme";
+//            String componentFullClassName = "weka.classifiers.meta.MultiScheme";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.MultiScheme -X 0 -S 1 -B \"weka.classifiers.rules.ZeroR \"";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
 
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
-
-        {
-            String componentId = "weka.classifiers.meta.MultiScheme";
-            String componentName = "MultiScheme";
-            String componentFullClassName = "weka.classifiers.meta.MultiScheme";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.MultiScheme -X 0 -S 1 -B \"weka.classifiers.rules.ZeroR \"";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
-
-        {
-            String componentId = "weka.classifiers.meta.RandomCommittee";
-            String componentName = "RandomCommittee";
-            String componentFullClassName = "weka.classifiers.meta.RandomCommittee";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.RandomCommittee -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.RandomTree -- -K 0 -M 1.0 -S 1";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.classifiers.meta.RandomCommittee";
+//            String componentName = "RandomCommittee";
+//            String componentFullClassName = "weka.classifiers.meta.RandomCommittee";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.RandomCommittee -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.RandomTree -- -K 0 -M 1.0 -S 1";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
 
         {
             String componentId = "weka.classifiers.meta.RandomSubSpace";
@@ -1311,6 +1448,44 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-P", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(0.99);
+                hp.setDefaultNumericValue(0.5);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-num-slots", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(1);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.PREDICTORS);
+                hp.setDefaultPredictor("weka.classifiers.trees.M5P");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1330,60 +1505,60 @@ public class MLComponentConfiguration {
             listOfMLComponentByType.add(mLComponent);
         }
 
-        {
-            String componentId = "weka.classifiers.meta.Stacking";
-            String componentName = "Stacking";
-            String componentFullClassName = "weka.classifiers.meta.Stacking";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.Stacking -X 10 -M \"weka.classifiers.rules.ZeroR \" -S 1 -num-slots 1 -B \"weka.classifiers.rules.ZeroR \"";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
-
-        {
-            String componentId = "weka.classifiers.meta.Vote";
-            String componentName = "Vote";
-            String componentFullClassName = "weka.classifiers.meta.Vote";
-            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
-            String componentExecutionScript = "weka.classifiers.meta.Vote -S 1 -B \"weka.classifiers.rules.ZeroR \" -R AVG";
-            String componentExecutionScriptFilteredClassifierWeka = "";
-            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
-
-            List<MLComponentIO> listOfInputs = new ArrayList<>();
-
-            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
-
-            MLComponent mLComponent = new MLComponent(
-                    componentId,
-                    componentName,
-                    componentFullClassName,
-                    mLComponentType,
-                    componentExecutionScript,
-                    componentExecutionScriptFilteredClassifierWeka,
-                    listOfInputs,
-                    listOfOutputs,
-                    listOfHyperparameters);
-            listOfMLComponentByType.add(mLComponent);
-        }
+//        {
+//            String componentId = "weka.classifiers.meta.Stacking";
+//            String componentName = "Stacking";
+//            String componentFullClassName = "weka.classifiers.meta.Stacking";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.Stacking -X 10 -M \"weka.classifiers.rules.ZeroR \" -S 1 -num-slots 1 -B \"weka.classifiers.rules.ZeroR \"";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
+//
+//        {
+//            String componentId = "weka.classifiers.meta.Vote";
+//            String componentName = "Vote";
+//            String componentFullClassName = "weka.classifiers.meta.Vote";
+//            MLComponentType mLComponentType = MLComponentType.META_PREDICTOR;
+//            String componentExecutionScript = "weka.classifiers.meta.Vote -S 1 -B \"weka.classifiers.rules.ZeroR \" -R AVG";
+//            String componentExecutionScriptFilteredClassifierWeka = "";
+//            List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfInputs = new ArrayList<>();
+//
+//            List<MLComponentIO> listOfOutputs = new ArrayList<>();
+//            listOfOutputs.add(getMLComponentIO(MLMetafeature.PREDICTIVE_MODEL));
+//
+//            MLComponent mLComponent = new MLComponent(
+//                    componentId,
+//                    componentName,
+//                    componentFullClassName,
+//                    mLComponentType,
+//                    componentExecutionScript,
+//                    componentExecutionScriptFilteredClassifierWeka,
+//                    listOfInputs,
+//                    listOfOutputs,
+//                    listOfHyperparameters);
+//            listOfMLComponentByType.add(mLComponent);
+//        }
 
         ////////////////////////////////////////////////
         // RULES
@@ -1397,6 +1572,27 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-X", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(1);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("\"weka.attributeSelection.BestFirst -D 1 -N 5\""
+                        ,"\"weka.attributeSelection.GreedyStepwise -T -1.7976931348623157E308 -N -1\""
+                        )));
+                hp.setDefaultNominalValue("\"weka.attributeSelection.BestFirst -D 1 -N 5\"");
+                listOfHyperparameters.add(hp);
+            }
+            
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
