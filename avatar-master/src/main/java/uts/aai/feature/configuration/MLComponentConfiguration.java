@@ -1727,8 +1727,8 @@ public class MLComponentConfiguration {
             
             {
                 MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.NUMERIC);
-                hp.setMinNumericValue(0.1);
-                hp.setMaxNumericValue(0.5);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(0.6);
                 hp.setDefaultNumericValue(0.25);
                 listOfHyperparameters.add(hp);
             }
@@ -1822,6 +1822,26 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.trees.J48 -C 0.25 -M 2";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-C", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.01);
+                hp.setMaxNumericValue(0.6);
+                hp.setDefaultNumericValue(0.25);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(2);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(2);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -1848,6 +1868,31 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(2);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(15);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.0);
+                hp.setMaxNumericValue(0.0);
+                hp.setDefaultNumericValue(0.0);
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -1873,6 +1918,38 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.trees.RandomForest -I 10 -K 0 -S 1 -num-slots 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(10);
+                hp.setMaxIntValue(1000);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-num-slots", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(1);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1899,6 +1976,30 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.trees.RandomTree -K 0 -M 1.0 -S 1";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-K", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(0);
+                hp.setMaxIntValue(0);
+                hp.setDefaultIntValue(0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(1.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1925,6 +2026,56 @@ public class MLComponentConfiguration {
             String componentExecutionScript = "weka.classifiers.trees.REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
             String componentExecutionScriptFilteredClassifierWeka = "";
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(2);
+                hp.setMaxIntValue(2);
+                hp.setDefaultIntValue(2);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-V", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.001);
+                hp.setMaxNumericValue(0.001);
+                hp.setDefaultNumericValue(0.001);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(3);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(3);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-L", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-I", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.0);
+                hp.setMaxNumericValue(0.0);
+                hp.setDefaultNumericValue(0.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -1966,6 +2117,8 @@ public class MLComponentConfiguration {
             listOfOutputs.add(getMLComponentIO(MLMetafeature.MISSING_VALUES));
             listOfOutputs.add(getMLComponentIO(MLMetafeature.MISSING_CLASS_VALUES));
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
 
             MLComponent mLComponent = new MLComponent(
                     componentId,
@@ -1988,6 +2141,32 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.EMImputation -N -1 -E 1.0E-4 -Q 1.0E-8\\\" ";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-E", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0E-4);
+                hp.setMaxNumericValue(1.0E-4);
+                hp.setDefaultNumericValue(1.0E-4);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-Q", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0E-8);
+                hp.setMaxNumericValue(1.0E-8);
+                hp.setDefaultNumericValue(1.0E-8);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -2077,18 +2256,33 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.PrincipalComponents -R 0.95 -A 5 -M -1\\\" ";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.95);
+                hp.setMaxNumericValue(0.95);
+                hp.setDefaultNumericValue(0.95);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-A", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(5);
+                hp.setMaxIntValue(5);
+                hp.setDefaultIntValue(5);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(50);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_ATTRIBUTES));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.NUMERIC_ATTRIBUTES));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.DATE_ATTRIBUTES));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.MISSING_VALUES));
-//            
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_CLASS));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.NUMERIC_CLASS));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.DATE_CLASS));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.MISSING_CLASS_VALUES));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.NO_CLASS));
-//            listOfInputs.add(getMLComponentIO(MLMetafeature.IMBALANCE_CLASS));
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
 
@@ -2125,6 +2319,22 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.instance.Resample -S 1 -Z 50.0\\\" ";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-Z", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(100);
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
@@ -2154,6 +2364,23 @@ public class MLComponentConfiguration {
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(3);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-Z", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(100);
+                hp.setMaxIntValue(1000);
+                hp.setDefaultIntValue(100);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -2181,6 +2408,16 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(99.0);
+                hp.setDefaultNumericValue(50.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -2233,10 +2470,18 @@ public class MLComponentConfiguration {
             String componentName = "PeriodicSampling";
             String componentFullClassName = "weka.filters.unsupervised.instance.PeriodicSampling";
             MLComponentType mLComponentType = MLComponentType.OUTLIER_REMOVAL;
-            String componentExecutionScript = "weka.filters.unsupervised.instance.RemoveOutliers -O \"weka.filters.unsupervised.attribute.InterquartileRange -R first-last -O 3.0 -E 6.0\"";
-            String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.instance.RemoveOutliers -O \\\\\\\"weka.filters.unsupervised.attribute.InterquartileRange -R first-last -O 3.0 -E 6.0\\\\\\\"\\\" ";
+            String componentExecutionScript = "weka.filters.unsupervised.instance.PeriodicSampling -N 1";
+            String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(1);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(1);
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
@@ -2330,6 +2575,27 @@ public class MLComponentConfiguration {
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-S", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0);
+                hp.setMaxNumericValue(1.0);
+                hp.setDefaultNumericValue(1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-T", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(0.0);
+                hp.setMaxNumericValue(0.0);
+                hp.setDefaultNumericValue(0.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            
+            
+            
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.addAll(getAllClassesCapabilities());
             listOfInputs.addAll(getAllAttributesCapabilities());
@@ -2357,6 +2623,36 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "-F \\\"weka.filters.unsupervised.attribute.IndependentComponents -W -A -1 -N 200 -T 1.0E-4\\\" ";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-W", MLHyperparameterType.BOOLEAN);
+                hp.setDefaultBoolValue(Boolean.TRUE);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-A", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(-1);
+                hp.setMaxIntValue(-1);
+                hp.setDefaultIntValue(-1);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-N", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(100);
+                hp.setMaxIntValue(500);
+                hp.setDefaultIntValue(200);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-T", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(1.0E-4);
+                hp.setMaxNumericValue(1.0E-4);
+                hp.setDefaultNumericValue(1.0E-4);
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
             listOfInputs.add(getMLComponentIO(MLMetafeature.NOMINAL_ATTRIBUTES));
@@ -2396,6 +2692,29 @@ public class MLComponentConfiguration {
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
+            {
+                MLHyperparameter hp = new MLHyperparameter("-B", MLHyperparameterType.INTEGER);
+                hp.setMinIntValue(5);
+                hp.setMaxIntValue(100);
+                hp.setDefaultIntValue(10);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-M", MLHyperparameterType.NUMERIC);
+                hp.setMinNumericValue(-1.0);
+                hp.setMaxNumericValue(-1.0);
+                hp.setDefaultNumericValue(-1.0);
+                listOfHyperparameters.add(hp);
+            }
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("first-last")));
+                hp.setDefaultNominalValue("first-last");
+                listOfHyperparameters.add(hp);
+            }
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -2470,6 +2789,7 @@ public class MLComponentConfiguration {
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
 
+            
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
             List<MLComponentIO> listOfOutputs = new ArrayList<>();
@@ -2495,6 +2815,13 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("first-last")));
+                hp.setDefaultNominalValue("first-last");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
@@ -2521,6 +2848,13 @@ public class MLComponentConfiguration {
             String componentExecutionScriptFilteredClassifierWeka = "";
 
             List<MLHyperparameter> listOfHyperparameters = new ArrayList<>();
+            
+            {
+                MLHyperparameter hp = new MLHyperparameter("-R", MLHyperparameterType.NOMINAL);
+                hp.setListOfNomnialValues(new ArrayList<>( Arrays.asList("first-last")));
+                hp.setDefaultNominalValue("first-last");
+                listOfHyperparameters.add(hp);
+            }
 
             List<MLComponentIO> listOfInputs = new ArrayList<>();
 
