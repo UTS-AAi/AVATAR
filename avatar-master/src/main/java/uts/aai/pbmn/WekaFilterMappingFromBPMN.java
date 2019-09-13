@@ -29,7 +29,7 @@ import uts.aai.feature.configuration.MLComponentConfiguration;
 import uts.aai.feature.model.MLComponent;
 import uts.aai.feature.model.MLComponentIO;
 import uts.aai.feature.service.DatasetMetaFeatures;
-import test.uts.aai.pbmn.AutoProcessTestApp;
+
 import uts.aai.pn.model.Arc;
 import uts.aai.pn.model.MetaFeatureEvaluationTransitionFunction;
 import uts.aai.pn.model.Parameter;

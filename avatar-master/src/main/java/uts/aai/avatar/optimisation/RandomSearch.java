@@ -42,7 +42,7 @@ import uts.aai.feature.model.MLComponentIO;
 import uts.aai.feature.service.DatasetMetaFeatures;
 import uts.aai.pbmn.SurrogatePipelineMapping;
 import uts.aai.pbmn.WekaExecutor;
-import test.uts.aai.pbmn.AutoProcessTestApp;
+
 import uts.aai.pn.engine.PetriNetsExecutionEngine;
 import uts.aai.pn.model.Parameter;
 import uts.aai.pn.model.PetriNetsPipeline;
@@ -292,7 +292,7 @@ public class RandomSearch {
             FileUtils.cleanDirectory(directory);
 
         } catch (IOException ex) {
-            Logger.getLogger(AutoProcessTestApp.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 

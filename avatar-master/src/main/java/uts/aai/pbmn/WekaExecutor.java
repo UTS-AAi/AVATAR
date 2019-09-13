@@ -34,7 +34,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
 import org.apache.commons.io.FileUtils;
-import test.uts.aai.pbmn.AutoProcessTestApp;
+
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -202,7 +202,7 @@ public class WekaExecutor {
             FileUtils.cleanDirectory(directory);
 
         } catch (IOException ex) {
-            Logger.getLogger(AutoProcessTestApp.class.getName()).log(Level.SEVERE, null, ex);
+           
         }
     }
 
