@@ -5,6 +5,7 @@
  */
 package uts.aai.avatar.optimisation;
 
+import uts.aai.avatar.service.RandomPipelineGenerator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,20 +36,19 @@ import uts.aai.avatar.model.AllEvaluationResult;
 import uts.aai.avatar.model.EvaluationModeType;
 import uts.aai.avatar.model.EvaluationModel;
 import uts.aai.avatar.model.EvaluationResult;
-import uts.aai.global.AppConst;
-import uts.aai.feature.configuration.MLComponentConfiguration;
-import uts.aai.feature.model.MLComponent;
-import uts.aai.feature.model.MLComponentIO;
-import uts.aai.feature.service.DatasetMetaFeatures;
-import uts.aai.pbmn.SurrogatePipelineMapping;
-import uts.aai.pbmn.WekaExecutor;
-
-import uts.aai.pn.engine.PetriNetsExecutionEngine;
+import uts.aai.avatar.configuration.AppConst;
+import uts.aai.avatar.configuration.MLComponentConfiguration;
+import uts.aai.avatar.model.MLComponent;
+import uts.aai.avatar.model.MLComponentIO;
+import uts.aai.avatar.service.DatasetMetaFeatures;
+import uts.aai.avatar.service.SurrogatePipelineMapping;
+import uts.aai.avatar.service.WekaExecutor;
+import uts.aai.avatar.service.PetriNetsExecutionEngine;
 import uts.aai.pn.model.Parameter;
 import uts.aai.pn.model.PetriNetsPipeline;
 import uts.aai.pn.model.Token;
-import uts.aai.pn.utils.IOUtils;
-import uts.aai.pn.utils.JSONUtils;
+import uts.aai.utils.IOUtils;
+import uts.aai.utils.JSONUtils;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.CSVSaver;

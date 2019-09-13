@@ -7,10 +7,10 @@ package uts.aai.pn.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import uts.aai.feature.model.MLMetafeature;
-import uts.aai.feature.model.MetafeatureType;
-import uts.aai.feature.model.MetafeatureTypeConfig;
-import uts.aai.pn.configuration.Configuration;
+import uts.aai.avatar.model.MLMetafeature;
+import uts.aai.avatar.model.MetafeatureType;
+import uts.aai.avatar.model.MetafeatureTypeConfig;
+import uts.aai.avatar.configuration.Configuration;
 
 /**
  *
