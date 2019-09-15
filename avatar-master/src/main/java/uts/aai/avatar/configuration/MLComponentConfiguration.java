@@ -28,6 +28,8 @@ import javax.xml.bind.JAXBException;
 import uts.aai.avatar.service.AlgorithmMetaKnowledge;
 import uts.aai.avatar.model.MLHyperparameter;
 import uts.aai.avatar.model.MLHyperparameterType;
+import uts.aai.pn.model.AlgorithmConfiguration;
+import uts.aai.pn.model.Parameter;
 import uts.aai.utils.IOUtils;
 import uts.aai.utils.JSONUtils;
 
@@ -3052,5 +3054,44 @@ public class MLComponentConfiguration {
 
         return listOfNotAutoFinaliseAlgorithm.contains(algorithmId);
     }
+    
+     public static AlgorithmConfiguration getAlgorithmConfiguration(String algorithm) {
+
+        System.out.println("Finding .. " + algorithm);
+       
+        MLComponent mLComponent = getComponentByID(algorithm);
+
+        if (mLComponent != null) {
+            
+         
+            String id = mLComponent.getComponentId();
+            String name = mLComponent.getComponentName();
+            String path = mLComponent.getComponentId();
+
+            List<Parameter> capabilityList = new ArrayList<>();
+
+            for (MLComponentIO mLComponentIO : mLComponent.getListOfCapabilities()) {
+                Parameter capability = new Parameter(mLComponentIO.getmLComponentCapability().name(), mLComponentIO.getValue());
+                capabilityList.add(capability);
+
+            }
+
+            List<Parameter> effectList = new ArrayList<>();
+            for (MLComponentIO mLComponentIO : mLComponent.getListOfEffects()) {
+                Parameter effect = new Parameter(mLComponentIO.getmLComponentCapability().name(), mLComponentIO.getValue());
+                effectList.add(effect);
+
+            }
+
+            AlgorithmConfiguration algorithmConfiguration = new AlgorithmConfiguration(id, name, path, capabilityList, effectList);
+
+            return algorithmConfiguration;
+
+        } else {
+            
+            return null;
+        }
+    }
+
 
 }

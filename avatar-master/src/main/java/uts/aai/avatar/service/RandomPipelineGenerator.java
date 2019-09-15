@@ -19,6 +19,8 @@ import uts.aai.avatar.model.MLHyperparameterType;
 import uts.aai.avatar.configuration.AppConst;
 import uts.aai.utils.IOUtils;
 import java.util.concurrent.ThreadLocalRandom;
+import uts.aai.avatar.model.pipeline.MLComponentHyperparameter;
+import uts.aai.avatar.model.pipeline.MLPipelineComponent;
 
 /**
  *
@@ -70,7 +72,7 @@ public class RandomPipelineGenerator {
 
                 List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
                 for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
-                    String hyperVal = getRandomHyperparameterValue(mLHyperparameter);
+                    String hyperVal = getRandomHyperparameterCommand(mLHyperparameter);
                     if (!hyperVal.equals("")) {
                         algorithmCommand += " " + hyperVal;
                     }
@@ -87,7 +89,7 @@ public class RandomPipelineGenerator {
 
                 List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
                 for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
-                    String hyperVal = getRandomHyperparameterValue(mLHyperparameter);
+                    String hyperVal = getRandomHyperparameterCommand(mLHyperparameter);
                     if (!hyperVal.equals("")) {
                         algorithmCommand += " " + hyperVal;
                     }
@@ -106,7 +108,7 @@ public class RandomPipelineGenerator {
         return commandStr;
     }
 
-    private String getRandomHyperparameterValue(MLHyperparameter mLHyperparameter) {
+    private String getRandomHyperparameterCommand(MLHyperparameter mLHyperparameter) {
         String hyperParamVal = "";
         switch (mLHyperparameter.getHyperparameterType()) {
             case BOOLEAN:
@@ -161,6 +163,76 @@ public class RandomPipelineGenerator {
         String randomStr = listOfNomnialValues.get(randomIndex);
         return randomStr;
     }
+    
+    public void generateRandomEvolPipeline(){
+        String componentTemplate = generateRandomComponentsWithMaxPipelinelength(AppConst.EVOLUTION_INIT_PIPELINE_LENGTH-1);
+        ArrayList<MLPipelineComponent> orderedPipelineComponents = randomSelectPipelineComponentEvol(componentTemplate);
+        String wekaCommand = generateEvolPipelineCommand(orderedPipelineComponents);
+        
+     
+        
+    }
+    
+    private String generateEvolPipelineCommand(ArrayList<MLPipelineComponent> orderedPipelineComponents) {
+
+       
+        String testingData = "C:/experiments/datasets/arff/abalone_test.arff";
+        String trainingData = "C:/experiments/datasets/arff/abalone_train.arff";
+        String outputModel = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/model-x-output.model";
+        
+        
+        
+        String finalFilterStr = "";
+        String finalPredictorStr = "";
+        
+        for (int i=0;i<orderedPipelineComponents.size();i++) {
+
+            MLPipelineComponent mLPipelineComponent = orderedPipelineComponents.get(i);
+            
+            if (i!=(orderedPipelineComponents.size()-1)) { //filter
+                String componentCommandStr = mLPipelineComponent.getAlgorithmId();
+               
+
+                List<MLComponentHyperparameter> listOfComponentHyperparameters = mLPipelineComponent.getListOfHyperparameters();
+                for (MLComponentHyperparameter mLHyperparameter : listOfComponentHyperparameters) {
+                    componentCommandStr +=" " + mLHyperparameter.getConfigureValue();
+                }
+                finalFilterStr += " -F \\\"" + componentCommandStr + "\\\"";
+
+            } else { // predictor
+                String componentCommandStr = mLPipelineComponent.getAlgorithmId() + " --";
+                
+                List<MLComponentHyperparameter> listOfComponentHyperparameters = mLPipelineComponent.getListOfHyperparameters();
+                for (MLComponentHyperparameter mLHyperparameter : listOfComponentHyperparameters) {
+                    componentCommandStr +=" " + mLHyperparameter.getConfigureValue();
+                }
+                finalPredictorStr += "-W " + componentCommandStr;
+            }
+
+        }
+
+        String wekaCommand = "java -classpath "
+                + AppConst.WEKA_JAR_PATH
+                + " weka.classifiers.meta.FilteredClassifier -t "
+                + testingData
+                + " -T "
+                + trainingData
+                + " -d "
+                + outputModel
+                + " -F \"weka.filters.MultiFilter "
+                + "-F weka.filters.AllFilter "
+                //+ "-F \\\"weka.filters.supervised.attribute.Discretize -R last\\\""
+                + finalFilterStr
+                + "\" "
+                //+ "-W weka.classifiers.trees.J48 -- -C 0.25 -M 2"
+                +finalPredictorStr;
+
+       
+        return wekaCommand;
+    }
+    
+    
+    
 
     public String generateBPMNPipeline() {
 //        String componentStr = generateRandomComponents();
@@ -174,14 +246,14 @@ public class RandomPipelineGenerator {
 
     public String generateBPMNPipelineWithRandomComponents(int numberOfPreprocessingComponents) {
 
-        String componentTemplate = generateRandomComponents2(numberOfPreprocessingComponents);
+        String componentTemplate = generateRandomComponentsWithMaxPipelinelength(numberOfPreprocessingComponents);
         ArrayList<MLComponent> orderedPipelineComponents = randomSelectAlgorithmsForPipeline(componentTemplate);
         String bpmnPipeline = generateBPMNPipelineWithRandomTemplate(orderedPipelineComponents);
 
         return bpmnPipeline;
     }
-
-    public String generateRandomComponents2(int numberOfPreprocessingComponents) {
+    
+    public String generateRandomComponentsWithMaxPipelinelength(int numberOfPreprocessingComponents) {
 
         ArrayList<String> componentList = new ArrayList<String>();
         componentList.add("M");
@@ -201,6 +273,9 @@ public class RandomPipelineGenerator {
         return componentTemplate;
     }
 
+
+     
+
     public String generateRandomComponents() {
 
         ArrayList<String> componentList = new ArrayList<String>();
@@ -211,7 +286,8 @@ public class RandomPipelineGenerator {
         componentList.add("S");
 
         Collections.shuffle(componentList);
-
+        
+        
         String componentTemplate = "";
         for (String component : componentList) {
             componentTemplate += component;
@@ -241,6 +317,58 @@ public class RandomPipelineGenerator {
         return orderedPipelineComponents;
 
     }
+    
+    
+    private ArrayList<MLPipelineComponent> randomSelectPipelineComponentEvol(String componentTemplate) {
+
+       
+        ArrayList<MLPipelineComponent> orderedPipelineComponents = new ArrayList<>();
+
+        for (int i = 0; i < componentTemplate.length(); i++) {
+            String preprocessingType = String.valueOf(componentTemplate.charAt(i));
+            List<MLComponent> filterList = initFilterListByType(preprocessingType);
+            Collections.shuffle(filterList);
+ 
+            MLComponent mLComponent = filterList.get(0);
+            
+            ArrayList<MLComponentHyperparameter> listOfComponentHyperparameters = new ArrayList<>();
+            
+            for (MLHyperparameter mLHyperparameter : mLComponent.getListOfMLHyperparameters()) {
+                
+                String hyperparameterValStr = getRandomHyperparameterCommand(mLHyperparameter);
+                MLComponentHyperparameter mLComponentHyperparameter = new MLComponentHyperparameter(mLHyperparameter.getCommand(), hyperparameterValStr);
+                listOfComponentHyperparameters.add(mLComponentHyperparameter);
+            }
+            
+            
+            MLPipelineComponent mLPipelineComponent = new MLPipelineComponent(mLComponent.getComponentId()+"."+randUUID(), mLComponent.getComponentId(), listOfComponentHyperparameters);
+            orderedPipelineComponents.add(mLPipelineComponent);
+
+        }
+
+        {
+        List<MLComponent> predictorList = MLComponentConfiguration.initClassifier();
+        Collections.shuffle(predictorList);
+        MLComponent mLComponent = predictorList.get(0);
+        ArrayList<MLComponentHyperparameter> listOfComponentHyperparameters = new ArrayList<>();
+            
+            for (MLHyperparameter mLHyperparameter : mLComponent.getListOfMLHyperparameters()) {
+                
+                String hyperparameterValStr = getRandomHyperparameterCommand(mLHyperparameter);
+                MLComponentHyperparameter mLComponentHyperparameter = new MLComponentHyperparameter(mLHyperparameter.getCommand(), hyperparameterValStr);
+                listOfComponentHyperparameters.add(mLComponentHyperparameter);
+            }
+            
+            
+            MLPipelineComponent mLPipelineComponent = new MLPipelineComponent(mLComponent.getComponentId()+"."+randUUID(), mLComponent.getComponentId(), listOfComponentHyperparameters);
+            orderedPipelineComponents.add(mLPipelineComponent);
+        }
+
+        return orderedPipelineComponents;
+
+    }
+    
+    
 
     private String generateBPMNPipeline(ArrayList<MLComponent> orderedPipelineComponents) {
 

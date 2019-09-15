@@ -10,7 +10,8 @@ import java.util.List;
 import uts.aai.avatar.model.MLMetafeature;
 import uts.aai.avatar.model.MetafeatureType;
 import uts.aai.avatar.model.MetafeatureTypeConfig;
-import uts.aai.avatar.configuration.Configuration;
+
+import uts.aai.avatar.configuration.MLComponentConfiguration;
 
 /**
  *
@@ -34,7 +35,7 @@ public class MetaFeatureEvaluationTransitionFunction implements TransitionFuncti
         
         
 
-        AlgorithmConfiguration algorithmConfiguration = Configuration.getAlgorithmConfiguration(algorithm);
+        AlgorithmConfiguration algorithmConfiguration = MLComponentConfiguration.getAlgorithmConfiguration(algorithm);
         
      
 

@@ -12,7 +12,7 @@ import uts.aai.pn.model.Place;
 import uts.aai.pn.model.PetriNetsPipeline;
 import uts.aai.pn.model.TransitionFunction;
 import uts.aai.pn.model.Token;
-import uts.aai.avatar.configuration.Configuration;
+//import uts.aai.avatar.configuration.Configuration;
 
 /**
  *
