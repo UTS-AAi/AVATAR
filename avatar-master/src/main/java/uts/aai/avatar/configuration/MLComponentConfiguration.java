@@ -3092,6 +3092,50 @@ public class MLComponentConfiguration {
             return null;
         }
     }
+     
+     
+     public static List<MLComponent> getListOfBaseLearners() {
+         List<MLComponent> listOfBaseLearners = new ArrayList<>();
+         
+         for (MLComponent component : listOfMLComponents) {
+             if (component.getmLComponentType().equals(MLComponentType.BASE_LEARNER)) {
+                 listOfBaseLearners.add(component);
+             }
+         }
+         
+         
+         return listOfBaseLearners;
+     }
+     
+     public static List<MLComponent> getListOfClassifiers() {
+         List<MLComponent> listOfBaseLearners = new ArrayList<>();
+         
+         for (MLComponent component : listOfMLComponents) {
+             if (component.getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                     || component.getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                     || component.getmLComponentType().equals(MLComponentType.REGRESSOR)
+                     || component.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+                 listOfBaseLearners.add(component);
+             }
+         }
+         
+         
+         return listOfBaseLearners;
+     }
+     
+     public static List<MLComponent> getListOfPredictors() {
+         List<MLComponent> listOfBaseLearners = new ArrayList<>();
+         
+         for (MLComponent component : listOfMLComponents) {
+             if (component.getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                     || component.getmLComponentType().equals(MLComponentType.REGRESSOR)) {
+                 listOfBaseLearners.add(component);
+             }
+         }
+         
+         
+         return listOfBaseLearners;
+     }
 
 
 }

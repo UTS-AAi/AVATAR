@@ -87,6 +87,8 @@ public class RandomPipelineGenerator {
                 algorithmCommand += mLComponent.getComponentFullClassName();
                 algorithmCommand += " --";
 
+                
+                System.out.println("mLComponent.getmLComponentType(): "+mLComponent.getmLComponentType());
                 List<MLHyperparameter> listOfHyperparameters = mLComponent.getListOfMLHyperparameters();
                 for (MLHyperparameter mLHyperparameter : listOfHyperparameters) {
                     String hyperVal = getRandomHyperparameterCommand(mLHyperparameter);
@@ -128,6 +130,42 @@ public class RandomPipelineGenerator {
                 double randNumeric = randomDouble(mLHyperparameter.getMinNumericValue(), mLHyperparameter.getMaxNumericValue());
                 hyperParamVal += mLHyperparameter.getCommand() + " " + String.valueOf(randNumeric);
                 break;
+            case BASE_LEARNER:
+                MLComponent randomBaseLearner = randomBaseLearners();
+                
+                hyperParamVal += mLHyperparameter.getCommand() + " \""+ randomBaseLearner.getComponentFullClassName();
+                for (MLHyperparameter mLHyperparameterBaseLearner : randomBaseLearner.getListOfMLHyperparameters()) {
+                
+                    String hyperparameterValStr = getRandomHyperparameterCommand(mLHyperparameterBaseLearner);
+                    if (!hyperparameterValStr.trim().equals("")) {
+                        hyperParamVal += " " + hyperparameterValStr;
+                    }
+                    
+                }
+                
+                hyperParamVal += "\"";
+               
+                
+                break;
+                
+            case PREDICTORS:
+                MLComponent randomPredictor = randomPredictors();
+                
+                hyperParamVal += mLHyperparameter.getCommand() + " "+ randomPredictor.getComponentFullClassName() + " --";
+                for (MLHyperparameter mLHyperparameterPredictor : randomPredictor.getListOfMLHyperparameters()) {
+                
+                    String hyperparameterValStr = getRandomHyperparameterCommand(mLHyperparameterPredictor);
+                    if (!hyperparameterValStr.trim().equals("")) {
+                        hyperParamVal += " " + hyperparameterValStr;
+                    }
+                    
+                }
+                
+                
+                break;    
+                
+                
+                
             default:
                 break;
         }
@@ -164,21 +202,37 @@ public class RandomPipelineGenerator {
         return randomStr;
     }
     
-    public void generateRandomEvolPipeline(){
+    private MLComponent randomBaseLearners() {
+        
+        List<MLComponent> listOfBaseLearners = MLComponentConfiguration.getListOfBaseLearners();
+        Collections.shuffle(listOfBaseLearners);
+        
+        return listOfBaseLearners.get(0);
+    }
+    
+    private MLComponent randomPredictors() {
+        
+        List<MLComponent> listOfPredictors = MLComponentConfiguration.getListOfPredictors();
+        Collections.shuffle(listOfPredictors);
+        
+        return listOfPredictors.get(0);
+    }
+    
+    public String generateRandomEvolPipeline(String testingData, String trainingData){
         String componentTemplate = generateRandomComponentsWithMaxPipelinelength(AppConst.EVOLUTION_INIT_PIPELINE_LENGTH-1);
         ArrayList<MLPipelineComponent> orderedPipelineComponents = randomSelectPipelineComponentEvol(componentTemplate);
-        String wekaCommand = generateEvolPipelineCommand(orderedPipelineComponents);
+        String pipelineId = randUUID();
+        String wekaCommand = generateEvolPipelineCommand(orderedPipelineComponents, testingData, trainingData, pipelineId);
         
-     
+        return wekaCommand;
         
     }
     
-    private String generateEvolPipelineCommand(ArrayList<MLPipelineComponent> orderedPipelineComponents) {
+    private String generateEvolPipelineCommand(ArrayList<MLPipelineComponent> orderedPipelineComponents, String testingData, String trainingData, String pipelineId) {
 
        
-        String testingData = "C:/experiments/datasets/arff/abalone_test.arff";
-        String trainingData = "C:/experiments/datasets/arff/abalone_train.arff";
-        String outputModel = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output/model-x-output.model";
+        
+        String outputModel = AppConst.TEMP_OUTPUT_PATH + "/"+ pipelineId +".model";
         
         
         
@@ -204,7 +258,9 @@ public class RandomPipelineGenerator {
                 
                 List<MLComponentHyperparameter> listOfComponentHyperparameters = mLPipelineComponent.getListOfHyperparameters();
                 for (MLComponentHyperparameter mLHyperparameter : listOfComponentHyperparameters) {
-                    componentCommandStr +=" " + mLHyperparameter.getConfigureValue();
+                    if (!mLHyperparameter.getConfigureValue().trim().equals("")) {
+                        componentCommandStr +=" " + mLHyperparameter.getConfigureValue()+"";
+                    }
                 }
                 finalPredictorStr += "-W " + componentCommandStr;
             }
@@ -220,7 +276,7 @@ public class RandomPipelineGenerator {
                 + " -d "
                 + outputModel
                 + " -F \"weka.filters.MultiFilter "
-                + "-F weka.filters.AllFilter "
+                + "-F weka.filters.AllFilter"
                 //+ "-F \\\"weka.filters.supervised.attribute.Discretize -R last\\\""
                 + finalFilterStr
                 + "\" "
@@ -347,7 +403,7 @@ public class RandomPipelineGenerator {
         }
 
         {
-        List<MLComponent> predictorList = MLComponentConfiguration.initClassifier();
+        List<MLComponent> predictorList = MLComponentConfiguration.getListOfClassifiers();
         Collections.shuffle(predictorList);
         MLComponent mLComponent = predictorList.get(0);
         ArrayList<MLComponentHyperparameter> listOfComponentHyperparameters = new ArrayList<>();
