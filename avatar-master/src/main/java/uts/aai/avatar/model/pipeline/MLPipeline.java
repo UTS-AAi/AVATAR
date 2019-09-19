@@ -16,6 +16,7 @@ public class MLPipeline {
     private MLPipelineStructure mLPipelineStructure;
     private ArrayList<MLPipelineComponent> listOfMLComponents;
     private ArrayList<MLPipelineUtilityComponent> listOfUtilityComponents;
+    
 
     public MLPipeline() {
     }

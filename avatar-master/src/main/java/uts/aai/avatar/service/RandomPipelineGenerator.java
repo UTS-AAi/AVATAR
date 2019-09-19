@@ -20,7 +20,10 @@ import uts.aai.avatar.configuration.AppConst;
 import uts.aai.utils.IOUtils;
 import java.util.concurrent.ThreadLocalRandom;
 import uts.aai.avatar.model.pipeline.MLComponentHyperparameter;
+import uts.aai.avatar.model.pipeline.MLPipeline;
 import uts.aai.avatar.model.pipeline.MLPipelineComponent;
+import uts.aai.avatar.model.pipeline.MLPipelineConnection;
+import uts.aai.avatar.model.pipeline.MLPipelineStructure;
 
 /**
  *
@@ -220,17 +223,28 @@ public class RandomPipelineGenerator {
     
     public String generateRandomEvolPipeline(String testingData, String trainingData){
         String componentTemplate = generateRandomComponentsWithMaxPipelinelength(AppConst.EVOLUTION_INIT_PIPELINE_LENGTH-1);
-        ArrayList<MLPipelineComponent> orderedPipelineComponents = randomSelectPipelineComponentEvol(componentTemplate);
+        MLPipeline mLPipeline = randomSelectPipelineComponentEvol(componentTemplate);
+        
+        
         String pipelineId = randUUID();
-        String wekaCommand = generateEvolPipelineCommand(orderedPipelineComponents, testingData, trainingData, pipelineId);
+        String wekaCommand = generateEvolPipelineCommand(mLPipeline, testingData, trainingData, pipelineId);
         
         return wekaCommand;
         
     }
     
-    private String generateEvolPipelineCommand(ArrayList<MLPipelineComponent> orderedPipelineComponents, String testingData, String trainingData, String pipelineId) {
+    public String convertMLPipelineToSurrogatePipeline(MLPipeline mLPipeline){
+        
+        MLPipelineStructure mLPipelineStructure = mLPipeline.getmLPipelineStructure();
+        
+        
+        return "";
+    }
+    
+    
+    private String generateEvolPipelineCommand(MLPipeline mLPipeline, String testingData, String trainingData, String pipelineId) {
 
-       
+       ArrayList<MLPipelineComponent> orderedPipelineComponents = mLPipeline.getListOfMLComponents();
         
         String outputModel = AppConst.TEMP_OUTPUT_PATH + "/"+ pipelineId +".model";
         
@@ -375,10 +389,13 @@ public class RandomPipelineGenerator {
     }
     
     
-    private ArrayList<MLPipelineComponent> randomSelectPipelineComponentEvol(String componentTemplate) {
+    private MLPipeline randomSelectPipelineComponentEvol(String componentTemplate) {
 
-       
+        ArrayList<MLPipelineConnection> listOfConnections = new ArrayList<>();
+        
         ArrayList<MLPipelineComponent> orderedPipelineComponents = new ArrayList<>();
+        
+        String previousSource = null;
 
         for (int i = 0; i < componentTemplate.length(); i++) {
             String preprocessingType = String.valueOf(componentTemplate.charAt(i));
@@ -396,9 +413,13 @@ public class RandomPipelineGenerator {
                 listOfComponentHyperparameters.add(mLComponentHyperparameter);
             }
             
-            
-            MLPipelineComponent mLPipelineComponent = new MLPipelineComponent(mLComponent.getComponentId()+"."+randUUID(), mLComponent.getComponentId(), listOfComponentHyperparameters);
+            String mlPipelineComponentId = mLComponent.getComponentId()+"."+randUUID();
+            MLPipelineComponent mLPipelineComponent = new MLPipelineComponent(mlPipelineComponentId, mLComponent.getComponentId(), listOfComponentHyperparameters);
             orderedPipelineComponents.add(mLPipelineComponent);
+            
+            MLPipelineConnection mLPipelineConnection = new MLPipelineConnection(previousSource, mlPipelineComponentId);
+            listOfConnections.add(mLPipelineConnection);
+            previousSource = mlPipelineComponentId;
 
         }
 
@@ -415,12 +436,21 @@ public class RandomPipelineGenerator {
                 listOfComponentHyperparameters.add(mLComponentHyperparameter);
             }
             
-            
-            MLPipelineComponent mLPipelineComponent = new MLPipelineComponent(mLComponent.getComponentId()+"."+randUUID(), mLComponent.getComponentId(), listOfComponentHyperparameters);
+            String mlPipelineComponentId = mLComponent.getComponentId()+"."+randUUID();
+            MLPipelineComponent mLPipelineComponent = new MLPipelineComponent(mlPipelineComponentId, mLComponent.getComponentId(), listOfComponentHyperparameters);
             orderedPipelineComponents.add(mLPipelineComponent);
+            
+            MLPipelineConnection mLPipelineConnection = new MLPipelineConnection(previousSource, mlPipelineComponentId);
+            listOfConnections.add(mLPipelineConnection);
+            previousSource = mlPipelineComponentId;
         }
+        
+        MLPipelineConnection mLPipelineConnection = new MLPipelineConnection(previousSource, null);
+        listOfConnections.add(mLPipelineConnection);
+        
+        MLPipeline mLPipeline = new MLPipeline(new MLPipelineStructure(listOfConnections), orderedPipelineComponents, null);
 
-        return orderedPipelineComponents;
+        return mLPipeline;
 
     }
     

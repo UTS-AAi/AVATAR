@@ -26,8 +26,11 @@ public class RandomPipelineCombination {
     public String randomPipelinePath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/combination/dataset_1/";
     public String outputWekaModelPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/model/";
 
-    public void permute(String[] arr) {
+    public int permute(String[] arr) {
         permuteHelper(arr, 0);
+        
+        //System.out.println("counter: " + counter);
+        return counter;
     }
 
     private void permuteHelper(String[] arr, int index) {
@@ -44,7 +47,7 @@ public class RandomPipelineCombination {
 
             hanldeAlgorithmsForSelectedTemplate(orderOfPreprocessing);
 
-            System.out.println(orderOfPreprocessing);
+            //System.out.println(orderOfPreprocessing);
 
             return;
         }
@@ -110,8 +113,8 @@ public class RandomPipelineCombination {
 //                                        System.out.println(cp.getComponentId());
 //                                    }
 //                                    System.out.println("---");
-                                generateFilteredClassiferWeka(orderedPipelineComponents, template);
-                                generateBPMNPipeline(orderedPipelineComponents, template);
+                                //generateFilteredClassiferWeka(orderedPipelineComponents, template);
+                                //generateBPMNPipeline(orderedPipelineComponents, template);
 
                                 counter++;
                                 //break;
@@ -139,8 +142,10 @@ public class RandomPipelineCombination {
         String fullCommand = prepareFullCommand(outputFileName, pipeline);
         String outputPipelineFilePath = randomPipelinePath + template + "_" + counter + ".txt";
 
-        IOUtils iou = new IOUtils();
-        iou.overWriteData(fullCommand, outputPipelineFilePath);
+        
+        
+        //IOUtils iou = new IOUtils();
+        //iou.overWriteData(fullCommand, outputPipelineFilePath);
     }
 
     private void generateBPMNPipeline(ArrayList<MLComponent> orderedPipelineComponents, String template) {
@@ -165,7 +170,7 @@ public class RandomPipelineCombination {
         templateFileContent = templateFileContent.replaceAll("#classifier#", orderedPipelineComponents.get(5).getComponentId());
 
         String outputPipelineFilePath = randomPipelinePath + template + "_" + counter + ".bpmn";
-        iou.overWriteData(templateFileContent, outputPipelineFilePath);
+       //iou.overWriteData(templateFileContent, outputPipelineFilePath);
 
     }
 

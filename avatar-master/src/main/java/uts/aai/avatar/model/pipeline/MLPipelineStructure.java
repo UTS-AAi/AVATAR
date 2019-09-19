@@ -30,5 +30,31 @@ public class MLPipelineStructure {
         this.listOfConnections = listOfConnections;
     }
     
+    public MLPipelineConnection getFirstComponent(){
+        for (MLPipelineConnection mLPipelineConnection : listOfConnections) {
+            if (mLPipelineConnection.getSource()==null) {
+                return mLPipelineConnection;
+            }
+        }
+        return null;
+    }
+    
+    public MLPipelineConnection getLastComponent(){
+        for (MLPipelineConnection mLPipelineConnection : listOfConnections) {
+            if (mLPipelineConnection.getTarget()==null) {
+                return mLPipelineConnection;
+            }
+        }
+        return null;
+    }
+    
+    public MLPipelineConnection getNextComponent(String sourceId){
+        for (MLPipelineConnection mLPipelineConnection : listOfConnections) {
+            if (mLPipelineConnection.getTarget()==null && mLPipelineConnection.getSource().equals(sourceId)) {
+                return mLPipelineConnection;
+            }
+        }
+        return null;
+    }
     
 }

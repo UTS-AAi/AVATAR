@@ -12,6 +12,7 @@ package uts.aai.avatar.model.pipeline;
 public class MLComponentHyperparameter {
     private String configureString;
     private String configureValue;
+    private MLPipeline subPipeline;
 
     public MLComponentHyperparameter() {
     }
@@ -35,6 +36,14 @@ public class MLComponentHyperparameter {
 
     public void setConfigureValue(String configureValue) {
         this.configureValue = configureValue;
+    }
+
+    public MLPipeline getSubPipeline() {
+        return subPipeline;
+    }
+
+    public void setSubPipeline(MLPipeline subPipeline) {
+        this.subPipeline = subPipeline;
     }
     
     
