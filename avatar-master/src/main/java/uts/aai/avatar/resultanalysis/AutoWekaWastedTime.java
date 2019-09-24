@@ -10,7 +10,15 @@ package uts.aai.avatar.resultanalysis;
  * @author ntdun
  */
 public class AutoWekaWastedTime {
+    //runs_and_results....
     
+    // number of invalid pipelines / total pipelines
+    // =TEXT(COUNTIF(N:N,"CRASHED"),"0")&"/"&TEXT(COUNTA(N:N)-1,"0")
+    
+    // AVERAGE TIME TO EVALUATE INVALID PIPELINE
+    // =SUMIF(N:N,"CRASHED",H:H)*1000/COUNTIF(N:N,"CRASHED")
+    
+    // wasted time in percentage
     //    =SUMIF(N:N,"CRASHED",H:H)/SUM(H:H)*100
     
 }
