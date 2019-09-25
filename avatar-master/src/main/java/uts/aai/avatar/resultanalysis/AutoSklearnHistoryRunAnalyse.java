@@ -78,8 +78,12 @@ public class AutoSklearnHistoryRunAnalyse {
         System.out.println("others: " + others + " - " + others_time);
         
         System.out.println("Invalid pipelines/all: " + crashed + "/" + (success+crashed+memout+timeout+others));
-        System.out.println("Wasted Time: " + crashed_time + "/" + (sucesss_time+crashed_time+memout_time+timeout_time+others_time)+
-        " ~ " + (crashed_time/(sucesss_time+crashed_time+memout_time+timeout_time+others_time)));
+        
+        double avgInvalidPipelineEvaluationTime = crashed_time*100/crashed;
+        double avgTotalPipelineEvaluationTime = (sucesss_time+crashed_time+memout_time+timeout_time+others_time)*100/(success+crashed+memout+timeout+others);
+        
+        System.out.println("Invalid pipelines/all evaluation time: " + (int)avgInvalidPipelineEvaluationTime +"/" + (int)avgTotalPipelineEvaluationTime );
+        System.out.println("Wasted Time: " + (crashed_time/(sucesss_time+crashed_time+memout_time+timeout_time+others_time))*100);
         
     }
     

@@ -15,10 +15,14 @@ public class AutoWekaWastedTime {
     // number of invalid pipelines / total pipelines
     // =TEXT(COUNTIF(N:N,"CRASHED"),"0")&"/"&TEXT(COUNTA(N:N)-1,"0")
     
-    // AVERAGE TIME TO EVALUATE INVALID PIPELINE
-    // =SUMIF(N:N,"CRASHED",H:H)*1000/COUNTIF(N:N,"CRASHED")
+    // AVERAGE TIME TO EVALUATE INVALID PIPELINE / TOTAL PIPELINE
+    // =TEXT(SUMIF(N:N,"CRASHED",H:H)*1000/COUNTIF(N:N,"CRASHED"),"0")&"/"&TEXT(SUM(H:H)*1000/COUNTA(H:H),"0")
     
     // wasted time in percentage
     //    =SUMIF(N:N,"CRASHED",H:H)/SUM(H:H)*100
+    
+    // ALL
+    
+    // =TEXT(COUNTIF(N:N,"CRASHED"),"0")&"/"&TEXT(COUNTA(N:N)-1,"0")&"     "&TEXT(SUMIF(N:N,"CRASHED",P:P)*1000/COUNTIF(N:N,"CRASHED"),"0")&"/"&TEXT(SUM(P:P)*1000/COUNTA(P:P),"0")&"       "&TEXT(SUMIF(N:N,"CRASHED",P:P)/SUM(P:P)*100,"0.00")
     
 }
