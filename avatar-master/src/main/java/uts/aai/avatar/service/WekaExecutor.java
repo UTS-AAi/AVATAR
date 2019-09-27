@@ -46,6 +46,11 @@ import weka.core.converters.ConverterUtils.DataSource;
  */
 public class WekaExecutor {
 
+    public WekaExecutor() {
+    }
+    
+    
+
     public boolean executeAlgorithm(String inputData, String outputData, String filterId) {
 
         boolean result = true;

@@ -85,12 +85,14 @@ public class RandomSearch {
 
         long startExperimentTime = System.currentTimeMillis();
 
-        while (!isTimeOut(startExperimentTime)) {
+       // while (!isTimeOut(startExperimentTime)) 
+        {
 
             cleanTemp();
-            int numberOfPreprocessingComponent = randInt(0, 5);
+            //int numberOfPreprocessingComponent = randInt(0, 5);
+            int numberOfPreprocessingComponent = 0;
             String bpmnPipeline = createRandomPipeline(numberOfPreprocessingComponent);
-
+            System.out.println("bpmn: \n" + bpmnPipeline);
             List<EvaluationModel> listOfEvaluationModels = new ArrayList<>();
 
             //if (isAvatar) 
@@ -266,7 +268,9 @@ public class RandomSearch {
         try {
 
             SurrogatePipelineMapping spm = new SurrogatePipelineMapping();
+            System.out.println("CHECK A1");
             PetriNetsPipeline petriNetsPipeline = spm.mappingFromBPMN2PetriNetsPipelineFromBPMNString(bpmnPipeline);
+            System.out.println("CHECK A2");
             //System.out.println("\n" + petriNetsPipeline.toString());
 
             PetriNetsExecutionEngine engine = new PetriNetsExecutionEngine(petriNetsPipeline);

@@ -57,21 +57,27 @@ public class SurrogatePipelineMapping {
 
     public PetriNetsPipeline mappingFromBPMN2PetriNetsPipelineFromBPMNString(String bpmnPipeline) {
 
+        PetriNetsPipeline pipeline = null;
+        try {
         List<Place> placeList = new ArrayList<>();
         List<Transition> transitionList = new ArrayList<>();
         List<Arc> arcList = new ArrayList<>();
 
-//        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-//
-//        kbuilder.add(ResourceFactory.newFileResource(bpmnModel), ResourceType.BPMN2);
+        System.out.println("CHECK B1");
         Resource resource = new ByteArrayResource(bpmnPipeline.getBytes());
-
+        System.out.println("CHECK B2");
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
         kbuilder.add(resource, ResourceType.BPMN2);
+        
+        System.out.println("CHECK B3");
 
         KnowledgeBase kbase = kbuilder.newKnowledgeBase();
+        
+        System.out.println("CHECK B4");
 
         RuleFlowProcess process = (RuleFlowProcess) kbase.getProcess("ml.process");
+        
+        System.out.println("CHECK B5");
 
         StartNode startNode = process.getStart();
         System.out.println("start node " + startNode.getName());
@@ -172,9 +178,13 @@ public class SurrogatePipelineMapping {
 
         }
 
-        PetriNetsPipeline pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
+         pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
 
         //System.out.println("script: " + node.getAction().toString());
+        
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return pipeline;
     }
 

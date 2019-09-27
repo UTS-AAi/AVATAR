@@ -550,8 +550,9 @@ public class RandomPipelineGenerator {
                 + "                \n"
                 + "                String predictorName = \"#classifier#\";\n"
                 + "          \n"
-                + "                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();\n"
-                + "                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable(\"#filter_input_data_name#\")),String.valueOf(kcontext.getVariable(\"output-model-1\")),predictorName);</script>\n"
+                + "                uts.aai.avatar.service.WekaExecutor wekaExecutor = new uts.aai.avatar.service.WekaExecutor();\n"
+                + "                wekaExecutor.executePredictor(String.valueOf(kcontext.getVariable(\"#filter_input_data_name#\")),String.valueOf(kcontext.getVariable(\"output-model-1\")),predictorName);"
+                + "     </script>\n"
                 + "    </scriptTask>\n"
                 + "    \n"
                 + "    \n"
@@ -568,8 +569,9 @@ public class RandomPipelineGenerator {
                 + "                \n"
                 + "                String filterName = \"#filter_#script_filter_no##\";\n"
                 + "          \n"
-                + "                uts.aai.pbmn.WekaExecutor wekaExecutor = new uts.aai.pbmn.WekaExecutor();\n"
-                + "                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable(\"#filter_input_data_name#\")),String.valueOf(kcontext.getVariable(\"#filter_output_data_name#\")),filterName);</script>\n"
+                + "                uts.aai.avatar.service.WekaExecutor wekaExecutor = new uts.aai.avatar.service.WekaExecutor();\n"
+                + "                wekaExecutor.executeFilter(String.valueOf(kcontext.getVariable(\"#filter_input_data_name#\")),String.valueOf(kcontext.getVariable(\"#filter_output_data_name#\")),filterName);"
+                + "      </script>\n"
                 + "    </scriptTask>";
 
         String sequenceFlowTemplate = "\n<sequenceFlow id=\"#sequence_flow_id#\" sourceRef=\"#sequence_flow_src#\" targetRef=\"#sequence_flow_target#\" />";
