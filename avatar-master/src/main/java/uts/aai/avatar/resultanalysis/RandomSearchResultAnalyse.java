@@ -64,9 +64,15 @@ public class RandomSearchResultAnalyse {
 
             System.out.println("BPMN RESULT --------------------- \n");
             analyseModelIndex(allEvaluationResult, 1);
-
-            System.out.println("DIFF ANALYSE RESULT --------------------- \n");
-            analyseDiff(allEvaluationResult, randomSearchResultFilePath);
+            
+            System.out.println("TPOT STRATEGY RESULT --------------------- \n");
+            //analyseModelIndex(allEvaluationResult, 2);
+            
+            System.out.println("AVATAR DIFF ANALYSE RESULT --------------------- \n");
+            analyseDiff(allEvaluationResult, randomSearchResultFilePath,0,1);
+            
+            System.out.println("TPOT STRAGEGY DIFF ANALYSE RESULT --------------------- \n");
+            //analyseDiff(allEvaluationResult, randomSearchResultFilePath,2,1);
 
         } catch (JAXBException ex) {
             Logger.getLogger(RandomSearchResultAnalyse.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,7 +114,7 @@ public class RandomSearchResultAnalyse {
         System.out.println("AVG INvalid pipeline evaluation time: " + sumInvalid / invalidPipeline);
     }
 
-    private void analyseDiff(AllEvaluationResult allEvaluationResult, String randomSearchResultFilePath) {
+    private void analyseDiff(AllEvaluationResult allEvaluationResult, String randomSearchResultFilePath, int modelIndex0, int modelIndex1) {
         IOUtils iou = new IOUtils();
         int differentEvalCounter = 0;
         int similarEvalCounter = 0;
@@ -117,14 +123,17 @@ public class RandomSearchResultAnalyse {
 
         for (EvaluationResult evaluationResult : allEvaluationResult.getEvaluationResultList()) {
 
-            EvaluationModel evalModel0 = evaluationResult.getEvaluationModel().get(0);
-            EvaluationModel evalModel1 = evaluationResult.getEvaluationModel().get(1);
+            EvaluationModel evalModel0 = evaluationResult.getEvaluationModel().get(modelIndex0);
+            EvaluationModel evalModel1 = evaluationResult.getEvaluationModel().get(modelIndex1);
 
             if (evalModel0.getValidity().equals(evalModel1.getValidity())) {
                 similarEvalCounter++;
             } else {
                 differentEvalCounter++;
-                String diffPath = randomSearchResultFilePath + "-dif-" + String.valueOf(counter) + ".bpmn";
+                String diffPath = randomSearchResultFilePath + "-"+String.valueOf(modelIndex0)+"vs"+String.valueOf(modelIndex1) + "-dif-" + String.valueOf(counter) + ".bpmn";
+                
+                System.out.println(diffPath +"             " + String.valueOf(evalModel0.getValidity()) + " vs " + String.valueOf(evalModel1.getValidity()));
+                
                 iou.overWriteData(evalModel1.getSpecs(), diffPath);
                 counter++;
 
@@ -132,7 +141,7 @@ public class RandomSearchResultAnalyse {
 
             if (evalModel1.getSpecs().equals("timeout")) {
                 timeOutCounter++;
-                String timeoutPath = randomSearchResultFilePath + "-timeout-" + String.valueOf(timeOutCounter) + ".bpmn";
+                String timeoutPath = randomSearchResultFilePath + "-"+String.valueOf(modelIndex0)+"vs"+String.valueOf(modelIndex1) + "-timeout-" + String.valueOf(timeOutCounter) + ".bpmn";
                 iou.overWriteData(evalModel1.getSpecs(), timeoutPath);
             }
         }

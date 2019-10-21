@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -591,5 +592,69 @@ public class SurrogatePipelineMapping {
 //        return pipeline;
         return null;
     }
+    
+    
+    
+    
+    public PetriNetsPipeline mappingFromListOfComponents(ArrayList<String> lisfOfSMACArgs, String dataPath) {
+
+        List<Place> placeList = new ArrayList<>();
+        List<Transition> transitionList = new ArrayList<>();
+        List<Arc> arcList = new ArrayList<>();
+
+        Place startPlace = createPlace(randUUID());
+        placeList.add(startPlace);
+        Token token = createToken(dataPath);
+        startPlace.setToken(token);
+        
+        Place previousPlace = startPlace;
+      
+        for (String smacArg : lisfOfSMACArgs) {
+
+                        Transition currentTransition = createTransition(randUUID(), smacArg);
+                        transitionList.add(currentTransition);
+
+                        String arcId1 = previousPlace.getId() + "_" + currentTransition.getId();
+                        Arc arc1 = new Arc(arcId1, previousPlace.getId(), currentTransition.getId(), true);
+                        arcList.add(arc1);
+
+                        // middle Place
+                        Place middlePlace = createPlace("mid-" + randUUID());
+                        placeList.add(middlePlace);
+
+                        // add Arc 2
+                        String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
+                        Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
+                        arcList.add(arc2);
+                        previousPlace = middlePlace;
+
+        }
+
+        for (Place pl : placeList) {
+            System.out.println("place: " + pl.getId());
+
+        }
+
+        for (Arc pl : arcList) {
+            System.out.println("arc: " + pl.getId());
+
+        }
+
+        for (Transition pl : transitionList) {
+            System.out.println("trans: " + pl.getId());
+
+        }
+
+        PetriNetsPipeline pipeline = new PetriNetsPipeline(randUUID(), placeList, arcList, transitionList);
+
+        return pipeline;
+    }
+    
+    
+    private String randUUID() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
+    }
+
 
 }

@@ -194,7 +194,7 @@ public class WekaExecutor {
                 iou.overWriteData(String.valueOf(result), AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
             }
 
-            cleanTemp();
+           // cleanTemp();
 
         }
         return result;

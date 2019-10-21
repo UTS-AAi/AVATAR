@@ -85,14 +85,14 @@ public class RandomSearch {
 
         long startExperimentTime = System.currentTimeMillis();
 
-       // while (!isTimeOut(startExperimentTime)) 
+        while (!isTimeOut(startExperimentTime)) 
         {
 
             cleanTemp();
             //int numberOfPreprocessingComponent = randInt(0, 5);
             int numberOfPreprocessingComponent = 0;
             String bpmnPipeline = createRandomPipeline(numberOfPreprocessingComponent);
-            System.out.println("bpmn: \n" + bpmnPipeline);
+            //System.out.println("bpmn: \n" + bpmnPipeline);
             List<EvaluationModel> listOfEvaluationModels = new ArrayList<>();
 
             //if (isAvatar) 
@@ -123,7 +123,7 @@ public class RandomSearch {
             {
 
                 System.out.println("START BPMN");
-
+                
                 long startEvaluationTime = System.currentTimeMillis();
                 EvaluationModel evaluationModel = evaluateBPMNPipeline(bpmnPipeline, numberOfPreprocessingComponent);
                 long endEvaluationTime = System.currentTimeMillis();
@@ -140,6 +140,30 @@ public class RandomSearch {
                 }
 
                 System.out.println("END BPMN: " + evaluationModel.getValidity());
+
+            }
+            
+            {
+
+                System.out.println("START TPOT Strategy");
+                String bpmnPipelineForTPOTStrategy = bpmnPipeline.replaceAll("_train.arff", "_train_sampling.arff");
+                long startEvaluationTime = System.currentTimeMillis();
+                EvaluationModel evaluationModel = evaluateBPMNPipeline(bpmnPipelineForTPOTStrategy, numberOfPreprocessingComponent);
+                evaluationModel.setEvalModelType(EvaluationModeType.TPOT_STRATEGY);
+                long endEvaluationTime = System.currentTimeMillis();
+                long evaluationTime = endEvaluationTime - startEvaluationTime;
+
+                if (evaluationModel == null) {
+                    System.out.println("BPMN EVALs NULL");
+                    evaluationModel = new EvaluationModel(EvaluationModeType.TPOT_STRATEGY, bpmnPipelineForTPOTStrategy,
+                            Boolean.FALSE, evaluationTime, null);
+                    listOfEvaluationModels.add(evaluationModel);
+                } else {
+                    evaluationModel.setEvalTime(evaluationTime);
+                    listOfEvaluationModels.add(evaluationModel);
+                }
+
+                System.out.println("END TPOT Strategy: " + evaluationModel.getValidity());
 
             }
 
