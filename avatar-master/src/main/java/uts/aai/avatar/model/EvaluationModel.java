@@ -9,7 +9,7 @@ package uts.aai.avatar.model;
  *
  * @author ntdun
  */
-public class EvaluationModel {
+public class EvaluationModel implements Comparable<EvaluationModel>{
     
     EvaluationModeType evalModelType;
     String specs;
@@ -69,7 +69,12 @@ public class EvaluationModel {
     }
 
     
+   
 
+    @Override
+    public int compareTo(EvaluationModel o) {
+        return this.evalTime.compareTo(o.evalTime);
+    }
     
     
     
