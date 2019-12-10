@@ -14,12 +14,31 @@ import java.util.ArrayList;
 public class SMACWrapperToPetriNet {
     
     
-    public void toPetriNet(ArrayList<String> wrapperArgs) {
-        for (String wrapperArg: wrapperArgs) {
-    		if(wrapperArg.contains("weka."))
-    		System.out.println("AVATAR -" + wrapperArg.trim()+"-");
-    	}
+    public void toPetriNet() {
+        
+        ArrayList<String> listOfFilters = new ArrayList<>();
+    	ArrayList<String> listOfPredictors = new ArrayList<>();
+        
+        
+        listOfFilters.add("weka.filters.unsupervised.instance.RemoveOutliers");
+        listOfFilters.add("weka.filters.unsupervised.attribute.InterquartileRange");
+        
+        listOfPredictors.add("weka.classifiers.bayes.NaiveBayes");
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
+    
+    
+    
+    
+    
     
     
 }

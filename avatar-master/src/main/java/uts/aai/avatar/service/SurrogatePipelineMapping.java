@@ -60,129 +60,128 @@ public class SurrogatePipelineMapping {
 
         PetriNetsPipeline pipeline = null;
         try {
-        List<Place> placeList = new ArrayList<>();
-        List<Transition> transitionList = new ArrayList<>();
-        List<Arc> arcList = new ArrayList<>();
+            List<Place> placeList = new ArrayList<>();
+            List<Transition> transitionList = new ArrayList<>();
+            List<Arc> arcList = new ArrayList<>();
 
-        System.out.println("CHECK B1");
-        Resource resource = new ByteArrayResource(bpmnPipeline.getBytes());
-        System.out.println("CHECK B2");
-        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        kbuilder.add(resource, ResourceType.BPMN2);
-        
-        System.out.println("CHECK B3");
+            System.out.println("CHECK B1");
+            Resource resource = new ByteArrayResource(bpmnPipeline.getBytes());
+            System.out.println("CHECK B2");
+            KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+            kbuilder.add(resource, ResourceType.BPMN2);
 
-        KnowledgeBase kbase = kbuilder.newKnowledgeBase();
-        
-        System.out.println("CHECK B4");
+            System.out.println("CHECK B3");
 
-        RuleFlowProcess process = (RuleFlowProcess) kbase.getProcess("ml.process");
-        
-        System.out.println("CHECK B5");
+            KnowledgeBase kbase = kbuilder.newKnowledgeBase();
 
-        StartNode startNode = process.getStart();
-        System.out.println("start node " + startNode.getName());
+            System.out.println("CHECK B4");
 
-        Place startPlace = createPlace(startNode.getUniqueId());
-        placeList.add(startPlace);
-        boolean isNodeAfterStart = true;
+            RuleFlowProcess process = (RuleFlowProcess) kbase.getProcess("ml.process");
 
-        ActionNode currentActionNode = null;
-        Place currentPlace = null;
-        boolean isReachEndEvent = false;
+            System.out.println("CHECK B5");
 
-        while (!isReachEndEvent) {
+            StartNode startNode = process.getStart();
+            System.out.println("start node " + startNode.getName());
 
-            List<Connection> connectionList = null;
-            // start node
+            Place startPlace = createPlace(startNode.getUniqueId());
+            placeList.add(startPlace);
+            boolean isNodeAfterStart = true;
 
-            if (currentActionNode == null) {
-                connectionList = startNode.getDefaultOutgoingConnections();
-            } else {
-                connectionList = currentActionNode.getDefaultOutgoingConnections();
-            }
+            ActionNode currentActionNode = null;
+            Place currentPlace = null;
+            boolean isReachEndEvent = false;
 
-            if (connectionList == null) {
-                isReachEndEvent = true;
-            } else {
+            while (!isReachEndEvent) {
 
-                for (Connection outConnection : connectionList) {
-                    Node node = outConnection.getTo();
-                    System.out.println("connection: " + outConnection.getToType());
-                    if (node instanceof EndNode) {
-                        isReachEndEvent = true;
-                        System.out.println("endnote: " + node.getName());
+                List<Connection> connectionList = null;
+                // start node
+
+                if (currentActionNode == null) {
+                    connectionList = startNode.getDefaultOutgoingConnections();
+                } else {
+                    connectionList = currentActionNode.getDefaultOutgoingConnections();
+                }
+
+                if (connectionList == null) {
+                    isReachEndEvent = true;
+                } else {
+
+                    for (Connection outConnection : connectionList) {
+                        Node node = outConnection.getTo();
+                        System.out.println("connection: " + outConnection.getToType());
+                        if (node instanceof EndNode) {
+                            isReachEndEvent = true;
+                            System.out.println("endnote: " + node.getName());
 //                        Place endPlace = createPlace(((EndNode) node).getUniqueId());
 //                        placeList.add(endPlace);
-                    } else {
-
-                        // for Arc1
-                        String placeId1 = "";
-
-                        if (currentActionNode == null) {
-                            placeId1 = startNode.getUniqueId();
                         } else {
-                            placeId1 = currentPlace.getId();
+
+                            // for Arc1
+                            String placeId1 = "";
+
+                            if (currentActionNode == null) {
+                                placeId1 = startNode.getUniqueId();
+                            } else {
+                                placeId1 = currentPlace.getId();
+                            }
+
+                            currentActionNode = (ActionNode) node;
+
+                            //get token
+                            if (isNodeAfterStart) {
+
+                                String script = currentActionNode.getAction().toString();
+
+                                String dataPath = getDataPathFromScript(script);
+                                System.out.println(dataPath);
+                                Token token = createToken(dataPath);
+                                startPlace.setToken(token);
+
+                                isNodeAfterStart = false;
+                            }
+
+                            Transition currentTransition = createTransition(currentActionNode.getName(), currentActionNode.getName());
+                            transitionList.add(currentTransition);
+
+                            String arcId1 = placeId1 + "_" + currentTransition.getId();
+                            Arc arc1 = new Arc(arcId1, placeId1, currentTransition.getId(), true);
+                            arcList.add(arc1);
+
+                            // middle Place
+                            Place middlePlace = createPlace("mid-" + currentActionNode.getName());
+                            placeList.add(middlePlace);
+
+                            // add Arc 2
+                            String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
+                            Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
+                            arcList.add(arc2);
+                            currentPlace = middlePlace;
+                            System.out.println("actionNode: " + currentActionNode.getName());
                         }
-
-                        currentActionNode = (ActionNode) node;
-
-                        //get token
-                        if (isNodeAfterStart) {
-
-                            String script = currentActionNode.getAction().toString();
-
-                            String dataPath = getDataPathFromScript(script);
-                            System.out.println(dataPath);
-                            Token token = createToken(dataPath);
-                            startPlace.setToken(token);
-
-                            isNodeAfterStart = false;
-                        }
-
-                        Transition currentTransition = createTransition(currentActionNode.getName(), currentActionNode.getName());
-                        transitionList.add(currentTransition);
-
-                        String arcId1 = placeId1 + "_" + currentTransition.getId();
-                        Arc arc1 = new Arc(arcId1, placeId1, currentTransition.getId(), true);
-                        arcList.add(arc1);
-
-                        // middle Place
-                        Place middlePlace = createPlace("mid-" + currentActionNode.getName());
-                        placeList.add(middlePlace);
-
-                        // add Arc 2
-                        String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
-                        Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
-                        arcList.add(arc2);
-                        currentPlace = middlePlace;
-                        System.out.println("actionNode: " + currentActionNode.getName());
                     }
+
                 }
 
             }
 
-        }
+            for (Place pl : placeList) {
+                System.out.println("place: " + pl.getId());
 
-        for (Place pl : placeList) {
-            System.out.println("place: " + pl.getId());
+            }
 
-        }
+            for (Arc pl : arcList) {
+                System.out.println("arc: " + pl.getId());
 
-        for (Arc pl : arcList) {
-            System.out.println("arc: " + pl.getId());
+            }
 
-        }
+            for (Transition pl : transitionList) {
+                System.out.println("trans: " + pl.getId());
 
-        for (Transition pl : transitionList) {
-            System.out.println("trans: " + pl.getId());
+            }
 
-        }
+            pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
 
-         pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
-
-        //System.out.println("script: " + node.getAction().toString());
-        
+            //System.out.println("script: " + node.getAction().toString());
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -305,6 +304,66 @@ public class SurrogatePipelineMapping {
         PetriNetsPipeline pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
 
         //System.out.println("script: " + node.getAction().toString());
+        return pipeline;
+    }
+
+    public PetriNetsPipeline mappingFromWekaPipeline2PetriNetsPipeline(ArrayList<String> listOfComponents, Token token) {
+
+        List<Place> placeList = new ArrayList<>();
+        List<Transition> transitionList = new ArrayList<>();
+        List<Arc> arcList = new ArrayList<>();
+
+        Place startPlace = createPlace(randUUID());
+        placeList.add(startPlace);
+        startPlace.setToken(token);
+        
+        Place currentPlace = null;
+      
+        for (int i=0;i<listOfComponents.size();i++) {
+
+                // for Arc1
+                String placeId1 = "";
+
+                if (i == 0) {
+                    placeId1 = startPlace.getId();
+                    
+                } else {
+                    placeId1 = currentPlace.getId();
+                }
+
+                Transition currentTransition = createTransition(listOfComponents.get(i), listOfComponents.get(i));
+                transitionList.add(currentTransition);
+
+                String arcId1 = placeId1 + "_" + currentTransition.getId();
+                Arc arc1 = new Arc(arcId1, placeId1, currentTransition.getId(), true);
+                arcList.add(arc1);
+
+                // middle Place
+                Place middlePlace = createPlace("mid-" + listOfComponents.get(i));
+                placeList.add(middlePlace);
+
+                // add Arc 2
+                String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
+                Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
+                arcList.add(arc2);
+                currentPlace = middlePlace;
+                System.out.println("actionNode: " + listOfComponents.get(i));
+        }
+
+        for (Place pl : placeList) {
+            System.out.println("place: " + pl.getId());
+        }
+
+        for (Arc pl : arcList) {
+            System.out.println("arc: " + pl.getId());
+        }
+
+        for (Transition pl : transitionList) {
+            System.out.println("trans: " + pl.getId());
+        }
+
+        PetriNetsPipeline pipeline = new PetriNetsPipeline(randUUID(), placeList, arcList, transitionList);
+
         return pipeline;
     }
 
@@ -438,55 +497,44 @@ public class SurrogatePipelineMapping {
         }
 
     }
-    
-    private MLPipelineConnection getFirstComponent(ArrayList<MLPipelineConnection> listOfConnections){
+
+    private MLPipelineConnection getFirstComponent(ArrayList<MLPipelineConnection> listOfConnections) {
         for (MLPipelineConnection mLPipelineConnection : listOfConnections) {
-            if (mLPipelineConnection.getSource()==null) {
+            if (mLPipelineConnection.getSource() == null) {
                 return mLPipelineConnection;
             }
         }
         return null;
     }
-    
-    private MLPipelineConnection getLastComponent(ArrayList<MLPipelineConnection> listOfConnections){
+
+    private MLPipelineConnection getLastComponent(ArrayList<MLPipelineConnection> listOfConnections) {
         for (MLPipelineConnection mLPipelineConnection : listOfConnections) {
-            if (mLPipelineConnection.getTarget()==null) {
+            if (mLPipelineConnection.getTarget() == null) {
                 return mLPipelineConnection;
             }
         }
         return null;
     }
-    
-    private MLPipelineConnection getNextComponent(String sourceId, ArrayList<MLPipelineConnection> listOfConnections){
+
+    private MLPipelineConnection getNextComponent(String sourceId, ArrayList<MLPipelineConnection> listOfConnections) {
         for (MLPipelineConnection mLPipelineConnection : listOfConnections) {
-            if (mLPipelineConnection.getTarget()==null && mLPipelineConnection.getSource().equals(sourceId)) {
+            if (mLPipelineConnection.getTarget() == null && mLPipelineConnection.getSource().equals(sourceId)) {
                 return mLPipelineConnection;
             }
         }
         return null;
     }
-    
-    
+
     public PetriNetsPipeline mappingFromEvolMLPipeline2PetriNetsPipeline(MLPipeline mLPipeline) {
 
         List<Place> placeList = new ArrayList<>();
         List<Transition> transitionList = new ArrayList<>();
         List<Arc> arcList = new ArrayList<>();
-        
+
         MLPipelineStructure mLPipelineStructure = mLPipeline.getmLPipelineStructure();
 
         ArrayList<MLPipelineConnection> listOfLPipelineConnections = mLPipelineStructure.getListOfConnections();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
 //        
 //        
 //        
@@ -587,15 +635,11 @@ public class SurrogatePipelineMapping {
 //        }
 //
 //        PetriNetsPipeline pipeline = new PetriNetsPipeline(process.getId(), placeList, arcList, transitionList);
-
         //System.out.println("script: " + node.getAction().toString());
 //        return pipeline;
         return null;
     }
-    
-    
-    
-    
+
     public PetriNetsPipeline mappingFromListOfComponents(ArrayList<String> lisfOfSMACArgs, String dataPath) {
 
         List<Place> placeList = new ArrayList<>();
@@ -606,27 +650,27 @@ public class SurrogatePipelineMapping {
         placeList.add(startPlace);
         Token token = createToken(dataPath);
         startPlace.setToken(token);
-        
+
         Place previousPlace = startPlace;
-      
+
         for (String smacArg : lisfOfSMACArgs) {
 
-                        Transition currentTransition = createTransition(randUUID(), smacArg);
-                        transitionList.add(currentTransition);
+            Transition currentTransition = createTransition(randUUID(), smacArg);
+            transitionList.add(currentTransition);
 
-                        String arcId1 = previousPlace.getId() + "_" + currentTransition.getId();
-                        Arc arc1 = new Arc(arcId1, previousPlace.getId(), currentTransition.getId(), true);
-                        arcList.add(arc1);
+            String arcId1 = previousPlace.getId() + "_" + currentTransition.getId();
+            Arc arc1 = new Arc(arcId1, previousPlace.getId(), currentTransition.getId(), true);
+            arcList.add(arc1);
 
-                        // middle Place
-                        Place middlePlace = createPlace("mid-" + randUUID());
-                        placeList.add(middlePlace);
+            // middle Place
+            Place middlePlace = createPlace("mid-" + randUUID());
+            placeList.add(middlePlace);
 
-                        // add Arc 2
-                        String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
-                        Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
-                        arcList.add(arc2);
-                        previousPlace = middlePlace;
+            // add Arc 2
+            String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
+            Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
+            arcList.add(arc2);
+            previousPlace = middlePlace;
 
         }
 
@@ -649,12 +693,10 @@ public class SurrogatePipelineMapping {
 
         return pipeline;
     }
-    
-    
+
     private String randUUID() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
-
 
 }
