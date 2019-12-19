@@ -2877,16 +2877,18 @@ public class MLComponentConfiguration {
 
     }
 
-    private static MLComponent getMLComponentById(String componentId) {
-
-        for (MLComponent mLComponent : listOfMLComponents) {
-            if (mLComponent.getComponentId().equals(componentId)) {
-                return mLComponent;
-            }
-        }
-
-        return null;
-    }
+//    private static MLComponent getMLComponentById(String componentId) {
+//
+//        System.out.println("listOfMLComponents: " + listOfMLComponents.size());
+//        
+//        for (MLComponent mLComponent : listOfMLComponents) {
+//            if (mLComponent.getComponentId().equals(componentId)) {
+//                return mLComponent;
+//            }
+//        }
+//
+//        return null;
+//    }
 
     private static List<MLComponentIO> getAllClassesCapabilities() {
 
@@ -3021,8 +3023,20 @@ public class MLComponentConfiguration {
     }
 
     public static MLComponent getComponentByID(String componentId) {
-
+        System.out.println("listOfMLComponents: " + listOfMLComponents.size());
+        
+        
         for (MLComponent mLComponent : listOfMLComponents) {
+            if (mLComponent.getComponentId().equals(componentId)) {
+                return mLComponent;
+            }
+        }
+        return null;
+    }
+    
+    public static MLComponent getComponentByID(String componentId, List<MLComponent> loadedListOfMLComponents) {
+      
+        for (MLComponent mLComponent : loadedListOfMLComponents) {
             if (mLComponent.getComponentId().equals(componentId)) {
                 return mLComponent;
             }
@@ -3055,11 +3069,11 @@ public class MLComponentConfiguration {
         return listOfNotAutoFinaliseAlgorithm.contains(algorithmId);
     }
     
-     public static AlgorithmConfiguration getAlgorithmConfiguration(String algorithm) {
+     public static AlgorithmConfiguration getAlgorithmConfiguration(String algorithm, List<MLComponent> loadedListOfMLComponents) {
 
         System.out.println("Finding .. " + algorithm);
        
-        MLComponent mLComponent = getComponentByID(algorithm);
+        MLComponent mLComponent = getComponentByID(algorithm,loadedListOfMLComponents);
 
         if (mLComponent != null) {
             
@@ -3088,6 +3102,10 @@ public class MLComponentConfiguration {
             return algorithmConfiguration;
 
         } else {
+            
+            
+            
+            
             
             return null;
         }

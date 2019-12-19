@@ -12,12 +12,17 @@ import uts.aai.avatar.model.MetafeatureType;
 import uts.aai.avatar.model.MetafeatureTypeConfig;
 
 import uts.aai.avatar.configuration.MLComponentConfiguration;
+import uts.aai.avatar.model.MLComponent;
 
 /**
  *
  * @author ntdun
  */
 public class MetaFeatureEvaluationTransitionFunction implements TransitionFunction {
+
+    
+    
+    
 
     @Override
     public Token fire(Token token) {
@@ -31,11 +36,11 @@ public class MetaFeatureEvaluationTransitionFunction implements TransitionFuncti
     }
 
     @Override
-    public Token fireAlg(Token token, String algorithm) {
+    public Token fireAlg(Token token, String algorithm, List<MLComponent> loadedListOfMLComponents) {
         
         
 
-        AlgorithmConfiguration algorithmConfiguration = MLComponentConfiguration.getAlgorithmConfiguration(algorithm);
+        AlgorithmConfiguration algorithmConfiguration = MLComponentConfiguration.getAlgorithmConfiguration(algorithm,loadedListOfMLComponents);
         
      
 

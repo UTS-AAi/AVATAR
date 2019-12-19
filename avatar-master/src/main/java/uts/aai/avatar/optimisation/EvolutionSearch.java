@@ -39,7 +39,7 @@ public class EvolutionSearch {
 
     private void initEvolutionSearch() {
         counter = 0;
-        evaluationResultList = new ArrayList<>();
+        evaluationResultList = new ArrayList<EvaluationResult>();
         MLComponentConfiguration.initDefault();
     }
     

@@ -5,6 +5,8 @@
  */
 package uts.aai.avatar.service;
 
+import java.util.List;
+import uts.aai.avatar.model.MLComponent;
 import uts.aai.pn.model.Transition;
 import uts.aai.pn.model.Parameter;
 import uts.aai.pn.model.Arc;
@@ -23,10 +25,11 @@ public class PetriNetsExecutionEngine {
     private PetriNetsPipeline petriNetsPipeline;
     private boolean isInvalidPipeline;
 
-    public PetriNetsExecutionEngine(PetriNetsPipeline petriNetsPipeline) {
+    private List<MLComponent> loadedListOfMLComponents;
+    public PetriNetsExecutionEngine(PetriNetsPipeline petriNetsPipeline,List<MLComponent> loadedListOfMLComponents) {
         this.petriNetsPipeline = petriNetsPipeline;
         isInvalidPipeline = false;
-  
+        this.loadedListOfMLComponents = loadedListOfMLComponents;
     }
     
     
@@ -87,7 +90,7 @@ public class PetriNetsExecutionEngine {
             //Token outputToken = transitionFunction.fire(currentPlace.getToken());
             System.out.println("--------------------------");
             currentPlace.getToken().toString();
-            Token outputToken = transitionFunction.fireAlg(currentPlace.getToken(), transition.getId());
+            Token outputToken = transitionFunction.fireAlg(currentPlace.getToken(), transition.getId(),loadedListOfMLComponents);
             
            
             

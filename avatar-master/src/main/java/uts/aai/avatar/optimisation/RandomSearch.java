@@ -65,6 +65,7 @@ public class RandomSearch {
     private ArrayList<EvaluationResult> evaluationResultList;
     private String outputFolder;
     private int counter;
+    private List<MLComponent> loadedListOfMLComponents;
 
     public RandomSearch(String datasetPath, long timeBudgetInMinutes, boolean isAvatar, String outputFolder) {
         this.datasetPath = datasetPath;
@@ -77,6 +78,7 @@ public class RandomSearch {
         counter = 0;
         evaluationResultList = new ArrayList<>();
         MLComponentConfiguration.initDefault();
+        loadedListOfMLComponents = MLComponentConfiguration.getListOfMLComponents();
     }
 
     public void start() {
@@ -291,13 +293,13 @@ public class RandomSearch {
         EvaluationModel evaluationModel = null;
         try {
 
-            SurrogatePipelineMapping spm = new SurrogatePipelineMapping();
+            SurrogatePipelineMapping spm = new SurrogatePipelineMapping(loadedListOfMLComponents);
             System.out.println("CHECK A1");
             PetriNetsPipeline petriNetsPipeline = spm.mappingFromBPMN2PetriNetsPipelineFromBPMNString(bpmnPipeline);
             System.out.println("CHECK A2");
             //System.out.println("\n" + petriNetsPipeline.toString());
 
-            PetriNetsExecutionEngine engine = new PetriNetsExecutionEngine(petriNetsPipeline);
+            PetriNetsExecutionEngine engine = new PetriNetsExecutionEngine(petriNetsPipeline,loadedListOfMLComponents);
             boolean result = engine.execute();
 
             evaluationModel = new EvaluationModel(EvaluationModeType.PETRI_NET, petriNetsPipeline.toString(), result, null, null);
@@ -371,7 +373,7 @@ public class RandomSearch {
 
                         currentActionNode = (ActionNode) node;
 
-                        MLComponent mLComponent = MLComponentConfiguration.getComponentByID(currentActionNode.getName());
+                        MLComponent mLComponent = MLComponentConfiguration.getComponentByID(currentActionNode.getName(),loadedListOfMLComponents);
                         listOfMLComponents.add(mLComponent);
                         System.out.println("actionNode: " + currentActionNode.getName());
                     }

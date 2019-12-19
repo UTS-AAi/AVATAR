@@ -36,7 +36,9 @@ public class MetaKnowledgeGenerator {
     private String outputPath;
     private String dataFolderName;
     private String metaKnowledgeFile;
-
+    private List<MLComponent> loadedListOfMLComponents;
+    
+    
     public MetaKnowledgeGenerator() {
     }
 
@@ -44,6 +46,8 @@ public class MetaKnowledgeGenerator {
         this.outputPath = outputPath;
         this.dataFolderName = dataFolderName;
         this.metaKnowledgeFile = metaKnowledgeFile;
+        MLComponentConfiguration.initDefault();
+        loadedListOfMLComponents = MLComponentConfiguration.getListOfMLComponents();
     }
 
     public void run() {
@@ -117,10 +121,10 @@ public class MetaKnowledgeGenerator {
         if (isSuccess) {
             findCapabilities(listOfInputMetaFeatures, listOfCapabilities);
             List<MLComponentIO> listOfOutputMetaFeatures = null;
-            if (!MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
-                    && !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
-                    && !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
-                    && !MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+            if (!MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                    && !MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.REGRESSOR)
+                    && !MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                    && !MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
                 //fromArffToCSV(outputPath + ".arff", outputPath + ".csv");
                 listOfOutputMetaFeatures = calculateDatasetMetafeatures(outputPath);
             }
@@ -156,10 +160,10 @@ public class MetaKnowledgeGenerator {
 
     private void findEffects(String algorithmId, List<MLComponentIO> listOfInputMetaFeatures, List<MLComponentIO> listOfOutputMetaFeatures, List<MLComponentIO> listOfEffects) {
         // for finding effects
-        if (MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
-                || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
-                || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
-                || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+        if (MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                || MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.REGRESSOR)
+                || MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                || MLComponentConfiguration.getComponentByID(algorithmId,loadedListOfMLComponents).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
 
             for (MLComponentIO effect : listOfEffects) {
 

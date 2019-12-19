@@ -54,6 +54,17 @@ public class WekaFilterMappingFromBPMN {
     public String outputWekaModelPath = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/model/";
 
     public File bpmnModel;
+    
+    private List<MLComponent> loadedListOfMLComponents;
+
+    public WekaFilterMappingFromBPMN() {
+        MLComponentConfiguration.initDefault();
+        loadedListOfMLComponents = MLComponentConfiguration.getListOfMLComponents();
+    }
+    
+    
+    
+    
 
     public void mappingFromBPMN2NativeWekaCommand(File bpmnModel) {
 
@@ -103,7 +114,7 @@ public class WekaFilterMappingFromBPMN {
 
                         currentActionNode = (ActionNode) node;
 
-                        MLComponent mLComponent = MLComponentConfiguration.getComponentByID(currentActionNode.getName());
+                        MLComponent mLComponent = MLComponentConfiguration.getComponentByID(currentActionNode.getName(),loadedListOfMLComponents);
                         listOfMLComponents.add(mLComponent);
                         System.out.println("actionNode: " + currentActionNode.getName());
                     }

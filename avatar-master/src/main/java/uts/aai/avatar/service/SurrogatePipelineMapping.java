@@ -32,6 +32,8 @@ import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.workflow.core.node.ActionNode;
 import org.jbpm.workflow.core.node.EndNode;
 import org.jbpm.workflow.core.node.StartNode;
+import uts.aai.avatar.configuration.MLComponentConfiguration;
+import uts.aai.avatar.model.MLComponent;
 import uts.aai.avatar.model.MLComponentIO;
 import uts.aai.avatar.model.pipeline.MLPipeline;
 import uts.aai.avatar.model.pipeline.MLPipelineConnection;
@@ -55,6 +57,15 @@ import weka.core.converters.CSVSaver;
  * @author ntdun
  */
 public class SurrogatePipelineMapping {
+    
+    private List<MLComponent> loadedListOfMLComponents;
+
+    public SurrogatePipelineMapping(List<MLComponent> loadedListOfMLComponents) {
+        this.loadedListOfMLComponents = loadedListOfMLComponents;
+    }
+
+    
+    
 
     public PetriNetsPipeline mappingFromBPMN2PetriNetsPipelineFromBPMNString(String bpmnPipeline) {
 
@@ -307,47 +318,53 @@ public class SurrogatePipelineMapping {
         return pipeline;
     }
 
-    public PetriNetsPipeline mappingFromWekaPipeline2PetriNetsPipeline(ArrayList<String> listOfComponents, Token token) {
+    public PetriNetsPipeline mappingFromWekaPipeline2PetriNetsPipeline(ArrayList<String> listOfComponents, String dataPath) {
+
+        
+        //MLComponentConfiguration.initDefault();
+        //ArrayList<String> listOfComponents = filterMLComponents(wrapperArgs);
 
         List<Place> placeList = new ArrayList<>();
         List<Transition> transitionList = new ArrayList<>();
         List<Arc> arcList = new ArrayList<>();
 
+        Token token = createToken(dataPath);
+
         Place startPlace = createPlace(randUUID());
         placeList.add(startPlace);
         startPlace.setToken(token);
-        
+
         Place currentPlace = null;
-      
-        for (int i=0;i<listOfComponents.size();i++) {
 
-                // for Arc1
-                String placeId1 = "";
+        for (int i = 0; i < listOfComponents.size(); i++) {
 
-                if (i == 0) {
-                    placeId1 = startPlace.getId();
-                    
-                } else {
-                    placeId1 = currentPlace.getId();
-                }
+            // for Arc1
+            String placeId1 = "";
 
-                Transition currentTransition = createTransition(listOfComponents.get(i), listOfComponents.get(i));
-                transitionList.add(currentTransition);
+            if (i == 0) {
+                placeId1 = startPlace.getId();
 
-                String arcId1 = placeId1 + "_" + currentTransition.getId();
-                Arc arc1 = new Arc(arcId1, placeId1, currentTransition.getId(), true);
-                arcList.add(arc1);
+            } else {
+                placeId1 = currentPlace.getId();
+            }
 
-                // middle Place
-                Place middlePlace = createPlace("mid-" + listOfComponents.get(i));
-                placeList.add(middlePlace);
+            Transition currentTransition = createTransition(listOfComponents.get(i), listOfComponents.get(i));
+            transitionList.add(currentTransition);
 
-                // add Arc 2
-                String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
-                Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
-                arcList.add(arc2);
-                currentPlace = middlePlace;
-                System.out.println("actionNode: " + listOfComponents.get(i));
+            String arcId1 = placeId1 + "_" + currentTransition.getId();
+            Arc arc1 = new Arc(arcId1, placeId1, currentTransition.getId(), true);
+            arcList.add(arc1);
+
+            // middle Place
+            Place middlePlace = createPlace("mid-" + listOfComponents.get(i));
+            placeList.add(middlePlace);
+
+            // add Arc 2
+            String arcId2 = currentTransition.getId() + "_" + middlePlace.getId();
+            Arc arc2 = new Arc(arcId2, middlePlace.getId(), currentTransition.getId(), false);
+            arcList.add(arc2);
+            currentPlace = middlePlace;
+            System.out.println("actionNode: " + listOfComponents.get(i));
         }
 
         for (Place pl : placeList) {
@@ -366,6 +383,10 @@ public class SurrogatePipelineMapping {
 
         return pipeline;
     }
+
+    
+    
+     
 
     private String getDataPathFromScript(String script) {
 

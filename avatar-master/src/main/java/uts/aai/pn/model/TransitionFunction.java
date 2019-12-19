@@ -5,11 +5,14 @@
  */
 package uts.aai.pn.model;
 
+import java.util.List;
+import uts.aai.avatar.model.MLComponent;
+
 /**
  *
  * @author ntdun
  */
 public interface TransitionFunction {
     public Token fire(Token token);
-    public Token fireAlg(Token token, String algorithm);
+    public Token fireAlg(Token token, String algorithm, List<MLComponent> loadedListOfMLComponents);
 }
