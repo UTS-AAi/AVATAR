@@ -44,7 +44,7 @@ public class JSONUtils {
         T obj = null;
         try {
             obj = (T) mapper.readValue(ObjXml, configurationClass);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(JSONUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
 
