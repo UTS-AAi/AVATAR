@@ -20,8 +20,8 @@ public class MLHyperparameter {
     private ArrayList<String> listOfNomnialValues;
     private String defaultNominalValue;
     
-    private String defaultBaseLearner;
-    private String defaultPredictor;
+
+    private String defaultConfigString;
     
     private Double maxNumericValue;
     private Double minNumericValue;
@@ -126,24 +126,16 @@ public class MLHyperparameter {
         this.defaultBoolValue = defaultBoolValue;
     }
 
-    public String getDefaultBaseLearner() {
-        return defaultBaseLearner;
-    }
-
-    public void setDefaultBaseLearner(String defaultBaseLearner) {
-        this.defaultBaseLearner = defaultBaseLearner;
-    }
-
     public MLHyperparameter(String defaultPredictor) {
-        this.defaultPredictor = defaultPredictor;
+        this.defaultConfigString = defaultPredictor;
     }
 
-    public String getDefaultPredictor() {
-        return defaultPredictor;
+    public String getDefaultConfigString() {
+        return defaultConfigString;
     }
 
-    public void setDefaultPredictor(String defaultPredictor) {
-        this.defaultPredictor = defaultPredictor;
+    public void setDefaultConfigString(String defaultConfigString) {
+        this.defaultConfigString = defaultConfigString;
     }
         
 

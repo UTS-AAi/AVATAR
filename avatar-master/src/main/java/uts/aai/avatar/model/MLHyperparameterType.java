@@ -10,5 +10,5 @@ package uts.aai.avatar.model;
  * @author ntdun
  */
 public enum MLHyperparameterType {
-    NUMERIC, NOMINAL, INTEGER, BOOLEAN, BASE_LEARNER, PREDICTORS
+    NUMERIC, NOMINAL, INTEGER, BOOLEAN, BASE_LEARNER, PREDICTORS, SEARCH_METHOD, EVALUATOR
 }

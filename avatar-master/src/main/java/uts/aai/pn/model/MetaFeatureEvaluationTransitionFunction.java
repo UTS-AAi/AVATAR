@@ -39,32 +39,32 @@ public class MetaFeatureEvaluationTransitionFunction implements TransitionFuncti
     public Token fireAlg(Token token, String algorithm, List<MLComponent> loadedListOfMLComponents) {
         
         
+        AlgorithmConfiguration algorithmConfiguration = MLComponentConfiguration.getAlgorithmConfiguration(algorithm, loadedListOfMLComponents);
 
-        AlgorithmConfiguration algorithmConfiguration = MLComponentConfiguration.getAlgorithmConfiguration(algorithm,loadedListOfMLComponents);
         
-     
-
-        if (token.getParameterList() == null) {
-            System.out.println("NULL HERE: token.getParameterList()");
-        }
-
-           
-        if (algorithmConfiguration.getCapabilityList() == null) {
-            System.out.println("NULL HERE: algorithmConfiguration.getCapabilityList()");
-        }
-
-       
-        if (checkComponentValidity(token.getParameterList(), algorithmConfiguration.getCapabilityList())) {
-           
-            List<Parameter> outputParameterList = calculateOutputToken(token.getParameterList(), algorithmConfiguration.getEffectList());
-         
-           
-            token.setParameterList(outputParameterList);
-        } else {
+        
+        if (algorithmConfiguration == null) {
             token = null;
+        } else {
+
+            if (token.getParameterList() == null) {
+                System.out.println("NULL HERE: token.getParameterList()");
+            }
+
+            if (algorithmConfiguration.getCapabilityList() == null) {
+                System.out.println("NULL HERE: algorithmConfiguration.getCapabilityList()");
+            }
+
+            if (checkComponentValidity(token.getParameterList(), algorithmConfiguration.getCapabilityList())) {
+
+                List<Parameter> outputParameterList = calculateOutputToken(token.getParameterList(), algorithmConfiguration.getEffectList());
+
+                token.setParameterList(outputParameterList);
+            } else {
+                token = null;
+            }
         }
 
-      
         return token;
     }
 

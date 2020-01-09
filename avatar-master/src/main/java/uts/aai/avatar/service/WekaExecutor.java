@@ -34,6 +34,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
 import org.apache.commons.io.FileUtils;
+import uts.aai.avatar.model.MLComponent;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -49,22 +50,22 @@ public class WekaExecutor {
     public WekaExecutor() {
     }
     
-    
+  
 
-    public boolean executeAlgorithm(String inputData, String outputData, String filterId) {
+    public boolean executeAlgorithm(String inputData, String outputData, MLComponent mLComponent) {
 
         boolean result = true;
 
-        if (MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
-                || MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.REGRESSOR)
-                || MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
-                || MLComponentConfiguration.getComponentByID(filterId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+        if (mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                || mLComponent.getmLComponentType().equals(MLComponentType.REGRESSOR)
+                || mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                || mLComponent.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
 
-            result = executePredictor(inputData, outputData, filterId);
+            result = executePredictor(inputData, outputData, mLComponent);
 
         } else {
 
-            result = executeFilter(inputData, outputData, filterId);
+            result = executeFilter(inputData, outputData, mLComponent);
 
         }
 
@@ -77,7 +78,7 @@ public class WekaExecutor {
 
     }
 
-    public boolean executeFilter(String inputData, String outputData, String filterId) {
+    public boolean executeFilter(String inputData, String outputData, MLComponent mLComponent) {
         System.out.println("executeFilter xxxxxxxxxxxx");
         boolean result = true;
 
@@ -93,7 +94,7 @@ public class WekaExecutor {
                 String wekajar = AppConst.WEKA_JAR_PATH;
 
                 String commandStr = "java -classpath " + wekajar + " "
-                        + MLComponentConfiguration.getComponentByID(filterId).getComponentExecutionScriptSingleComponentWeka()
+                        + mLComponent.getComponentExecutionScriptSingleComponentWeka()
                         + " -i " + inputData
                         + " -o " + outputData;
 
@@ -102,10 +103,10 @@ public class WekaExecutor {
                 Process process = Runtime.getRuntime().exec(commandStr);
                 System.out.println("Waiting for batch file ...");
 
-                isTimeout(process, filterId, outputData);
+                isTimeout(process, mLComponent, outputData);
 
                 System.out.println("Batch file done.");
-                System.out.println("Done! " + filterId);
+                System.out.println("Done! " + mLComponent.getComponentId());
                 process.destroyForcibly();
 
             } catch (Exception ex) {
@@ -122,7 +123,7 @@ public class WekaExecutor {
         return result;
     }
 
-    public boolean executePredictor(String inputData, String outputModel, String predictorId) {
+    public boolean executePredictor(String inputData, String outputModel, MLComponent mLComponent) {
         IOUtils iou = new IOUtils();
         iou.overWriteData("false", AppConst.TEMP_EVAL_RESULT_OUTPUT_PATH);
         System.out.println("executePredictor xxxxxxxxxxxx");
@@ -139,7 +140,7 @@ public class WekaExecutor {
 
                 String wekajar = AppConst.WEKA_JAR_PATH;
 
-                String commandConfig = MLComponentConfiguration.getComponentByID(predictorId)
+                String commandConfig = mLComponent
                         .getComponentExecutionScriptSingleComponentWeka();
 
                 String argumentStr1 = "";
@@ -163,10 +164,10 @@ public class WekaExecutor {
 
                 System.out.println("Waiting for batch file ...");
 
-                isTimeout = isTimeout(process, predictorId, outputModel);
+                isTimeout = isTimeout(process, mLComponent, outputModel);
 
                 System.out.println("Batch file done.");
-                System.out.println("Done! " + predictorId);
+                System.out.println("Done! " + mLComponent.getComponentId());
 
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -199,6 +200,9 @@ public class WekaExecutor {
         }
         return result;
     }
+    
+    
+   
 
     private void cleanTemp() {
 
@@ -258,7 +262,7 @@ public class WekaExecutor {
         return null;
     }
 
-    private boolean isTimeout(Process process, String algorithmId, String outputPath) {
+    private boolean isTimeout(Process process,MLComponent mLComponent, String outputPath) {
 
         boolean isTimeout = false;
         long startTime = System.currentTimeMillis();
@@ -267,10 +271,10 @@ public class WekaExecutor {
 
             System.out.println("... waiting ...");
 
-            if (MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER)
-                    || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.REGRESSOR)
-                    || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
-                    || MLComponentConfiguration.getComponentByID(algorithmId).getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
+            if (mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.REGRESSOR)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.CLASSIFIER_REGRESSOR)
+                    || mLComponent.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
                 if (!Files.notExists(new File(outputPath).toPath())) {
                     process.destroyForcibly();
                     break;
