@@ -33,6 +33,11 @@ public class MLHyperparameter {
     
     private Boolean defaultBoolValue; 
 
+    public MLHyperparameter() {
+    }
+    
+    
+
     public MLHyperparameter(String command, MLHyperparameterType hyperparameterType) {
         this.command = command;
         this.hyperparameterType = hyperparameterType;

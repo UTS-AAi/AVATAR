@@ -60,15 +60,13 @@ public class MetaKnowledgeGenerator {
 
             System.out.println("mLComponent: " + mLComponent.getComponentId());
             //MLComponent mLComponent = MLComponentConfiguration.getComponentByID("weka.filters.unsupervised.attribute.PrincipalComponents");
-           // List<MLComponentIO> listOfCapabilities = disableAllMetaFeatures();;
-           // List<MLComponentIO> listOfEffects = disableAllMetaFeatures();;
+            // List<MLComponentIO> listOfCapabilities = disableAllMetaFeatures();;
+            // List<MLComponentIO> listOfEffects = disableAllMetaFeatures();;
 
-           // String algorithmId = mLComponent.getComponentId();
-
-           // if (listOfCapabilities == null) {
+            // String algorithmId = mLComponent.getComponentId();
+            // if (listOfCapabilities == null) {
             //    System.out.println("NULL listOfCapabilities");
-           // }
-
+            // }
             File folder = new File(dataFolderName);
             for (final File fileEntry : folder.listFiles()) {
                 if (!fileEntry.isDirectory() && fileEntry.getName().contains(".arff")) {
@@ -88,7 +86,7 @@ public class MetaKnowledgeGenerator {
 //            mLComponent.setListOfEffects(listOfEffects);
         }
 
-        saveMetaKnowledge(metaKnowledgeFile);
+        saveMetaKnowledge(metaKnowledgeFile,MLComponentConfiguration.getListOfMLComponents());
 
     }
 
@@ -101,7 +99,6 @@ public class MetaKnowledgeGenerator {
         for (MLComponent mLComponent : listOfMLComponents) {
 
             System.out.println("mLComponent: " + mLComponent.getComponentId());
-          
 
             File folder = new File(dataFolderName);
             for (final File fileEntry : folder.listFiles()) {
@@ -117,7 +114,7 @@ public class MetaKnowledgeGenerator {
 
         }
 
-        saveMetaKnowledge(metaKnowledgeFile);
+        saveMetaKnowledge(metaKnowledgeFile,listOfMLComponents);
     }
 
     public List<MLComponent> preprocessComponentConfig(List<String> selectedMLComponents) {
@@ -130,62 +127,79 @@ public class MetaKnowledgeGenerator {
             MLComponent mLComponent = MLComponentConfiguration.getComponentByID(selectedComponent);
 
             if (mLComponent.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
-                List<MLHyperparameter> listOfMLHyperparameters = mLComponent.getListOfMLHyperparameters();
 
-                for (MLHyperparameter mLHyperparameter : listOfMLHyperparameters) {
-                    if (mLHyperparameter.getHyperparameterType().equals(MLHyperparameterType.PREDICTORS)) {
+                //  for (MLHyperparameter mLHyperparameter : listOfMLHyperparameters) {
+                //  if (mLHyperparameter.getHyperparameterType().equals(MLHyperparameterType.PREDICTORS)) {
+                for (MLComponent mLComponentClassifier : listOfPredictors) {
 
-                        for (MLComponent mLComponentClassifier : listOfPredictors) {
+                    if (!mLComponentClassifier.getmLComponentType().equals(MLComponentType.META_PREDICTOR)) {
 
-                            String classifierScript = mLComponentClassifier.getComponentExecutionScriptSingleComponentWeka();
-                            String[] scriptConfigs = classifierScript.split(" ");
-                            String configStr = "";
-                            if (scriptConfigs.length > 1) {
+                        String classifierScript = mLComponentClassifier.getComponentExecutionScriptSingleComponentWeka();
+                        String[] scriptConfigs = classifierScript.split(" ");
+                        String configStr = "";
+                        if (scriptConfigs.length > 1) {
 
-                                for (int i = 1; i < scriptConfigs.length; i++) {
+                            for (int i = 1; i < scriptConfigs.length; i++) {
 
-                                    if (i == scriptConfigs.length - 1) {
-                                        configStr += scriptConfigs[i];
-                                    } else {
-                                        configStr += scriptConfigs[i] + " ";
-                                    }
-
+                                if (i == scriptConfigs.length - 1) {
+                                    configStr += scriptConfigs[i];
+                                } else {
+                                    configStr += scriptConfigs[i] + " ";
                                 }
-                                configStr = scriptConfigs[0] + " -- " + configStr;
-                            } else {
-                                configStr = scriptConfigs[0];
+
                             }
-
-                            System.out.println("configStr: " + configStr);
-
-                            List<MLHyperparameter> listOfHyperparametersC = new ArrayList<>(listOfMLHyperparameters);
-                            List<MLComponentIO> listOfInputs = new ArrayList<>();
-                            List<MLComponentIO> listOfOutputs = new ArrayList<>();
-                            listOfOutputs.add(new MLComponentIO(MLMetafeature.PREDICTIVE_MODEL, 1));
-
-                            MLComponent cMLComponent = new MLComponent(
-                                    mLComponent.getComponentId(),
-                                    mLComponent.getComponentName(),
-                                    mLComponent.getComponentFullClassName(),
-                                    mLComponent.getmLComponentType(),
-                                    mLComponent.getComponentExecutionScriptSingleComponentWeka(),
-                                    mLComponent.getComponentExecutionScriptFilteredClassifierWeka(),
-                                    listOfInputs,
-                                    listOfOutputs,
-                                    listOfHyperparametersC);
-
-                            String templateConfig = cMLComponent.getComponentExecutionScriptSingleComponentWeka();
-                            templateConfig = templateConfig.replace("#PREDICTOR_CONFIG#", configStr);
-                            cMLComponent.setComponentExecutionScriptSingleComponentWeka(templateConfig);
-                            cMLComponent.setComponentExecutionScriptFilteredClassifierWeka(scriptConfigs[0]);
-                            listOfMLComponents.add(cMLComponent);
-
+                            configStr = scriptConfigs[0] + " -- " + configStr;
+                        } else {
+                            configStr = scriptConfigs[0];
                         }
 
-                    }
-                }
-            }
+                        System.out.println("configStr: " + configStr);
 
+                        List<MLHyperparameter> listOfHyperparametersC = new ArrayList<>();
+                        
+//                        for (MLHyperparameter mLHyperparameter : mLComponent.getListOfMLHyperparameters()) {
+//                            
+//                            MLHyperparameter mLHyperparameterC = new MLHyperparameter(mLHyperparameter.getCommand(), mLHyperparameter.getHyperparameterType());
+//                            mLHyperparameterC.setDefaultBoolValue(mLHyperparameter.getDefaultBoolValue());
+//                            mLHyperparameterC.setDefaultIntValue(mLHyperparameter.getDefaultIntValue());
+//                            mLHyperparameterC.setDefaultNominalValue(mLHyperparameter.getDefaultNominalValue());
+//                            mLHyperparameterC.setDefaultNumericValue(mLHyperparameter.getDefaultNumericValue());
+//                            mLHyperparameterC.setMaxIntValue(mLHyperparameter.getMaxIntValue());
+//                            mLHyperparameterC.setMaxNumericValue(mLHyperparameter.getMaxNumericValue());
+//                            mLHyperparameterC.setMinIntValue(mLHyperparameter.getMinIntValue());
+//                            mLHyperparameterC.setMinNumericValue(mLHyperparameter.getMinNumericValue());
+//                            mLHyperparameterC.setDefaultConfigString(mLHyperparameter.getDefaultConfigString());
+//                        }
+//                        
+                        
+                        List<MLComponentIO> listOfInputs = new ArrayList<>();
+                        List<MLComponentIO> listOfOutputs = new ArrayList<>();
+                        listOfOutputs.add(new MLComponentIO(MLMetafeature.PREDICTIVE_MODEL, 1));
+
+                        MLComponent cMLComponent = new MLComponent(
+                                mLComponent.getComponentId(),
+                                mLComponent.getComponentName(),
+                                mLComponent.getComponentFullClassName(),
+                                mLComponent.getmLComponentType(),
+                                mLComponent.getComponentExecutionScriptSingleComponentWeka(),
+                                mLComponent.getComponentExecutionScriptFilteredClassifierWeka(),
+                                listOfInputs,
+                                listOfOutputs,
+                                listOfHyperparametersC);
+
+                        String templateConfig = cMLComponent.getComponentExecutionScriptSingleComponentWeka();
+                        templateConfig = templateConfig.replace("#PREDICTOR_CONFIG#", configStr);
+                        cMLComponent.setComponentExecutionScriptSingleComponentWeka(templateConfig);
+                        cMLComponent.setComponentExecutionScriptFilteredClassifierWeka(scriptConfigs[0]);
+                        listOfMLComponents.add(cMLComponent);
+                    }
+              //      break;
+                }
+
+                // }
+                //}
+            }
+            //break;
         }
 
         for (MLComponent mLComponent : listOfMLComponents) {
@@ -209,7 +223,7 @@ public class MetaKnowledgeGenerator {
 
         }
 
-        saveMetaKnowledge(metaKnowledgeFile);
+        saveMetaKnowledge(metaKnowledgeFile,MLComponentConfiguration.getListOfMLComponents());
 
     }
 
@@ -223,9 +237,7 @@ public class MetaKnowledgeGenerator {
 
         mLComponent.setListOfCapabilities(disableAllMetaFeatures());
         mLComponent.setListOfEffects(disableAllMetaFeatures());
-        
-     
-        
+
         String algorithmId = mLComponent.getComponentId();
         List<MLComponentIO> listOfCapabilities = mLComponent.getListOfCapabilities();
         List<MLComponentIO> listOfEffects = mLComponent.getListOfEffects();
@@ -336,10 +348,10 @@ public class MetaKnowledgeGenerator {
         return result;
     }
 
-    private void saveMetaKnowledge(String metaKnowledgeFile) {
+    private void saveMetaKnowledge(String metaKnowledgeFile, List<MLComponent> listOfMLComponents) {
         try {
 
-            AlgorithmMetaKnowledge algorithmMetaKnowledge = new AlgorithmMetaKnowledge(MLComponentConfiguration.getListOfMLComponents());
+            AlgorithmMetaKnowledge algorithmMetaKnowledge = new AlgorithmMetaKnowledge(listOfMLComponents);
 
             String metaKnowledgeJSON = JSONUtils.marshal(algorithmMetaKnowledge, AlgorithmMetaKnowledge.class);
             System.out.println("");

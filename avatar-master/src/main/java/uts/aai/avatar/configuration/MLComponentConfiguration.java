@@ -3476,30 +3476,25 @@ public class MLComponentConfiguration {
     }
     
     public static MLComponent getComponentByIDAndParameters(String componentId, String parameterString, List<MLComponent> loadedListOfMLComponents) {
-        
-        
+
         for (MLComponent mLComponent : loadedListOfMLComponents) {
-            if (mLComponent.getComponentId().equals(componentId)
-                //    && mLComponent.getComponentExecutionScriptFilteredClassifierWeka().equals(parameterString)
-                    ) {
-                
-                String[] params = parameterString.split("+");
+            
+            if (mLComponent.getComponentId().equals(componentId)) {
+
+                String[] params = parameterString.split("\\+");
                 boolean isDifferentParamConfig = false;
-                
-                for (int i=0;i<params.length;i++){
+
+                for (int i = 0; i < params.length; i++) {
                     if (!mLComponent.getComponentExecutionScriptFilteredClassifierWeka().contains(params[i])) {
                         isDifferentParamConfig = true;
                         break;
                     }
                 }
-                
+
                 if (!isDifferentParamConfig) {
                     return mLComponent;
-                } else {
-                    return null;
-                }
-                
-                
+                } 
+
             }
         }
         return null;
@@ -3538,8 +3533,11 @@ public class MLComponentConfiguration {
 
         MLComponent mLComponent = null;
 
+        
+        
+        
         if (algorithmConfigs.length >= 2) {
-            Logger.getLogger(MLComponentConfiguration.class.getName()).log(Level.INFO, null, "AVATAR - ATTRIBUTE SELECTION - SPLIT 2 - ");
+            Logger.getLogger(MLComponentConfiguration.class.getName()).log(Level.INFO, null, "AVATAR - DEPENDENT SELECTION - SPLIT 2 - ");
             mLComponent = getComponentByIDAndParameters(algorithmConfigs[0], algorithmConfigs[1], loadedListOfMLComponents);
         } else {
             Logger.getLogger(MLComponentConfiguration.class.getName()).log(Level.INFO, null, "AVATAR - NO Attribute Selection - SPLIT 1 - ");
