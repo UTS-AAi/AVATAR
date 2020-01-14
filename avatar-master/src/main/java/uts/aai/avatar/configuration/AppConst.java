@@ -19,6 +19,7 @@ public class AppConst {
     public static String TEMP_EVAL_RESULT_OUTPUT_PATH = "C:/experiments/tools/avatar/tmp/ts.txt";
     public final static String WEKA_EXECUTOR_LOG = "C:/experiments/tools/avatar/log/dataset_1_validation.txt";
     public final static String META_KNOWLEDGE_PATH = "C:/experiments/tools/avatar/meta_knowledge/meta_knowledge.json";
+
     public final static String TEMPLATE_TEMP_OUTPUT_PATH = "C:/DATA/Projects/eclipse-workspace/aai_aw/weka-3-7-7/data/testing/output";
     public final static String TEMP_OUTPUT_PATH = "C:/experiments/tools/avatar/output";
     public final static String TEMP_EVALUATION_RESULT_PATH = "C:/experiments/tools/avatar/output/temp_evaluation_result.json";
