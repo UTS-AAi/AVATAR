@@ -1,0 +1,56 @@
+The AVATAR uses the following filters and predictors:
+
+*** Filters (19)
+	- weka.filters.unsupervised.attribute.ReplaceMissingValues
+	- weka.filters.unsupervised.attribute.EMImputation
+	- weka.filters.supervised.instance.ClassBalancer
+	- weka.filters.supervised.instance.SpreadSubsample
+	- weka.filters.unsupervised.attribute.PrincipalComponents
+	- weka.filters.unsupervised.instance.Resample
+	- weka.filters.unsupervised.instance.ReservoirSample
+	- weka.filters.unsupervised.instance.RemovePercentage
+	- weka.filters.unsupervised.instance.PeriodicSampling
+	- weka.filters.supervised.attribute.AttributeSelection
+	- weka.filters.unsupervised.attribute.Center
+	- weka.filters.unsupervised.attribute.Standardize
+	- weka.filters.unsupervised.attribute.Normalize
+	- weka.filters.unsupervised.attribute.IndependentComponents
+	- weka.filters.unsupervised.attribute.Discretize
+	- weka.filters.unsupervised.attribute.NominalToBinary
+	- weka.filters.unsupervised.attribute.NumericToBinary
+	- weka.filters.unsupervised.attribute.NumericToNominal
+	- weka.filters.unsupervised.attribute.StringToNominal
+
+*** Predictors/Meta-predictors (31)
+	- weka.classifiers.bayes.NaiveBayes
+	- weka.classifiers.bayes.NaiveBayesUpdateable
+	- weka.classifiers.functions.LinearRegression
+	- weka.classifiers.functions.Logistic
+	- weka.classifiers.functions.SimpleLogistic
+	- weka.classifiers.functions.GaussianProcesses
+	- weka.classifiers.functions.MultilayerPerceptron
+	- weka.classifiers.functions.SimpleLinearRegression
+	- weka.classifiers.functions.SMOreg
+	- weka.classifiers.functions.SMO
+	- weka.classifiers.lazy.IBk
+	- weka.classifiers.lazy.KStar
+	- weka.classifiers.lazy.LWL
+	- weka.classifiers.meta.AdaBoostM1
+	- weka.classifiers.meta.AttributeSelectedClassifier
+	- weka.classifiers.meta.Bagging
+	- weka.classifiers.meta.ClassificationViaRegression
+	- weka.classifiers.meta.LogitBoost
+	- weka.classifiers.meta.RandomCommittee
+	- weka.classifiers.meta.RandomSubSpace
+	- weka.classifiers.rules.DecisionTable
+	- weka.classifiers.rules.JRip
+	- weka.classifiers.rules.OneR
+	- weka.classifiers.rules.PART
+	- weka.classifiers.rules.ZeroR
+	- weka.classifiers.trees.DecisionStump
+	- weka.classifiers.trees.J48
+	- weka.classifiers.trees.LMT
+	- weka.classifiers.trees.RandomForest
+	- weka.classifiers.trees.RandomTree
+	- weka.classifiers.trees.REPTree
+	- 
