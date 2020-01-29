@@ -53,4 +53,4 @@ The AVATAR uses the following filters and predictors:
 	- weka.classifiers.trees.RandomForest
 	- weka.classifiers.trees.RandomTree
 	- weka.classifiers.trees.REPTree
-	- 
+	
