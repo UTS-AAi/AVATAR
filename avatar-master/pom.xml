@@ -9,6 +9,7 @@
 	<drools.version>5.4.0.Final</drools.version>
 	<jbpm5.version>5.4.0.Final</jbpm5.version>
     </properties>
+  
 	<dependencies>
             <dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
@@ -89,13 +90,38 @@
 			</plugin>
         </plugins>
     </build>
-
+    
+<pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+  
     <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>jboss</id>
             <name>jboss</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
+      
     </repositories>
     <name>avatar-master</name>
 </project>
