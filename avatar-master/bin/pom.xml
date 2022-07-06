@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <properties>
 	<drools.version>5.4.0.Final</drools.version>
-	<jbpm5.version>5.4.0.Final</jbpm5.version>
+	<jbpm5.version>6.2.0.Final</jbpm5.version>
     </properties>
 	<dependencies>
             <dependency>
